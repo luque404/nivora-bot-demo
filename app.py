@@ -215,9 +215,10 @@ FAQS: List[FAQ] = [
         key="vale_la_pena",
         title="¿Vale la pena?",
         answer=(
-            "Suele valer mucho la pena cuando hoy perdés tiempo respondiendo lo mismo o cuando se te caen ventas por no responder rápido.\n\n"
-            "Si el asistente logra ahorrar horas de atención y recuperar compras que antes se enfriaban, la inversión se justifica bastante rápido.\n\n"
-            "La clave es que no solo responde: también reduce fricción y mejora la experiencia de compra."
+            "Sí, totalmente.\n\n"
+            "Este tipo de asistente ayuda a responder consultas en el momento, acompaña al cliente durante la compra y evita que se pierdan ventas por falta de respuesta.\n\n"
+            "Además, reduce la necesidad de estar pendiente del chat todo el tiempo o de contratar atención manual para preguntas repetidas.\n\n"
+            "La idea es mejorar la experiencia del cliente y hacer más eficiente la atención sin agregar complejidad."
         ),
         keywords=["vale la pena", "conviene", "retorno", "roi", "sirve de verdad", "funciona de verdad"],
         follow_ups=["¿Qué beneficios tiene?", "Hablar por WhatsApp"],
@@ -246,11 +247,8 @@ FAQS: List[FAQ] = [
 ]
 
 BASE_QUICK_REPLIES = [
-    "¿Cómo funciona en una tienda?",
     "¿Qué tipo de preguntas responde?",
-    "¿Se instala en Shopify?",
-    "¿Tengo que saber programar?",
-    "¿Se puede adaptar a mi negocio?",
+    "¿Cómo funciona en una tienda?",
     "¿Qué beneficios tiene?",
 ]
 
@@ -412,6 +410,13 @@ def default_suggestions() -> List[str]:
     return BASE_QUICK_REPLIES.copy()
 
 
+def single_follow_up(items: List[str] | None) -> List[str]:
+    if not items:
+        defaults = default_suggestions()
+        return defaults[:1]
+    return items[:1]
+
+
 def contains_any(text: str, keywords: set[str]) -> bool:
     return any(normalize_text(keyword) in text for keyword in keywords)
 
@@ -453,7 +458,7 @@ def build_reply(message: str) -> tuple[str, List[str]]:
             "Trabajamos con planes simples que se adaptan a cada negocio.\n\n"
             "Además, ofrecemos una garantía de 7 días: si dentro de ese período no te resulta útil, podés solicitar la devolución.\n\n"
             "Si querés, podemos orientarte con la opción más adecuada según tu caso."
-        ), ["¿Tiene garantía?", "Hablar por WhatsApp"]
+        ), ["¿Tiene garantía?"]
 
     if msg in {"hola", "buenas", "buen dia", "buenos dias", "buenas tardes", "buenas noches"}:
         return GREETING, default_suggestions()
@@ -463,64 +468,64 @@ def build_reply(message: str) -> tuple[str, List[str]]:
             "Tiene sentido evaluarlo para tu tienda.\n\n"
             "Lo más útil en este punto es revisar qué tipo de consultas querés automatizar y cómo encajaría Nivora en tu ecommerce.\n\n"
             f"Si querés avanzar por contacto directo, podés escribirnos a {SUPPORT_EMAIL}."
-        ), ["¿Qué beneficios tiene?", "Quiero una demo"]
+        ), ["Quiero una demo"]
 
     if has_pricing_intent(msg):
         faq = next((f for f in FAQS if f.key == "precio"), None)
         if faq:
-            return faq.answer, faq.follow_ups or default_suggestions()
+            return faq.answer, single_follow_up(faq.follow_ups)
 
     if has_timing_intent(msg):
         faq = next((f for f in FAQS if f.key == "tiempo_implementacion"), None)
         if faq:
-            return faq.answer, faq.follow_ups or default_suggestions()
+            return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, GUARANTEE_INTENT_KEYWORDS):
         faq = next((f for f in FAQS if f.key == "garantia"), None)
         if faq:
-            return faq.answer, faq.follow_ups or default_suggestions()
+            return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, INSTALL_INTENT_KEYWORDS):
         faq = next((f for f in FAQS if f.key == "instalacion"), None)
         if faq:
-            return faq.answer, faq.follow_ups or default_suggestions()
+            return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, SHOPIFY_INTENT_KEYWORDS):
         faq = next((f for f in FAQS if f.key == "shopify"), None)
         if faq:
-            return faq.answer, faq.follow_ups or default_suggestions()
+            return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, CUSTOMIZATION_INTENT_KEYWORDS):
         faq = next((f for f in FAQS if f.key == "adaptacion"), None)
         if faq:
-            return faq.answer, faq.follow_ups or default_suggestions()
+            return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, AI_INTENT_KEYWORDS):
         faq = next((f for f in FAQS if f.key == "ia"), None)
         if faq:
-            return faq.answer, faq.follow_ups or default_suggestions()
+            return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, TECHNICAL_OBJECTION_KEYWORDS):
         faq = next((f for f in FAQS if f.key == "programar"), None)
         if faq:
-            return faq.answer, faq.follow_ups or default_suggestions()
+            return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, DEMO_INTENT_KEYWORDS):
         faq = next((f for f in FAQS if f.key == "demo"), None)
         if faq:
-            return faq.answer, faq.follow_ups or default_suggestions()
+            return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, CONTACT_INTENT_KEYWORDS):
         return (
             "Por supuesto.\n\n"
             f"Podés escribirnos a {SUPPORT_EMAIL} y seguimos por ahí con tu caso. Si preferís, antes también puedo orientarte sobre instalación, beneficios, Shopify o adaptación a tu negocio."
-        ), ["¿Se instala en Shopify?", "¿Se puede adaptar a mi negocio?"]
+        ), ["¿Se instala en Shopify?"]
 
     faq = find_best_faq(message)
     if faq:
-        return faq.answer, faq.follow_ups or default_suggestions()
+        return faq.answer, single_follow_up(faq.follow_ups)
 
-    return FALLBACK, default_suggestions()
+    return FALLBACK, single_follow_up(default_suggestions())
 
 
 @app.get("/")
@@ -930,7 +935,7 @@ WIDGET_JS = r"""
   label.innerText = 'Ver cómo funciona';
   label.style.position = 'fixed';
   label.style.right = '20px';
-  label.style.bottom = '92px';
+  label.style.bottom = '84px';
   label.style.padding = '8px 12px';
   label.style.borderRadius = '999px';
   label.style.background = 'rgba(255,255,255,0.92)';
@@ -940,10 +945,11 @@ WIDGET_JS = r"""
   label.style.fontSize = '12.5px';
   label.style.fontWeight = '600';
   label.style.letterSpacing = '-0.01em';
-  label.style.boxShadow = '0 14px 34px rgba(15,23,42,0.12)';
+  label.style.boxShadow = '0 18px 40px rgba(15,23,42,0.14)';
   label.style.zIndex = '999999';
   label.style.whiteSpace = 'nowrap';
-  label.style.transform = 'translateX(6%)';
+  label.style.transform = 'translateX(4%)';
+  label.style.transition = 'transform .2s ease, box-shadow .2s ease, background .2s ease';
   button.setAttribute('aria-label', 'Abrir chat');
   button.innerHTML = '💬';
   button.style.position = 'fixed';
@@ -957,7 +963,7 @@ WIDGET_JS = r"""
   button.style.color = '#fff';
   button.style.fontSize = '26px';
   button.style.cursor = 'pointer';
-  button.style.boxShadow = '0 22px 48px rgba(15,23,42,.24)';
+  button.style.boxShadow = '0 18px 40px rgba(15,23,42,.18)';
   button.style.zIndex = '999999';
   button.style.transition = 'transform .2s ease, box-shadow .2s ease, filter .2s ease';
 
@@ -965,7 +971,7 @@ WIDGET_JS = r"""
   frame.src = baseUrl + '/widget';
   frame.style.position = 'fixed';
   frame.style.right = '20px';
-  frame.style.bottom = '96px';
+  frame.style.bottom = '92px';
   frame.style.width = '392px';
   frame.style.maxWidth = 'calc(100vw - 24px)';
   frame.style.height = '640px';
@@ -980,7 +986,7 @@ WIDGET_JS = r"""
 
   if (window.innerWidth <= 600) {
     label.style.right = '16px';
-    label.style.bottom = '88px';
+    label.style.bottom = '80px';
     label.style.fontSize = '12px';
     label.style.padding = '8px 11px';
     button.style.right = '16px';
@@ -988,22 +994,26 @@ WIDGET_JS = r"""
     button.style.width = '60px';
     button.style.height = '60px';
     frame.style.right = '12px';
-    frame.style.bottom = '88px';
+    frame.style.bottom = '84px';
     frame.style.width = 'calc(100vw - 24px)';
     frame.style.height = 'min(680px, calc(100vh - 104px))';
     frame.style.borderRadius = '22px';
   }
 
   button.addEventListener('mouseenter', function () {
-    button.style.transform = 'translateY(-2px)';
+    button.style.transform = 'translateY(-2px) scale(1.02)';
     button.style.filter = 'brightness(1.03)';
-    button.style.boxShadow = '0 28px 60px rgba(15,23,42,.28)';
+    button.style.boxShadow = '0 24px 52px rgba(15,23,42,.22)';
+    label.style.transform = 'translateX(4%) translateY(-1px)';
+    label.style.boxShadow = '0 22px 46px rgba(15,23,42,0.16)';
   });
 
   button.addEventListener('mouseleave', function () {
     button.style.transform = 'translateY(0)';
     button.style.filter = 'brightness(1)';
-    button.style.boxShadow = '0 22px 48px rgba(15,23,42,.24)';
+    button.style.boxShadow = '0 18px 40px rgba(15,23,42,.18)';
+    label.style.transform = 'translateX(4%)';
+    label.style.boxShadow = '0 18px 40px rgba(15,23,42,0.14)';
   });
 
 button.addEventListener('click', function () {
