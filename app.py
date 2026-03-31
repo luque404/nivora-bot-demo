@@ -12,11 +12,11 @@ app = Flask(__name__)
 # =========================
 # Configuración básica
 # =========================
-BRAND_NAME = os.getenv("BRAND_NAME", "AcquaLume")
+BRAND_NAME = os.getenv("BRAND_NAME", "Nivora")
 PRIMARY_COLOR = os.getenv("PRIMARY_COLOR", "#0f172a")
-SECONDARY_COLOR = os.getenv("SECONDARY_COLOR", "#06b6d4")
-SUPPORT_EMAIL = os.getenv("SUPPORT_EMAIL", "tienda.acqualume@hotmail.com")
-INSTAGRAM_URL = os.getenv("INSTAGRAM_URL", "https://instagram.com/acqualume.detailing")
+SECONDARY_COLOR = os.getenv("SECONDARY_COLOR", "#7c3aed")
+SUPPORT_EMAIL = os.getenv("SUPPORT_EMAIL", "hola@nivora.com")
+INSTAGRAM_URL = os.getenv("INSTAGRAM_URL", "https://instagram.com/nivora")
 WHATSAPP_NUMBER = os.getenv("WHATSAPP_NUMBER", "")
 
 
@@ -31,169 +31,170 @@ class FAQ:
 
 FAQS: List[FAQ] = [
     FAQ(
-        key="colores",
-        title="¿Funciona en todos los colores?",
+        key="funciona",
+        title="¿Cómo funciona?",
         answer=(
-            "Sí, funciona en todos los colores 👍\n\n"
-            "Actúa sobre la capa superficial de la pintura, por lo que no afecta el color ni el brillo original del auto.\n\n"
-            "En la mayoría de los casos, los rayones leves mejoran mucho y la superficie vuelve a verse uniforme.\n\n"
-            "Si querés, también te explico cómo darte cuenta rápido si tu rayón es superficial."
+            "Funciona así 👇\n\n"
+            "1. El cliente entra a tu tienda\n"
+            "2. Hace una pregunta en el chat\n"
+            "3. El asistente responde automáticamente\n"
+            "4. Resuelve la duda en segundos\n"
+            "5. Eso ayuda a que no se enfríe la compra\n\n"
+            "La idea no es vender agresivo, sino acompañar, sacar fricción y responder rápido."
         ),
-        keywords=["color", "colores", "blanco", "negro", "gris", "rojo", "azul", "tono"],
-        follow_ups=["¿Sirve para mi rayón?", "¿Cómo se aplica?"],
+        keywords=["como funciona", "cómo funciona", "funciona", "demo", "ver demo", "como seria", "cómo sería"],
+        follow_ups=["¿Qué tipo de preguntas responde?", "¿Se instala en Shopify?"],
     ),
     FAQ(
-        key="rayones",
-        title="¿Sirve para todo tipo de rayones?",
+        key="preguntas",
+        title="¿Qué tipo de preguntas responde?",
         answer=(
-            "Funciona muy bien en rayones y marcas superficiales 👍\n\n"
-            "Si el rayón ya es profundo (se siente bastante con la uña o llegó a la pintura base), ahí normalmente ya requiere otro tipo de solución.\n\n"
-            "Una forma rápida de orientarte es esta 👇\n\n"
-            "Si el rayón casi no se siente al pasar la uña, suele ser superficial y el producto puede ayudarte mucho 👍\n\n"
-            f"Si no estás seguro, podés escribirnos a {SUPPORT_EMAIL} y te ayudamos con tu caso sin problema."
+            "Puede responder muchas de las preguntas repetidas que frenan una compra 👍\n\n"
+            "Por ejemplo:\n"
+            "- envíos\n"
+            "- medios de pago\n"
+            "- cómo se usa un producto\n"
+            "- tiempos de entrega\n"
+            "- seguimiento\n"
+            "- dudas frecuentes antes de comprar\n\n"
+            "Además, se adapta al negocio y a las preguntas reales que te hacen tus clientes."
         ),
-        keywords=["rayon", "rayones", "profundo", "superficial", "chapa", "pintura", "marca", "sirve para mi rayon"],
-        follow_ups=["¿Cómo se aplica?", "¿Cómo hago para comprar?"],
+        keywords=["que responde", "qué responde", "preguntas", "que tipo de preguntas", "faq", "faqs", "dudas", "consultas"],
+        follow_ups=["¿Se puede adaptar a mi tienda?", "¿Tengo que saber programar?"],
     ),
     FAQ(
-        key="comprar",
-        title="¿Cómo hago para comprar?",
+        key="shopify",
+        title="¿Se instala en Shopify?",
         answer=(
-            "Podés comprar directamente desde esta misma página 👍\n\n"
-            f"Si antes de hacerlo tenés alguna duda sobre el producto o sobre tu caso, escribinos a {SUPPORT_EMAIL} y te ayudamos."
+            "Sí, se puede instalar en Shopify 👍\n\n"
+            "Se agrega como un chat flotante dentro de la tienda, sin tocar el checkout.\n\n"
+            "También se puede adaptar a otras webs simples, pero hoy está pensado especialmente para ecommerce."
         ),
-        keywords=["comprar", "compra", "carrito", "pagar", "pago", "pedido", "tienda", "precio", "lo quiero", "me interesa"],
-        follow_ups=["¿Sirve para mi rayón?", "¿En cuánto llega?"],
+        keywords=["shopify", "se instala en shopify", "tienda", "ecommerce", "web", "pagina", "página"],
+        follow_ups=["¿Tengo que saber programar?", "¿Cuánto tarda la instalación?"],
     ),
     FAQ(
-        key="llega",
-        title="¿En cuánto llega?",
+        key="programar",
+        title="¿Tengo que saber programar?",
         answer=(
-            "Los envíos suelen tardar entre 3 y 8 días hábiles, dependiendo de la zona y la logística 👍\n\n"
-            "La gran mayoría llega dentro de ese rango sin inconvenientes.\n\n"
-            "Si ya hiciste tu compra, podés seguir el envío con tu número de seguimiento.\n\n"
-            f"Si ves alguna demora o algo que no te cierra, escribinos a {SUPPORT_EMAIL} y lo vemos con vos."
+            "No. La idea es justamente que no tengas que meterte en algo técnico 👍\n\n"
+            "Se deja instalado y funcionando para tu tienda.\n\n"
+            "Después, si querés, se pueden ir ajustando respuestas y mejoras con el tiempo."
         ),
-        keywords=["llega", "llegar", "demora", "dias", "días", "envio", "envío", "tiempo", "cuando llega", "cuanto tarda"],
-        follow_ups=["Mi pedido no llegó todavía", "¿Cómo hago para comprar?"],
+        keywords=["programar", "codigo", "código", "tecnico", "técnico", "saber programar", "developer", "desarrollador"],
+        follow_ups=["¿Cuánto tarda la instalación?", "¿Se puede adaptar a mi tienda?"],
     ),
     FAQ(
-        key="no_llego",
-        title="Mi pedido no llegó todavía",
+        key="adaptar",
+        title="¿Se puede adaptar a mi tienda?",
         answer=(
-            "Primero te recomiendo revisar el estado con el número de seguimiento 👇\n\n"
-            "Si figura como ‘En camino’, significa que ya fue despachado y está en tránsito.\n"
-            "Si aparece como ‘Pendiente de ingreso’, puede ser que todavía no se haya actualizado o que esté por despacharse.\n\n"
-            f"Si ves alguna demora o algo raro, escribinos a {SUPPORT_EMAIL} y lo vemos con vos."
+            "Sí. No es un bot genérico tirado así nomás 👍\n\n"
+            "Se puede ajustar al tipo de producto, a tu tono de marca y a las preguntas reales que recibís.\n\n"
+            "La idea es que se sienta útil, claro y natural para tus clientes."
         ),
-        keywords=["no llegó", "no llego", "no me llegó", "seguimiento", "en camino", "pendiente de ingreso", "andreani", "pedido no llego"],
-        follow_ups=["¿En cuánto llega?", "Hablar por mail"],
+        keywords=["adaptar", "personalizar", "personalizado", "mi tienda", "mi marca", "se puede adaptar", "custom"],
+        follow_ups=["¿Qué tipo de preguntas responde?", "¿Cuánto tarda la instalación?"],
     ),
     FAQ(
-        key="aplicar",
-        title="¿Cómo se aplica?",
+        key="instalacion",
+        title="¿Cuánto tarda la instalación?",
         answer=(
-            "Es bastante simple de usar 👇\n\n"
-            "1. Limpiá y secá bien la superficie (siempre a la sombra y con la pintura fría)\n"
-            "2. Aplicá una pequeña cantidad en un paño de microfibra o aplicador\n"
-            "3. Trabajá en secciones chicas con movimientos uniformes\n"
-            "4. Retirá el exceso con un paño limpio\n\n"
-            "Tip: muchos clientes usan un paño de microfibra para lograr un mejor resultado 👍"
+            "Depende del caso, pero la instalación base suele ser bastante rápida 👍\n\n"
+            "Primero se prepara el bot con tus preguntas frecuentes y después se conecta a tu tienda.\n\n"
+            "La idea es dejar algo simple, prolijo y funcional desde el comienzo."
         ),
-        keywords=["aplico", "aplicar", "uso", "usar", "como se usa", "cómo se usa", "pasos", "microfibra"],
-        follow_ups=["¿Sirve para mi rayón?", "¿Funciona en todos los colores?"],
+        keywords=["cuanto tarda", "cuánto tarda", "instalacion", "instalación", "tiempo", "rapido", "rápido", "cuanto demora"],
+        follow_ups=["¿Tengo que saber programar?", "¿Se puede adaptar a mi tienda?"],
     ),
     FAQ(
-        key="seguimiento_mail",
-        title="¿Cómo veo mi número de seguimiento?",
+        key="ventas",
+        title="¿Esto ayuda a vender más?",
         answer=(
-            "El número de seguimiento suele enviarse por mail unos días después de haber realizado la compra 👍\n\n"
-            "Te recomendamos revisar también la carpeta de spam o promociones por si llegó ahí.\n\n"
-            f"Si no lo encontrás o tenés alguna duda, podés escribirnos a {SUPPORT_EMAIL} y te lo pasamos."
-        ),  
-        keywords=["seguimiento", "numero", "tracking", "donde veo mi pedido", "codigo envio"],
-        follow_ups=["Mi pedido no llegó todavía", "¿En cuánto llega?"],
+            "Sí, puede ayudar mucho 👍\n\n"
+            "No porque empuje al cliente, sino porque responde rápido, saca dudas y evita que se enfríe la compra.\n\n"
+            "Muchas veces la venta no se cae por el producto, sino porque nadie respondió a tiempo."
+        ),
+        keywords=["vende mas", "vende más", "conversion", "conversión", "ventas", "sirve para vender", "convierte", "conversiones"],
+        follow_ups=["¿Cómo funciona?", "¿Qué tipo de preguntas responde?"],
     ),
     FAQ(
-        key="envios_pais",
-        title="¿Hacen envíos a todo el país?",
+        key="precio",
+        title="¿Cuánto cuesta?",
         answer=(
-            "Sí, hacemos envíos a todo Argentina 🇦🇷\n\n"
-            "Llegamos sin problema a cualquier provincia 👍\n\n"
-            "Si querés, te cuento también cuánto tarda en llegar a tu zona."
+            "Eso puede variar según lo que necesite tu tienda 👍\n\n"
+            "La base es dejarte un asistente simple, útil y bien integrado.\n\n"
+            f"Si querés, escribinos a {SUPPORT_EMAIL} y te contamos opciones según tu caso."
         ),
-        keywords=["envios", "envíos", "tucuman", "tucumán", "interior", "provincia", "envian", "envían", "a todo el pais", "argentina"],
-        follow_ups=["¿En cuánto llega?", "¿Cómo hago para comprar?"],
+        keywords=["precio", "cuanto cuesta", "cuánto cuesta", "valor", "sale cuanto", "sale cuánto", "costa", "plan"],
+        follow_ups=["¿Se puede adaptar a mi tienda?", "¿Cómo funciona?"],
     ),
     FAQ(
-        key="no_funciona",
-        title="¿Qué pasa si el producto no funciona?",
+        key="contacto",
+        title="Quiero hablar con alguien",
         answer=(
-            "Si no te funciona como esperabas, escribinos y lo vemos juntos 👍\n\n"
-            "Nos importa que te sirva, no que compres y listo.\n\n"
-            f"Podés contactarnos a {SUPPORT_EMAIL} y te ayudamos con tu caso."
+            f"Claro. Podés escribirnos a {SUPPORT_EMAIL} y vemos tu caso sin compromiso."
         ),
-        keywords=["no funciona", "no me sirvio", "no sirve", "garantia", "garantía", "devolucion", "devolución"],
-        follow_ups=["¿Sirve para mi rayón?", "¿Cómo se aplica?"],
-    ),
-    FAQ(
-        key="rinde",
-        title="¿Cuánto rinde una botella?",
-        answer=(
-            "Rinde bastante 👍\n\n"
-            "Los 200ml alcanzan para varias aplicaciones, dependiendo del uso.\n\n"
-            "Si tenés varios rayones, muchos aprovechan y compran más de uno para tener a mano."
-        ),
-        keywords=["rinde", "cuanto rinde", "cuanto dura", "cuantas aplicaciones", "contenido", "ml"],
-        follow_ups=["¿Cómo se aplica?", "¿Sirve para mi rayón?"],
+        keywords=["hablar", "contacto", "mail", "correo", "email", "asesor", "persona", "humano"],
+        follow_ups=["¿Cómo funciona?", "¿Cuánto cuesta?"],
     ),
 ]
 
 BASE_QUICK_REPLIES = [
-    "¿Sirve para mi rayón?",
-    "¿Cómo se aplica?",
-    "Tengo un problema con mi pedido",
+    "¿Cómo funciona?",
+    "¿Se instala en Shopify?",
+    "¿Tengo que saber programar?",
 ]
 
 GREETING = (
-    f"Hola, soy el asistente virtual de {BRAND_NAME}. Te ayudo con dudas sobre el producto, aplicación, compras y envíos."
+    f"Hola, soy el asistente virtual de {BRAND_NAME}. "
+    "Te muestro cómo un chat automático puede responder dudas, ahorrar tiempo y ayudar a vender más."
 )
 
 FALLBACK = (
-    f"No encontré una respuesta exacta para eso. Si querés, escribinos a {SUPPORT_EMAIL} y te ayudamos personalmente."
+    "No encontré una respuesta exacta para eso.\n\n"
+    f"Si querés, escribinos a {SUPPORT_EMAIL} y lo vemos con tu caso."
 )
 
 BUY_INTENT_KEYWORDS = {
-    "quiero comprar",
-    "lo quiero",
     "me interesa",
+    "quiero esto",
+    "lo quiero",
+    "quiero instalarlo",
+    "quiero ponerlo",
+    "quiero automatizar",
     "precio",
-    "quiero",
-    "comprarlo",
-    "comprar",
+    "cuanto cuesta",
+    "cuánto cuesta",
 }
 
-RAYON_HELP_KEYWORDS = {
-    "sirve para mi rayon",
-    "sirve para mi rayón",
-    "mi rayon",
-    "mi rayón",
-    "como saber si es superficial",
-    "cómo saber si es superficial",
+DEMO_INTENT_KEYWORDS = {
+    "ver demo",
+    "demo",
+    "mostrame",
+    "muestreme",
+    "mostrar",
+    "como funciona",
+    "cómo funciona",
 }
 
-MAIL_INTENT_KEYWORDS = {
-    "hablar por mail",
+TECH_INTENT_KEYWORDS = {
+    "programar",
+    "codigo",
+    "código",
+    "tecnico",
+    "técnico",
+    "developer",
+    "desarrollador",
+}
+
+CONTACT_INTENT_KEYWORDS = {
+    "hablar con alguien",
+    "contacto",
     "mail",
     "correo",
     "email",
-    "contacto",
-}
-
-ORDER_PROBLEM_KEYWORDS = {
-    "tengo un problema con mi pedido",
-    "problema con mi pedido",
-    "mi pedido",
+    "humano",
+    "persona",
 }
 
 
@@ -229,8 +230,10 @@ def find_best_faq(message: str) -> FAQ | None:
             keyword_norm = normalize_text(keyword)
             if keyword_norm in text:
                 score += 3
+
         title_words = normalize_text(faq.title).split()
         score += sum(1 for w in title_words if len(w) > 3 and w in text)
+
         if score > best_score:
             best_score = score
             best_faq = faq
@@ -246,26 +249,23 @@ def build_reply(message: str) -> tuple[str, List[str]]:
 
     if any(keyword in msg for keyword in BUY_INTENT_KEYWORDS):
         return (
-            "Perfecto 👍\n\n"
-            "Podés comprarlo directamente desde esta misma página.\n\n"
-            f"Si querés estar seguro antes de hacerlo, escribinos a {SUPPORT_EMAIL} y te ayudamos sin problema."
-        ), ["¿Sirve para mi rayón?", "¿En cuánto llega?"]
+            "Buenísimo 👍\n\n"
+            "La idea es instalarte un asistente simple, claro y útil para tu tienda.\n\n"
+            f"Si querés ver opciones o contarme tu caso, escribinos a {SUPPORT_EMAIL}."
+        ), ["¿Cómo funciona?", "¿Se puede adaptar a mi tienda?"]
 
-    if any(keyword in msg for keyword in RAYON_HELP_KEYWORDS):
-        return (
-            "Una forma rápida de orientarte es esta 👇\n\n"
-            "Si el rayón casi no se siente al pasar la uña, suele ser superficial y el producto puede ayudarte mucho.\n\n"
-            "Si se siente bastante, ya es más profundo y probablemente necesite otro tipo de trabajo.\n\n"
-            f"Si querés, también podés escribirnos a {SUPPORT_EMAIL} y te ayudamos con tu caso."
-        ), ["¿Cómo se aplica?", "¿Funciona en todos los colores?"]
+    if any(keyword in msg for keyword in DEMO_INTENT_KEYWORDS):
+        faq = next((f for f in FAQS if f.key == "funciona"), None)
+        if faq:
+            return faq.answer, faq.follow_ups or default_suggestions()
 
-    if any(keyword in msg for keyword in MAIL_INTENT_KEYWORDS):
-        return (
-            f"Claro. Podés escribirnos a {SUPPORT_EMAIL} y te ayudamos personalmente."
-        ), ["¿Sirve para mi rayón?", "Tengo un problema con mi pedido"]
+    if any(keyword in msg for keyword in TECH_INTENT_KEYWORDS):
+        faq = next((f for f in FAQS if f.key == "programar"), None)
+        if faq:
+            return faq.answer, faq.follow_ups or default_suggestions()
 
-    if any(keyword in msg for keyword in ORDER_PROBLEM_KEYWORDS):
-        faq = next((f for f in FAQS if f.key == "no_llego"), None)
+    if any(keyword in msg for keyword in CONTACT_INTENT_KEYWORDS):
+        faq = next((f for f in FAQS if f.key == "contacto"), None)
         if faq:
             return faq.answer, faq.follow_ups or default_suggestions()
 
@@ -305,9 +305,14 @@ def chat():
     message = str(data.get("message", "")).strip()
 
     print("USER:", message)
-    
+
     if not message:
-        return jsonify({"reply": "Escribime tu consulta y te ayudo.", "suggestions": default_suggestions()}), 400
+        return jsonify(
+            {
+                "reply": "Escribime tu consulta y te ayudo.",
+                "suggestions": default_suggestions(),
+            }
+        ), 400
 
     reply, suggestions = build_reply(message)
     return jsonify({"reply": reply, "suggestions": suggestions})
@@ -343,7 +348,7 @@ HOME_HTML = """
     .card{max-width:820px;margin:0 auto;background:white;border-radius:18px;padding:32px;box-shadow:0 10px 30px rgba(15,23,42,.08)}
     h1{margin-top:0}
     code{background:#e2e8f0;padding:2px 6px;border-radius:6px}
-    .demo{margin-top:18px;padding:14px 16px;background:#ecfeff;border:1px solid #a5f3fc;border-radius:12px}
+    .demo{margin-top:18px;padding:14px 16px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px}
   </style>
 </head>
 <body>
@@ -380,7 +385,7 @@ WIDGET_HTML = """
       --text: #0f172a;
       --muted: #64748b;
       --border: #e2e8f0;
-      --bubble-bot: #e0f2fe;
+      --bubble-bot: #ede9fe;
       --bubble-user: #0f172a;
     }
     *{box-sizing:border-box}
@@ -409,7 +414,7 @@ WIDGET_HTML = """
         font-size:26px;
       }
     }
-    
+
     .header-title{font-weight:700}
     .header-sub{font-size:13px;opacity:.95;margin-top:4px}
     .messages{flex:1;overflow:auto;padding:14px;background:var(--bg)}
@@ -436,7 +441,7 @@ WIDGET_HTML = """
     <div class="header">
         <button id="closeBtn" class="close-btn">✕</button>
         <div class="header-title">{{ brand_name }}</div>
-        <div class="header-sub">Te ayudamos con dudas sobre el producto, aplicación y envíos</div>
+        <div class="header-sub">Mostrá cómo responde dudas, ahorra tiempo y acompaña la compra</div>
     </div>
 
     <div id="messages" class="messages"></div>
@@ -449,7 +454,7 @@ WIDGET_HTML = """
     </div>
 
     <div class="footer">
-      Si necesitás atención humana: <a href="mailto:{{ support_email }}">{{ support_email }}</a>
+      Si querés hablar con alguien: <a href="mailto:{{ support_email }}">{{ support_email }}</a>
     </div>
   </div>
 
@@ -481,7 +486,10 @@ WIDGET_HTML = """
     const res = await fetch('/config');
     const config = await res.json();
     renderQuickReplies(config.quick_replies || []);
-    addMessage(`Hola, soy el asistente virtual de ${config.brand_name}. ¿En qué puedo ayudarte?`, 'bot');
+    addMessage(
+      `Hola, soy el asistente virtual de ${config.brand_name}. Te muestro cómo un chat automático puede responder dudas y ayudar a vender más. ¿En qué querés que te lo muestre?`,
+      'bot'
+    );
   }
 
   async function sendMessage(message) {
@@ -510,9 +518,10 @@ WIDGET_HTML = """
   });
 
   loadConfig();
-document.getElementById('closeBtn').addEventListener('click', function () {
-  window.parent.postMessage('closeChat', '*');
-});
+
+  document.getElementById('closeBtn').addEventListener('click', function () {
+    window.parent.postMessage('closeChat', '*');
+  });
 </script>
 </body>
 </html>
@@ -521,8 +530,8 @@ document.getElementById('closeBtn').addEventListener('click', function () {
 
 WIDGET_JS = r"""
 (function () {
-  if (window.__ACQUALUME_BOT_LOADED__) return;
-  window.__ACQUALUME_BOT_LOADED__ = true;
+  if (window.__NIVORA_BOT_LOADED__) return;
+  window.__NIVORA_BOT_LOADED__ = true;
 
   var baseUrl = "__BASE_URL__";
 
@@ -542,6 +551,7 @@ WIDGET_JS = r"""
   label.style.zIndex = '999999';
   label.style.whiteSpace = 'nowrap';
   label.style.transform = 'translateX(10%)';
+
   button.setAttribute('aria-label', 'Abrir chat');
   button.innerHTML = '💬';
   button.style.position = 'fixed';
@@ -551,11 +561,11 @@ WIDGET_JS = r"""
   button.style.height = '60px';
   button.style.border = 'none';
   button.style.borderRadius = '999px';
-  button.style.background = 'linear-gradient(135deg, #0f172a, #06b6d4)';
+  button.style.background = 'linear-gradient(135deg, #0f172a, #7c3aed)';
   button.style.color = '#fff';
   button.style.fontSize = '26px';
   button.style.cursor = 'pointer';
-  button.style.boxShadow = '0 10px 30px rgba(2, 132, 199, .35)';
+  button.style.boxShadow = '0 10px 30px rgba(124, 58, 237, .35)';
   button.style.zIndex = '999999';
 
   var frame = document.createElement('iframe');
@@ -575,12 +585,11 @@ WIDGET_JS = r"""
   frame.style.zIndex = '999998';
   frame.style.display = 'none';
 
-button.addEventListener('click', function () {
-  var isOpen = frame.style.display === 'block';
-
-  frame.style.display = isOpen ? 'none' : 'block';
-  label.style.display = isOpen ? 'block' : 'none';
-});
+  button.addEventListener('click', function () {
+    var isOpen = frame.style.display === 'block';
+    frame.style.display = isOpen ? 'none' : 'block';
+    label.style.display = isOpen ? 'block' : 'none';
+  });
 
   document.body.appendChild(frame);
   document.body.appendChild(button);
@@ -589,8 +598,9 @@ button.addEventListener('click', function () {
   window.addEventListener('message', function (event) {
     if (event.data === 'closeChat') {
       frame.style.display = 'none';
+      label.style.display = 'block';
     }
-});
+  });
 })();
 """
 
