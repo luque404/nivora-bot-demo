@@ -711,8 +711,9 @@ WIDGET_HTML = """
     .messages{
       flex:1;
       overflow:auto;
-      padding:18px 16px;
+      padding:16px 16px;
       background:transparent;
+      scroll-behavior:smooth;
     }
     .messages::-webkit-scrollbar{width:10px}
     .messages::-webkit-scrollbar-thumb{
@@ -725,11 +726,12 @@ WIDGET_HTML = """
       max-width:87%;
       padding:13px 15px;
       border-radius:18px;
-      margin:10px 0;
+      margin:8px 0;
       line-height:1.58;
       white-space:pre-wrap;
       font-size:14px;
       box-shadow:var(--shadow-soft);
+      overflow:visible;
     }
     .bot{
       background:var(--bubble-bot);
@@ -745,7 +747,7 @@ WIDGET_HTML = """
       box-shadow:0 12px 28px rgba(17,24,39,.18);
     }
     .quick{
-      padding:12px 14px 10px;
+      padding:10px 12px 8px;
       background:rgba(255,255,255,.82);
       backdrop-filter:blur(12px);
       border-top:1px solid var(--border);
@@ -756,11 +758,11 @@ WIDGET_HTML = """
     .quick button{
       border:1px solid rgba(15,23,42,.08);
       border-radius:999px;
-      padding:9px 12px;
+      padding:8px 11px;
       background:rgba(255,255,255,.92);
       color:#0f172a;
       cursor:pointer;
-      font-size:12.5px;
+      font-size:12px;
       font-weight:600;
       letter-spacing:-0.01em;
       box-shadow:0 6px 18px rgba(15,23,42,.05);
@@ -774,8 +776,8 @@ WIDGET_HTML = """
     }
     .composer{
       display:flex;
-      gap:10px;
-      padding:14px;
+      gap:8px;
+      padding:11px 12px;
       background:rgba(255,255,255,.9);
       backdrop-filter:blur(14px);
       border-top:1px solid var(--border)
@@ -784,7 +786,7 @@ WIDGET_HTML = """
       flex:1;
       border:1px solid var(--border);
       border-radius:999px;
-      padding:13px 16px;
+      padding:11px 14px;
       font-size:14px;
       background:rgba(248,250,252,.92);
       color:var(--text);
@@ -799,7 +801,7 @@ WIDGET_HTML = """
     .composer button{
       border:none;
       border-radius:999px;
-      padding:13px 18px;
+      padding:11px 16px;
       background:linear-gradient(135deg, var(--primary), var(--secondary));
       color:#fff;
       font-weight:700;
@@ -814,8 +816,8 @@ WIDGET_HTML = """
       box-shadow:0 16px 34px rgba(15,23,42,.22);
     }
     .footer{
-      padding:10px 14px 14px;
-      font-size:11.5px;
+      padding:8px 12px 10px;
+      font-size:11px;
       line-height:1.5;
       color:var(--muted);
       background:rgba(255,255,255,.88);
@@ -825,11 +827,11 @@ WIDGET_HTML = """
     @media (max-width: 600px){
       .header{padding:18px 16px 15px}
       .header-sub{max-width:100%;padding-right:36px}
-      .messages{padding:16px 12px}
+      .messages{padding:14px 12px}
       .msg{max-width:90%;font-size:13.5px}
-      .quick{padding:10px 12px}
-      .quick button{font-size:12px;padding:8px 11px}
-      .composer{padding:12px}
+      .quick{padding:9px 10px 8px}
+      .quick button{font-size:11.5px;padding:7px 10px}
+      .composer{padding:10px}
       .composer input{font-size:16px}
       .close-btn{top:12px;right:12px}
     }
@@ -868,7 +870,14 @@ WIDGET_HTML = """
     el.className = 'msg ' + who;
     el.textContent = text;
     messagesEl.appendChild(el);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+    requestAnimationFrame(() => {
+      if (who === 'bot') {
+        const targetTop = Math.max(0, el.offsetTop - 8);
+        messagesEl.scrollTo({ top: targetTop, behavior: 'smooth' });
+      } else {
+        messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+      }
+    });
   }
 
   function renderQuickReplies(items) {
