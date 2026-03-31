@@ -14,9 +14,9 @@ app = Flask(__name__)
 # =========================
 BRAND_NAME = os.getenv("BRAND_NAME", "Nivora")
 PRIMARY_COLOR = os.getenv("PRIMARY_COLOR", "#0f172a")
-SECONDARY_COLOR = os.getenv("SECONDARY_COLOR", "#7c3aed")
-SUPPORT_EMAIL = os.getenv("SUPPORT_EMAIL", "hola@nivora.com")
-INSTAGRAM_URL = os.getenv("INSTAGRAM_URL", "https://instagram.com/nivora")
+SECONDARY_COLOR = os.getenv("SECONDARY_COLOR", "#06b6d4")
+SUPPORT_EMAIL = os.getenv("SUPPORT_EMAIL", "hola@nivora.ai")
+INSTAGRAM_URL = os.getenv("INSTAGRAM_URL", "https://instagram.com/nivora.ai")
 WHATSAPP_NUMBER = os.getenv("WHATSAPP_NUMBER", "")
 
 
@@ -31,170 +31,363 @@ class FAQ:
 
 FAQS: List[FAQ] = [
     FAQ(
-        key="funciona",
-        title="¿Cómo funciona?",
+        key="funcionamiento",
+        title="¿Cómo funciona en una tienda?",
         answer=(
-            "Funciona así 👇\n\n"
-            "1. El cliente entra a tu tienda\n"
-            "2. Hace una pregunta en el chat\n"
-            "3. El asistente responde automáticamente\n"
-            "4. Resuelve la duda en segundos\n"
-            "5. Eso ayuda a que no se enfríe la compra\n\n"
-            "La idea no es vender agresivo, sino acompañar, sacar fricción y responder rápido."
+            "Funciona de forma muy simple.\n\n"
+            "La persona entra a tu tienda, hace una pregunta desde el chat y el asistente responde al instante con información de tus productos, envíos, cambios, medios de pago o dudas frecuentes.\n\n"
+            "Eso ayuda a sacar fricción justo en el momento en que la venta todavía se está decidiendo.\n\n"
+            "Si querés, también puedo mostrarte qué tipo de preguntas responde en una tienda real."
         ),
-        keywords=["como funciona", "cómo funciona", "funciona", "demo", "ver demo", "como seria", "cómo sería"],
-        follow_ups=["¿Qué tipo de preguntas responde?", "¿Se instala en Shopify?"],
+        keywords=["como funciona", "como funciona en una tienda", "cómo funciona", "funciona en una tienda", "como trabaja", "como responde"],
+        follow_ups=["¿Qué tipo de preguntas responde?", "¿Qué beneficios tiene?"],
     ),
     FAQ(
         key="preguntas",
         title="¿Qué tipo de preguntas responde?",
         answer=(
-            "Puede responder muchas de las preguntas repetidas que frenan una compra 👍\n\n"
+            "Puede responder muchas de las consultas que hoy suelen frenar una compra.\n\n"
             "Por ejemplo:\n"
-            "- envíos\n"
-            "- medios de pago\n"
-            "- cómo se usa un producto\n"
-            "- tiempos de entrega\n"
-            "- seguimiento\n"
-            "- dudas frecuentes antes de comprar\n\n"
-            "Además, se adapta al negocio y a las preguntas reales que te hacen tus clientes."
+            "• “¿Cuánto tarda el envío?”\n"
+            "• “¿Tenés stock?”\n"
+            "• “¿Cómo se usa?”\n"
+            "• “¿Hacen cambios?”\n"
+            "• “¿Sirve para mi caso?”\n\n"
+            "La idea es que no funcione como una lista fría de respuestas, sino como un asistente que orienta, resuelve dudas y ayuda a avanzar hacia la compra."
         ),
-        keywords=["que responde", "qué responde", "preguntas", "que tipo de preguntas", "faq", "faqs", "dudas", "consultas"],
-        follow_ups=["¿Se puede adaptar a mi tienda?", "¿Tengo que saber programar?"],
+        keywords=["que preguntas responde", "qué preguntas responde", "que puede responder", "preguntas frecuentes", "faq", "consultas responde", "responde preguntas"],
+        follow_ups=["¿Se instala en Shopify?", "¿Se puede adaptar a mi negocio?"],
     ),
     FAQ(
         key="shopify",
         title="¿Se instala en Shopify?",
         answer=(
-            "Sí, se puede instalar en Shopify 👍\n\n"
-            "Se agrega como un chat flotante dentro de la tienda, sin tocar el checkout.\n\n"
-            "También se puede adaptar a otras webs simples, pero hoy está pensado especialmente para ecommerce."
+            "Sí, se puede instalar en Shopify sin problema.\n\n"
+            "De hecho, es uno de los escenarios más comunes para Nivora porque muchas tiendas necesitan responder rápido sin depender del celular o del equipo de soporte.\n\n"
+            "La implementación está pensada para que sea simple, ordenada y acompañada de principio a fin."
         ),
-        keywords=["shopify", "se instala en shopify", "tienda", "ecommerce", "web", "pagina", "página"],
-        follow_ups=["¿Tengo que saber programar?", "¿Cuánto tarda la instalación?"],
+        keywords=["shopify", "se instala en shopify", "sirve para shopify", "funciona con shopify", "tienda shopify"],
+        follow_ups=["¿Tengo que saber programar?", "¿Es difícil de instalar?"],
+    ),
+    FAQ(
+        key="instalacion",
+        title="¿Es difícil de instalar?",
+        answer=(
+            "No, la idea es justamente lo contrario: que sea simple.\n\n"
+            "Nivora se integra rápido sobre tu tienda actual, sin que tengas que desarrollar un sistema aparte ni ocuparte de lo técnico.\n\n"
+            "Además, la configuración inicial se adapta a tu negocio para que el asistente ya salga respondiendo con criterio desde el comienzo."
+        ),
+        keywords=["instalacion", "instalación", "es dificil de instalar", "es dificil", "cuanto tarda instalar", "implementacion", "implementación"],
+        follow_ups=["¿Tengo que saber programar?", "¿Funciona con mi tienda?"],
+    ),
+    FAQ(
+        key="tiempo_implementacion",
+        title="¿Cuánto tarda la implementación?",
+        answer=(
+            "En general, la implementación puede estar lista entre 1 y 3 días.\n\n"
+            "Depende principalmente del nivel de personalización, la cantidad de respuestas que haya que preparar y qué tan específico quieras que sea el asistente.\n\n"
+            "La idea es que quede bien configurado desde el inicio, no simplemente instalado."
+        ),
+        keywords=[
+            "cuanto tarda",
+            "cuánto tarda",
+            "cuanto demora",
+            "cuánto demora",
+            "en cuanto tiempo",
+            "en cuánto tiempo",
+            "cuando estaria",
+            "cuándo estaría",
+            "tiempo de implementacion",
+            "tiempo de implementación",
+            "tiempo de instalacion",
+            "tiempo de instalación",
+            "cuando estaria listo",
+            "cuándo estaría listo",
+        ],
+        follow_ups=["¿Es difícil de instalar?", "¿Tengo que saber programar?"],
     ),
     FAQ(
         key="programar",
         title="¿Tengo que saber programar?",
         answer=(
-            "No. La idea es justamente que no tengas que meterte en algo técnico 👍\n\n"
-            "Se deja instalado y funcionando para tu tienda.\n\n"
-            "Después, si querés, se pueden ir ajustando respuestas y mejoras con el tiempo."
+            "No hace falta que sepas programar.\n\n"
+            "Nosotros nos encargamos de dejar el asistente configurado e integrado según lo que necesite tu tienda.\n\n"
+            "Además, si más adelante querés ajustar respuestas, tono o preguntas frecuentes, también se puede ir adaptando."
         ),
-        keywords=["programar", "codigo", "código", "tecnico", "técnico", "saber programar", "developer", "desarrollador"],
-        follow_ups=["¿Cuánto tarda la instalación?", "¿Se puede adaptar a mi tienda?"],
+        keywords=["no se programar", "no sé programar", "tengo que saber programar", "programar", "codigo", "código", "tecnico", "técnico"],
+        follow_ups=["¿Es difícil de instalar?", "¿Se instala en Shopify?"],
     ),
     FAQ(
-        key="adaptar",
-        title="¿Se puede adaptar a mi tienda?",
+        key="adaptacion",
+        title="¿Se puede adaptar a mi negocio?",
         answer=(
-            "Sí. No es un bot genérico tirado así nomás 👍\n\n"
-            "Se puede ajustar al tipo de producto, a tu tono de marca y a las preguntas reales que recibís.\n\n"
-            "La idea es que se sienta útil, claro y natural para tus clientes."
+            "Sí, se puede adaptar a todo tipo de tiendas.\n\n"
+            "El asistente se configura en función de tu tipo de producto, tu forma de vender y las consultas reales que recibís de tus clientes.\n\n"
+            "La idea es que funcione como una herramienta útil, clara y alineada con tu negocio, no como algo genérico."
         ),
-        keywords=["adaptar", "personalizar", "personalizado", "mi tienda", "mi marca", "se puede adaptar", "custom"],
-        follow_ups=["¿Qué tipo de preguntas responde?", "¿Cuánto tarda la instalación?"],
+        keywords=["se puede adaptar", "adaptar a mi negocio", "mi negocio", "personalizar", "personalizado", "custom", "customizar", "marca", "tono"],
+        follow_ups=["¿Qué beneficios tiene?", "¿Qué pasa si quiero cambiar respuestas después?"],
     ),
     FAQ(
-        key="instalacion",
-        title="¿Cuánto tarda la instalación?",
+        key="beneficios",
+        title="¿Qué beneficios tiene?",
         answer=(
-            "Depende del caso, pero la instalación base suele ser bastante rápida 👍\n\n"
-            "Primero se prepara el bot con tus preguntas frecuentes y después se conecta a tu tienda.\n\n"
-            "La idea es dejar algo simple, prolijo y funcional desde el comienzo."
+            "Los beneficios más claros suelen ser estos:\n\n"
+            "• responde preguntas automáticamente las 24 horas\n"
+            "• reduce fricción antes de la compra\n"
+            "• baja la carga manual del equipo\n"
+            "• mejora la experiencia del cliente\n"
+            "• ayuda a recuperar ventas que se pierden por demora o falta de respuesta\n\n"
+            "En resumen: más claridad para quien compra y menos esfuerzo para tu negocio."
         ),
-        keywords=["cuanto tarda", "cuánto tarda", "instalacion", "instalación", "tiempo", "rapido", "rápido", "cuanto demora"],
-        follow_ups=["¿Tengo que saber programar?", "¿Se puede adaptar a mi tienda?"],
+        keywords=["beneficios", "ventajas", "para que sirve", "para qué sirve", "que gano", "qué gano", "vale la pena", "retorno"],
+        follow_ups=["¿Vale la pena?", "¿Se puede adaptar a mi negocio?"],
     ),
     FAQ(
-        key="ventas",
-        title="¿Esto ayuda a vender más?",
+        key="cambios",
+        title="¿Qué pasa si quiero cambiar respuestas después?",
         answer=(
-            "Sí, puede ayudar mucho 👍\n\n"
-            "No porque empuje al cliente, sino porque responde rápido, saca dudas y evita que se enfríe la compra.\n\n"
-            "Muchas veces la venta no se cae por el producto, sino porque nadie respondió a tiempo."
+            "Se puede ajustar sin problema.\n\n"
+            "Si querés cambiar respuestas, sumar información nueva, actualizar políticas o adaptar el tono, el sistema se puede ir mejorando con el tiempo.\n\n"
+            "La idea no es dejarte un bot rígido, sino una solución que acompañe cómo evoluciona tu tienda."
         ),
-        keywords=["vende mas", "vende más", "conversion", "conversión", "ventas", "sirve para vender", "convierte", "conversiones"],
-        follow_ups=["¿Cómo funciona?", "¿Qué tipo de preguntas responde?"],
+        keywords=["cambiar respuestas", "editar respuestas", "modificar respuestas", "actualizar respuestas", "cambiar despues", "cambiar después"],
+        follow_ups=["¿Se puede adaptar a mi negocio?", "¿Tengo soporte?"],
+    ),
+    FAQ(
+        key="otras_plataformas",
+        title="¿Solo sirve para Shopify?",
+        answer=(
+            "No. Shopify es un caso muy común, pero Nivora no se limita a una sola plataforma.\n\n"
+            "Si ya tenés una tienda funcionando, en la mayoría de los casos se puede evaluar cómo integrarlo sin volver complejo el proceso.\n\n"
+            "Si querés, puedo orientarte para ver si aplica bien a tu caso."
+        ),
+        keywords=["solo shopify", "solo sirve para shopify", "otra plataforma", "woocommerce", "tienda nube", "tiendanube", "solo funciona en shopify"],
+        follow_ups=["¿Funciona con mi tienda?", "Hablar por WhatsApp"],
+    ),
+    FAQ(
+        key="sirve_para_mi_tienda",
+        title="¿Sirve para mi tienda?",
+        answer=(
+            "Sí, se puede adaptar a todo tipo de tiendas.\n\n"
+            "El asistente se configura en función de tu tipo de producto, tu forma de vender y las consultas reales que recibís de tus clientes.\n\n"
+            "La idea es que funcione como una herramienta útil, clara y alineada con tu negocio, no como algo genérico."
+        ),
+        keywords=["sirve para mi tienda", "sirve para mi ecommerce", "me sirve", "aplica para mi tienda", "funciona con mi tienda"],
+        follow_ups=["¿Qué beneficios tiene?", "¿Es difícil de instalar?"],
     ),
     FAQ(
         key="precio",
         title="¿Cuánto cuesta?",
         answer=(
-            "Eso puede variar según lo que necesite tu tienda 👍\n\n"
-            "La base es dejarte un asistente simple, útil y bien integrado.\n\n"
-            f"Si querés, escribinos a {SUPPORT_EMAIL} y te contamos opciones según tu caso."
+            "El valor depende del nivel de personalización que necesite tu tienda.\n\n"
+            "Trabajamos con planes simples que se adaptan a cada negocio.\n\n"
+            "Además, ofrecemos una garantía de 7 días: si dentro de ese período no te resulta útil, podés solicitar la devolución.\n\n"
+            "Si querés, podemos orientarte con la opción más adecuada según tu caso."
         ),
-        keywords=["precio", "cuanto cuesta", "cuánto cuesta", "valor", "sale cuanto", "sale cuánto", "costa", "plan"],
-        follow_ups=["¿Se puede adaptar a mi tienda?", "¿Cómo funciona?"],
+        keywords=["precio", "cual es el precio", "cuál es el precio", "cuanto cuesta", "cuánto cuesta", "cuanto sale", "cuánto sale", "cuanto vale", "cuánto vale", "plan", "planes", "costo", "costos", "mensual", "valor", "inversion", "inversión", "sale"],
+        follow_ups=["¿Tiene garantía?", "Hablar por WhatsApp"],
     ),
     FAQ(
-        key="contacto",
-        title="Quiero hablar con alguien",
+        key="ia",
+        title="¿Es como ChatGPT?",
         answer=(
-            f"Claro. Podés escribirnos a {SUPPORT_EMAIL} y vemos tu caso sin compromiso."
+            "No exactamente.\n\n"
+            "Aunque utiliza lógica similar, este asistente está pensado específicamente para tu negocio.\n\n"
+            "No responde de forma genérica, sino que se configura con información real de tu tienda para responder de manera clara, coherente y útil para tus clientes.\n\n"
+            "La idea es que funcione como un asistente de atención, no como una IA abierta."
         ),
-        keywords=["hablar", "contacto", "mail", "correo", "email", "asesor", "persona", "humano"],
-        follow_ups=["¿Cómo funciona?", "¿Cuánto cuesta?"],
+        keywords=["es como chatgpt", "es ia", "es inteligencia artificial", "funciona como una ia", "funciona como una inteligencia artificial", "chatgpt"],
+        follow_ups=["¿Se puede adaptar a mi negocio?", "¿Qué tipo de preguntas responde?"],
+    ),
+    FAQ(
+        key="garantia",
+        title="¿Tiene garantía?",
+        answer=(
+            "Sí, ofrecemos una garantía de 7 días.\n\n"
+            "Si dentro de ese período sentís que no te aporta valor, podés solicitar la devolución.\n\n"
+            "La idea es que pruebes el sistema en tu tienda con tranquilidad."
+        ),
+        keywords=["garantia", "garantía", "tiene garantia", "tiene garantía", "y si no me sirve", "puedo cancelar", "riesgo", "sin riesgo", "devolucion", "devolución"],
+        follow_ups=["¿Cuánto cuesta?", "Hablar por WhatsApp"],
+    ),
+    FAQ(
+        key="vale_la_pena",
+        title="¿Vale la pena?",
+        answer=(
+            "Suele valer mucho la pena cuando hoy perdés tiempo respondiendo lo mismo o cuando se te caen ventas por no responder rápido.\n\n"
+            "Si el asistente logra ahorrar horas de atención y recuperar compras que antes se enfriaban, la inversión se justifica bastante rápido.\n\n"
+            "La clave es que no solo responde: también reduce fricción y mejora la experiencia de compra."
+        ),
+        keywords=["vale la pena", "conviene", "retorno", "roi", "sirve de verdad", "funciona de verdad"],
+        follow_ups=["¿Qué beneficios tiene?", "Hablar por WhatsApp"],
+    ),
+    FAQ(
+        key="demo",
+        title="Quiero una demo",
+        answer=(
+            "Una demo ayuda mucho a visualizar cómo respondería el asistente en tu caso y qué tipo de consultas podría automatizar.\n\n"
+            "Así podés imaginarlo dentro de tu tienda antes de tomar una decisión.\n\n"
+            "Si querés, compartime tu duda principal y te muestro por dónde empezaría."
+        ),
+        keywords=["demo", "quiero una demo", "agendar demo", "ver demo", "mostrar demo", "probar demo"],
+        follow_ups=["¿Cómo funciona en una tienda?", "Hablar por WhatsApp"],
+    ),
+    FAQ(
+        key="soporte",
+        title="¿Tengo soporte?",
+        answer=(
+            "Sí. La idea es que no te quedes solo con una herramienta, sino con una solución acompañada.\n\n"
+            "Si necesitás ajustes, ayuda o querés revisar cómo está respondiendo, hay soporte para que el sistema siga funcionando bien y alineado con tu negocio."
+        ),
+        keywords=["soporte", "acompanamiento", "acompañamiento", "ayuda", "me ayudan", "asistencia"],
+        follow_ups=["¿Qué pasa si quiero cambiar respuestas después?", "Hablar por WhatsApp"],
     ),
 ]
 
 BASE_QUICK_REPLIES = [
-    "¿Cómo funciona?",
+    "¿Cómo funciona en una tienda?",
+    "¿Qué tipo de preguntas responde?",
     "¿Se instala en Shopify?",
     "¿Tengo que saber programar?",
+    "¿Se puede adaptar a mi negocio?",
+    "¿Qué beneficios tiene?",
 ]
 
 GREETING = (
-    f"Hola, soy el asistente virtual de {BRAND_NAME}. "
-    "Te muestro cómo un chat automático puede responder dudas, ahorrar tiempo y ayudar a vender más."
+    f"Hola, soy el asistente de {BRAND_NAME}.\n\n"
+    "Te puedo mostrar cómo funciona un chat de ventas y atención para ecommerce que responde preguntas automáticamente, reduce fricción y ayuda a convertir más visitas en compras.\n\n"
+    "Si querés, podés probar con preguntas reales como “¿Se instala en Shopify?”, “¿Tengo que saber programar?” o “¿Qué beneficios tiene?”."
 )
 
 FALLBACK = (
-    "No encontré una respuesta exacta para eso.\n\n"
-    f"Si querés, escribinos a {SUPPORT_EMAIL} y lo vemos con tu caso."
+    "No quiero responderte algo genérico y que no te sirva.\n\n"
+    "Puedo ayudarte mejor si vamos por alguno de estos caminos: cómo funciona en una tienda, qué preguntas responde, si se instala en Shopify, si requiere conocimientos técnicos o qué beneficios tiene.\n\n"
+    f"Y si preferís atención directa, también podés escribir a {SUPPORT_EMAIL}."
 )
 
 BUY_INTENT_KEYWORDS = {
     "me interesa",
     "quiero esto",
-    "lo quiero",
+    "quiero sumarlo",
+    "quiero para mi tienda",
     "quiero instalarlo",
-    "quiero ponerlo",
-    "quiero automatizar",
+    "quiero avanzar",
+    "quiero contratar",
+}
+
+PRICING_INTENT_KEYWORDS = {
     "precio",
+    "cual es el precio",
+    "cuál es el precio",
     "cuanto cuesta",
     "cuánto cuesta",
+    "cuanto sale",
+    "cuánto sale",
+    "cuanto vale",
+    "cuánto vale",
+    "planes",
+    "plan",
+    "costos",
+    "costo",
+    "mensual",
+    "inversion",
+    "inversión",
+    "valor",
+}
+
+GUARANTEE_INTENT_KEYWORDS = {
+    "tiene garantia",
+    "tiene garantía",
+    "y si no me sirve",
+    "puedo cancelar",
+    "riesgo",
+    "sin riesgo",
+    "garantia",
+    "garantía",
+    "devolucion",
+    "devolución",
+}
+
+TIMING_INTENT_KEYWORDS = {
+    "cuanto tarda",
+    "cuánto tarda",
+    "cuanto demora",
+    "cuánto demora",
+    "en cuanto tiempo",
+    "en cuánto tiempo",
+    "cuando estaria",
+    "cuándo estaría",
+    "cuando estaria listo",
+    "cuándo estaría listo",
+    "tiempo de implementacion",
+    "tiempo de implementación",
+    "tiempo de instalacion",
+    "tiempo de instalación",
+    "cuanto tiempo lleva",
+    "cuánto tiempo lleva",
+}
+
+INSTALL_INTENT_KEYWORDS = {
+    "instalacion",
+    "instalación",
+    "implementar",
+    "implementacion",
+    "implementación",
+    "dificil de instalar",
+    "difícil de instalar",
+}
+
+SHOPIFY_INTENT_KEYWORDS = {
+    "shopify",
+    "tienda nube",
+    "tiendanube",
+    "woocommerce",
+    "plataforma",
+}
+
+CUSTOMIZATION_INTENT_KEYWORDS = {
+    "adaptar",
+    "personalizar",
+    "mi negocio",
+    "mi marca",
+    "tono",
+    "cambiar respuestas",
+}
+
+TECHNICAL_OBJECTION_KEYWORDS = {
+    "no se programar",
+    "no sé programar",
+    "tecnico",
+    "técnico",
+    "codigo",
+    "código",
 }
 
 DEMO_INTENT_KEYWORDS = {
-    "ver demo",
     "demo",
-    "mostrame",
-    "muestreme",
-    "mostrar",
-    "como funciona",
-    "cómo funciona",
+    "verlo",
+    "ver como funciona",
+    "ver cómo funciona",
+    "probar",
 }
 
-TECH_INTENT_KEYWORDS = {
-    "programar",
-    "codigo",
-    "código",
-    "tecnico",
-    "técnico",
-    "developer",
-    "desarrollador",
+AI_INTENT_KEYWORDS = {
+    "es como chatgpt",
+    "es ia",
+    "es inteligencia artificial",
+    "funciona como una ia",
+    "funciona como una inteligencia artificial",
+    "chatgpt",
 }
 
 CONTACT_INTENT_KEYWORDS = {
-    "hablar con alguien",
     "contacto",
+    "hablar con alguien",
+    "whatsapp",
     "mail",
     "correo",
     "email",
-    "humano",
-    "persona",
 }
 
 
@@ -219,6 +412,18 @@ def default_suggestions() -> List[str]:
     return BASE_QUICK_REPLIES.copy()
 
 
+def contains_any(text: str, keywords: set[str]) -> bool:
+    return any(normalize_text(keyword) in text for keyword in keywords)
+
+
+def has_pricing_intent(text: str) -> bool:
+    return contains_any(text, PRICING_INTENT_KEYWORDS)
+
+
+def has_timing_intent(text: str) -> bool:
+    return contains_any(text, TIMING_INTENT_KEYWORDS)
+
+
 def find_best_faq(message: str) -> FAQ | None:
     text = normalize_text(message)
     best_faq = None
@@ -230,10 +435,8 @@ def find_best_faq(message: str) -> FAQ | None:
             keyword_norm = normalize_text(keyword)
             if keyword_norm in text:
                 score += 3
-
         title_words = normalize_text(faq.title).split()
         score += sum(1 for w in title_words if len(w) > 3 and w in text)
-
         if score > best_score:
             best_score = score
             best_faq = faq
@@ -244,30 +447,74 @@ def find_best_faq(message: str) -> FAQ | None:
 def build_reply(message: str) -> tuple[str, List[str]]:
     msg = normalize_text(message)
 
+    if any(keyword in msg for keyword in {"precio", "cuesta", "vale", "sale", "plan", "planes", "costo"}):
+        return (
+            "El valor depende del nivel de personalización que necesite tu tienda.\n\n"
+            "Trabajamos con planes simples que se adaptan a cada negocio.\n\n"
+            "Además, ofrecemos una garantía de 7 días: si dentro de ese período no te resulta útil, podés solicitar la devolución.\n\n"
+            "Si querés, podemos orientarte con la opción más adecuada según tu caso."
+        ), ["¿Tiene garantía?", "Hablar por WhatsApp"]
+
     if msg in {"hola", "buenas", "buen dia", "buenos dias", "buenas tardes", "buenas noches"}:
         return GREETING, default_suggestions()
 
-    if any(keyword in msg for keyword in BUY_INTENT_KEYWORDS):
+    if contains_any(msg, BUY_INTENT_KEYWORDS):
         return (
-            "Buenísimo 👍\n\n"
-            "La idea es instalarte un asistente simple, claro y útil para tu tienda.\n\n"
-            f"Si querés ver opciones o contarme tu caso, escribinos a {SUPPORT_EMAIL}."
-        ), ["¿Cómo funciona?", "¿Se puede adaptar a mi tienda?"]
+            "Tiene sentido evaluarlo para tu tienda.\n\n"
+            "Lo más útil en este punto es revisar qué tipo de consultas querés automatizar y cómo encajaría Nivora en tu ecommerce.\n\n"
+            f"Si querés avanzar por contacto directo, podés escribirnos a {SUPPORT_EMAIL}."
+        ), ["¿Qué beneficios tiene?", "Quiero una demo"]
 
-    if any(keyword in msg for keyword in DEMO_INTENT_KEYWORDS):
-        faq = next((f for f in FAQS if f.key == "funciona"), None)
+    if has_pricing_intent(msg):
+        faq = next((f for f in FAQS if f.key == "precio"), None)
         if faq:
             return faq.answer, faq.follow_ups or default_suggestions()
 
-    if any(keyword in msg for keyword in TECH_INTENT_KEYWORDS):
+    if has_timing_intent(msg):
+        faq = next((f for f in FAQS if f.key == "tiempo_implementacion"), None)
+        if faq:
+            return faq.answer, faq.follow_ups or default_suggestions()
+
+    if contains_any(msg, GUARANTEE_INTENT_KEYWORDS):
+        faq = next((f for f in FAQS if f.key == "garantia"), None)
+        if faq:
+            return faq.answer, faq.follow_ups or default_suggestions()
+
+    if contains_any(msg, INSTALL_INTENT_KEYWORDS):
+        faq = next((f for f in FAQS if f.key == "instalacion"), None)
+        if faq:
+            return faq.answer, faq.follow_ups or default_suggestions()
+
+    if contains_any(msg, SHOPIFY_INTENT_KEYWORDS):
+        faq = next((f for f in FAQS if f.key == "shopify"), None)
+        if faq:
+            return faq.answer, faq.follow_ups or default_suggestions()
+
+    if contains_any(msg, CUSTOMIZATION_INTENT_KEYWORDS):
+        faq = next((f for f in FAQS if f.key == "adaptacion"), None)
+        if faq:
+            return faq.answer, faq.follow_ups or default_suggestions()
+
+    if contains_any(msg, AI_INTENT_KEYWORDS):
+        faq = next((f for f in FAQS if f.key == "ia"), None)
+        if faq:
+            return faq.answer, faq.follow_ups or default_suggestions()
+
+    if contains_any(msg, TECHNICAL_OBJECTION_KEYWORDS):
         faq = next((f for f in FAQS if f.key == "programar"), None)
         if faq:
             return faq.answer, faq.follow_ups or default_suggestions()
 
-    if any(keyword in msg for keyword in CONTACT_INTENT_KEYWORDS):
-        faq = next((f for f in FAQS if f.key == "contacto"), None)
+    if contains_any(msg, DEMO_INTENT_KEYWORDS):
+        faq = next((f for f in FAQS if f.key == "demo"), None)
         if faq:
             return faq.answer, faq.follow_ups or default_suggestions()
+
+    if contains_any(msg, CONTACT_INTENT_KEYWORDS):
+        return (
+            "Por supuesto.\n\n"
+            f"Podés escribirnos a {SUPPORT_EMAIL} y seguimos por ahí con tu caso. Si preferís, antes también puedo orientarte sobre instalación, beneficios, Shopify o adaptación a tu negocio."
+        ), ["¿Se instala en Shopify?", "¿Se puede adaptar a mi negocio?"]
 
     faq = find_best_faq(message)
     if faq:
@@ -295,6 +542,7 @@ def config():
             "secondary_color": SECONDARY_COLOR,
             "quick_replies": default_suggestions(),
             "support_email": SUPPORT_EMAIL,
+            "greeting": GREETING,
         }
     )
 
@@ -305,14 +553,9 @@ def chat():
     message = str(data.get("message", "")).strip()
 
     print("USER:", message)
-
+    
     if not message:
-        return jsonify(
-            {
-                "reply": "Escribime tu consulta y te ayudo.",
-                "suggestions": default_suggestions(),
-            }
-        ), 400
+        return jsonify({"reply": "Escribime tu consulta y te ayudo.", "suggestions": default_suggestions()}), 400
 
     reply, suggestions = build_reply(message)
     return jsonify({"reply": reply, "suggestions": suggestions})
@@ -348,7 +591,7 @@ HOME_HTML = """
     .card{max-width:820px;margin:0 auto;background:white;border-radius:18px;padding:32px;box-shadow:0 10px 30px rgba(15,23,42,.08)}
     h1{margin-top:0}
     code{background:#e2e8f0;padding:2px 6px;border-radius:6px}
-    .demo{margin-top:18px;padding:14px 16px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px}
+    .demo{margin-top:18px;padding:14px 16px;background:#ecfeff;border:1px solid #a5f3fc;border-radius:12px}
   </style>
 </head>
 <body>
@@ -381,59 +624,210 @@ WIDGET_HTML = """
     :root {
       --primary: {{ primary_color }};
       --secondary: {{ secondary_color }};
-      --bg: #f8fafc;
+      --bg: #f5f7fb;
+      --surface: rgba(255, 255, 255, 0.96);
+      --surface-soft: rgba(248, 250, 252, 0.92);
       --text: #0f172a;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --bubble-bot: #ede9fe;
-      --bubble-user: #0f172a;
+      --muted: #667085;
+      --border: rgba(15, 23, 42, 0.08);
+      --border-strong: rgba(15, 23, 42, 0.12);
+      --bubble-bot: #ffffff;
+      --bubble-user: #111827;
+      --shadow: 0 24px 80px rgba(15, 23, 42, 0.14);
+      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:var(--text)}
-    .chat{display:flex;flex-direction:column;height:100vh}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:linear-gradient(180deg, #f7f9fc 0%, #eef3f8 100%);
+      color:var(--text)
+    }
+    .chat{
+      display:flex;
+      flex-direction:column;
+      height:100vh;
+      background:
+        radial-gradient(circle at top right, rgba(6,182,212,.08), transparent 22%),
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,249,252,.98));
+    }
     .header{
-        position: relative;
-        padding:14px 16px;
-        background:linear-gradient(135deg,var(--primary),var(--secondary));
-        color:#fff
+      position: relative;
+      padding:18px 18px 16px;
+      background:
+        linear-gradient(135deg, rgba(15,23,42,.96), rgba(17,24,39,.92)),
+        linear-gradient(135deg,var(--primary),var(--secondary));
+      color:#fff;
+      border-bottom:1px solid rgba(255,255,255,.08);
     }
-
+    .header::after{
+      content:"";
+      position:absolute;
+      inset:auto 18px 0 18px;
+      height:1px;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+    }
     .close-btn{
-        position:absolute;
-        top:10px;
-        right:12px;
-        background:transparent;
-        border:none;
-        color:#fff;
-        font-size:22px;
-        cursor:pointer;
+      position:absolute;
+      top:14px;
+      right:14px;
+      width:34px;
+      height:34px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:999px;
+      color:#fff;
+      font-size:16px;
+      line-height:1;
+      cursor:pointer;
+      transition:background .2s ease, transform .2s ease, border-color .2s ease;
     }
-
-    @media (max-width: 600px){
-      .close-btn{
-        font-size:26px;
-      }
+    .close-btn:hover{
+      background:rgba(255,255,255,.14);
+      border-color:rgba(255,255,255,.18);
+      transform:translateY(-1px);
     }
-
-    .header-title{font-weight:700}
-    .header-sub{font-size:13px;opacity:.95;margin-top:4px}
-    .messages{flex:1;overflow:auto;padding:14px;background:var(--bg)}
-    .msg{max-width:86%;padding:12px 14px;border-radius:16px;margin:8px 0;line-height:1.45;white-space:pre-wrap}
-    .bot{background:var(--bubble-bot);border-top-left-radius:6px}
-    .user{background:var(--bubble-user);color:#fff;margin-left:auto;border-top-right-radius:6px}
-    .quick{padding:12px;background:#fff;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
-    .quick button{border:none;border-radius:999px;padding:8px 12px;background:#e2e8f0;color:#0f172a;cursor:pointer;font-size:12px}
-    .composer{display:flex;gap:8px;padding:12px;background:#fff;border-top:1px solid var(--border)}
+    .header-title{
+      font-size:15px;
+      font-weight:700;
+      letter-spacing:-0.02em;
+    }
+    .header-sub{
+      max-width:260px;
+      font-size:12.5px;
+      line-height:1.45;
+      opacity:.78;
+      margin-top:6px
+    }
+    .messages{
+      flex:1;
+      overflow:auto;
+      padding:18px 16px;
+      background:transparent;
+    }
+    .messages::-webkit-scrollbar{width:10px}
+    .messages::-webkit-scrollbar-thumb{
+      background:rgba(15,23,42,.12);
+      border:3px solid transparent;
+      border-radius:999px;
+      background-clip:padding-box;
+    }
+    .msg{
+      max-width:87%;
+      padding:13px 15px;
+      border-radius:18px;
+      margin:10px 0;
+      line-height:1.58;
+      white-space:pre-wrap;
+      font-size:14px;
+      box-shadow:var(--shadow-soft);
+    }
+    .bot{
+      background:var(--bubble-bot);
+      border:1px solid var(--border);
+      border-top-left-radius:8px;
+      color:var(--text);
+    }
+    .user{
+      background:linear-gradient(135deg, #111827, #1f2937);
+      color:#fff;
+      margin-left:auto;
+      border-top-right-radius:8px;
+      box-shadow:0 12px 28px rgba(17,24,39,.18);
+    }
+    .quick{
+      padding:12px 14px 10px;
+      background:rgba(255,255,255,.82);
+      backdrop-filter:blur(12px);
+      border-top:1px solid var(--border);
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap
+    }
+    .quick button{
+      border:1px solid rgba(15,23,42,.08);
+      border-radius:999px;
+      padding:9px 12px;
+      background:rgba(255,255,255,.92);
+      color:#0f172a;
+      cursor:pointer;
+      font-size:12.5px;
+      font-weight:600;
+      letter-spacing:-0.01em;
+      box-shadow:0 6px 18px rgba(15,23,42,.05);
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .quick button:hover{
+      transform:translateY(-1px);
+      border-color:rgba(15,23,42,.14);
+      box-shadow:0 10px 24px rgba(15,23,42,.08);
+      background:#fff;
+    }
+    .composer{
+      display:flex;
+      gap:10px;
+      padding:14px;
+      background:rgba(255,255,255,.9);
+      backdrop-filter:blur(14px);
+      border-top:1px solid var(--border)
+    }
     .composer input{
       flex:1;
       border:1px solid var(--border);
       border-radius:999px;
-      padding:12px 14px;
-      font-size:16px;
+      padding:13px 16px;
+      font-size:14px;
+      background:rgba(248,250,252,.92);
+      color:var(--text);
+      outline:none;
+      transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
     }
-    .composer button{border:none;border-radius:999px;padding:12px 16px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}
-    .footer{padding:10px 14px;font-size:12px;color:var(--muted);background:#fff;border-top:1px solid var(--border)}
+    .composer input:focus{
+      border-color:rgba(6,182,212,.35);
+      box-shadow:0 0 0 4px rgba(6,182,212,.08);
+      background:#fff;
+    }
+    .composer button{
+      border:none;
+      border-radius:999px;
+      padding:13px 18px;
+      background:linear-gradient(135deg, var(--primary), var(--secondary));
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+      letter-spacing:-0.01em;
+      box-shadow:0 12px 28px rgba(15,23,42,.18);
+      transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    }
+    .composer button:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.02);
+      box-shadow:0 16px 34px rgba(15,23,42,.22);
+    }
+    .footer{
+      padding:10px 14px 14px;
+      font-size:11.5px;
+      line-height:1.5;
+      color:var(--muted);
+      background:rgba(255,255,255,.88);
+      border-top:1px solid var(--border)
+    }
     a{color:inherit}
+    @media (max-width: 600px){
+      .header{padding:18px 16px 15px}
+      .header-sub{max-width:100%;padding-right:36px}
+      .messages{padding:16px 12px}
+      .msg{max-width:90%;font-size:13.5px}
+      .quick{padding:10px 12px}
+      .quick button{font-size:12px;padding:8px 11px}
+      .composer{padding:12px}
+      .composer input{font-size:16px}
+      .close-btn{top:12px;right:12px}
+    }
   </style>
 </head>
 <body>
@@ -441,7 +835,7 @@ WIDGET_HTML = """
     <div class="header">
         <button id="closeBtn" class="close-btn">✕</button>
         <div class="header-title">{{ brand_name }}</div>
-        <div class="header-sub">Mostrá cómo responde dudas, ahorra tiempo y acompaña la compra</div>
+        <div class="header-sub">Asistente de ventas y atención para ecommerce</div>
     </div>
 
     <div id="messages" class="messages"></div>
@@ -454,7 +848,7 @@ WIDGET_HTML = """
     </div>
 
     <div class="footer">
-      Si querés hablar con alguien: <a href="mailto:{{ support_email }}">{{ support_email }}</a>
+      Atención personalizada: <a href="mailto:{{ support_email }}">{{ support_email }}</a>
     </div>
   </div>
 
@@ -486,10 +880,7 @@ WIDGET_HTML = """
     const res = await fetch('/config');
     const config = await res.json();
     renderQuickReplies(config.quick_replies || []);
-    addMessage(
-      `Hola, soy el asistente virtual de ${config.brand_name}. Te muestro cómo un chat automático puede responder dudas y ayudar a vender más. ¿En qué querés que te lo muestre?`,
-      'bot'
-    );
+    addMessage(config.greeting || `Hola, soy el asistente de ${config.brand_name}. ¿En qué puedo ayudarte?`, 'bot');
   }
 
   async function sendMessage(message) {
@@ -518,10 +909,9 @@ WIDGET_HTML = """
   });
 
   loadConfig();
-
-  document.getElementById('closeBtn').addEventListener('click', function () {
-    window.parent.postMessage('closeChat', '*');
-  });
+document.getElementById('closeBtn').addEventListener('click', function () {
+  window.parent.postMessage('closeChat', '*');
+});
 </script>
 </body>
 </html>
@@ -530,66 +920,98 @@ WIDGET_HTML = """
 
 WIDGET_JS = r"""
 (function () {
-  if (window.__NIVORA_BOT_LOADED__) return;
-  window.__NIVORA_BOT_LOADED__ = true;
+  if (window.__ACQUALUME_BOT_LOADED__) return;
+  window.__ACQUALUME_BOT_LOADED__ = true;
 
   var baseUrl = "__BASE_URL__";
 
   var button = document.createElement('button');
   var label = document.createElement('div');
-  label.innerText = '¿Dudas?';
+  label.innerText = 'Ver cómo funciona';
   label.style.position = 'fixed';
   label.style.right = '20px';
-  label.style.bottom = '82px';
-  label.style.background = '#0f172a';
-  label.style.color = '#fff';
-  label.style.padding = '4px 10px';
+  label.style.bottom = '92px';
+  label.style.padding = '8px 12px';
   label.style.borderRadius = '999px';
-  label.style.fontSize = '12px';
+  label.style.background = 'rgba(255,255,255,0.92)';
+  label.style.border = '1px solid rgba(15,23,42,0.08)';
+  label.style.backdropFilter = 'blur(12px)';
+  label.style.color = '#0f172a';
+  label.style.fontSize = '12.5px';
   label.style.fontWeight = '600';
-  label.style.boxShadow = '0 6px 15px rgba(0,0,0,0.2)';
+  label.style.letterSpacing = '-0.01em';
+  label.style.boxShadow = '0 14px 34px rgba(15,23,42,0.12)';
   label.style.zIndex = '999999';
   label.style.whiteSpace = 'nowrap';
-  label.style.transform = 'translateX(10%)';
-
+  label.style.transform = 'translateX(6%)';
   button.setAttribute('aria-label', 'Abrir chat');
   button.innerHTML = '💬';
   button.style.position = 'fixed';
   button.style.right = '20px';
   button.style.bottom = '20px';
-  button.style.width = '60px';
-  button.style.height = '60px';
-  button.style.border = 'none';
+  button.style.width = '64px';
+  button.style.height = '64px';
+  button.style.border = '1px solid rgba(255,255,255,0.14)';
   button.style.borderRadius = '999px';
-  button.style.background = 'linear-gradient(135deg, #0f172a, #7c3aed)';
+  button.style.background = 'linear-gradient(135deg, #111827, #1f2937 58%, #06b6d4 140%)';
   button.style.color = '#fff';
   button.style.fontSize = '26px';
   button.style.cursor = 'pointer';
-  button.style.boxShadow = '0 10px 30px rgba(124, 58, 237, .35)';
+  button.style.boxShadow = '0 22px 48px rgba(15,23,42,.24)';
   button.style.zIndex = '999999';
+  button.style.transition = 'transform .2s ease, box-shadow .2s ease, filter .2s ease';
 
   var frame = document.createElement('iframe');
   frame.src = baseUrl + '/widget';
   frame.style.position = 'fixed';
   frame.style.right = '20px';
-  frame.style.bottom = '92px';
-  frame.style.width = '380px';
+  frame.style.bottom = '96px';
+  frame.style.width = '392px';
   frame.style.maxWidth = 'calc(100vw - 24px)';
-  frame.style.height = '620px';
+  frame.style.height = '640px';
   frame.style.maxHeight = 'calc(100vh - 120px)';
   frame.style.border = 'none';
-  frame.style.borderRadius = '18px';
-  frame.style.boxShadow = '0 15px 50px rgba(15, 23, 42, .18)';
+  frame.style.borderRadius = '24px';
+  frame.style.boxShadow = '0 28px 80px rgba(15, 23, 42, .22)';
   frame.style.overflow = 'hidden';
   frame.style.background = '#fff';
   frame.style.zIndex = '999998';
   frame.style.display = 'none';
 
-  button.addEventListener('click', function () {
-    var isOpen = frame.style.display === 'block';
-    frame.style.display = isOpen ? 'none' : 'block';
-    label.style.display = isOpen ? 'block' : 'none';
+  if (window.innerWidth <= 600) {
+    label.style.right = '16px';
+    label.style.bottom = '88px';
+    label.style.fontSize = '12px';
+    label.style.padding = '8px 11px';
+    button.style.right = '16px';
+    button.style.bottom = '16px';
+    button.style.width = '60px';
+    button.style.height = '60px';
+    frame.style.right = '12px';
+    frame.style.bottom = '88px';
+    frame.style.width = 'calc(100vw - 24px)';
+    frame.style.height = 'min(680px, calc(100vh - 104px))';
+    frame.style.borderRadius = '22px';
+  }
+
+  button.addEventListener('mouseenter', function () {
+    button.style.transform = 'translateY(-2px)';
+    button.style.filter = 'brightness(1.03)';
+    button.style.boxShadow = '0 28px 60px rgba(15,23,42,.28)';
   });
+
+  button.addEventListener('mouseleave', function () {
+    button.style.transform = 'translateY(0)';
+    button.style.filter = 'brightness(1)';
+    button.style.boxShadow = '0 22px 48px rgba(15,23,42,.24)';
+  });
+
+button.addEventListener('click', function () {
+  var isOpen = frame.style.display === 'block';
+
+  frame.style.display = isOpen ? 'none' : 'block';
+  label.style.display = isOpen ? 'block' : 'none';
+});
 
   document.body.appendChild(frame);
   document.body.appendChild(button);
@@ -598,9 +1020,8 @@ WIDGET_JS = r"""
   window.addEventListener('message', function (event) {
     if (event.data === 'closeChat') {
       frame.style.display = 'none';
-      label.style.display = 'block';
     }
-  });
+});
 })();
 """
 
