@@ -68,18 +68,19 @@ if (demoChatRoot) {
   const quickEl = demoChatRoot.querySelector("[data-demo-quick]");
   const formEl = demoChatRoot.querySelector("[data-demo-form]");
   const inputEl = demoChatRoot.querySelector("[data-demo-input]");
+  const persistentSuggestions = currentPage === "como-funciona";
+  const fallbackGreeting =
+    "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.";
+  const fallbackQuickReplies = [
+    "¿Cómo funciona en una tienda?",
+    "¿Cuánto cuesta?",
+    "¿Sirve para mi negocio?",
+  ];
+  let initialQuickReplies = fallbackQuickReplies;
+  let singleFollowUp = fallbackQuickReplies[0];
   const apiBase =
     demoChatRoot.getAttribute("data-demo-api") ||
     "https://nivora-bot-demo-production.up.railway.app";
-
-  const normalize = (text) =>
-    text
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^\w\s]/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
 
   const scrollMessagesToBottom = () => {
     messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: "smooth" });
@@ -110,15 +111,18 @@ if (demoChatRoot) {
       const config = await response.json();
 
       messagesEl.innerHTML = "";
-      addDemoMessage(config.greeting || "Hola 👋 ¿En qué puedo ayudarte?", "bot");
+      addDemoMessage(config.greeting || fallbackGreeting, "bot");
 
-      const quickReplies = Array.isArray(config.quick_replies) ? config.quick_replies : [];
-      renderSuggestions(quickReplies);
+      initialQuickReplies = Array.isArray(config.quick_replies) && config.quick_replies.length
+        ? config.quick_replies
+        : fallbackQuickReplies;
+      singleFollowUp = config.single_follow_up || initialQuickReplies[0] || fallbackQuickReplies[0];
+      renderSuggestions(initialQuickReplies);
     } catch (error) {
       console.error("[demo-chat-config]", error);
       messagesEl.innerHTML = "";
-      addDemoMessage("Hola 👋 ¿En qué puedo ayudarte?", "bot");
-      renderSuggestions(["¿Qué tipo de preguntas responde?"]);
+      addDemoMessage(fallbackGreeting, "bot");
+      renderSuggestions(initialQuickReplies);
     }
   };
 
@@ -147,7 +151,14 @@ if (demoChatRoot) {
           "bot"
         );
 
-        const suggestions = Array.isArray(data.suggestions) ? data.suggestions.slice(0, 1) : [];
+        if (persistentSuggestions) {
+          renderSuggestions(initialQuickReplies);
+          return;
+        }
+
+        const suggestions = Array.isArray(data.suggestions) && data.suggestions.length
+          ? data.suggestions.slice(0, 1)
+          : [data.single_follow_up || singleFollowUp];
         renderSuggestions(suggestions);
       }, 280);
     } catch (error) {
@@ -157,7 +168,7 @@ if (demoChatRoot) {
           "No pude responder en este momento. Si querés, probá de nuevo en unos segundos.",
           "bot"
         );
-        renderSuggestions(["¿Qué tipo de preguntas responde?"]);
+        renderSuggestions(persistentSuggestions ? initialQuickReplies : [singleFollowUp]);
       }, 280);
     }
   };

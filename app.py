@@ -39,7 +39,7 @@ FAQS: List[FAQ] = [
             "Si querés, también podés ver qué plan se adapta mejor a tu tienda en la pestaña Precios."
         ),
         keywords=["cuanto tarda", "cuánto tarda", "cuanto demora", "cuánto demora", "en cuanto tiempo esta", "en cuánto tiempo está", "implementacion", "activacion", "integracion"],
-        follow_ups=["Precios"],
+        follow_ups=["¿Cuánto cuesta?"],
     ),
     FAQ(
         key="stock_simple",
@@ -315,6 +315,8 @@ BASE_QUICK_REPLIES = [
     "¿Sirve para mi negocio?",
 ]
 
+SINGLE_FOLLOW_UP = "¿Cómo funciona en una tienda?"
+
 GREETING = "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas."
 
 FALLBACK = (
@@ -479,7 +481,6 @@ SHOPIFY_INTENT_KEYWORDS = {
 CUSTOMIZATION_INTENT_KEYWORDS = {
     "adaptar",
     "personalizar",
-    "mi negocio",
     "mi marca",
     "tono",
     "cambiar respuestas",
@@ -546,8 +547,7 @@ def default_suggestions() -> List[str]:
 
 def single_follow_up(items: List[str] | None) -> List[str]:
     if not items:
-        defaults = default_suggestions()
-        return defaults[:1]
+        return [SINGLE_FOLLOW_UP]
     return items[:1]
 
 
@@ -730,7 +730,6 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
         "tono",
         "personalidad",
         "personalizar",
-        "adaptar",
         "forma de responder",
         "estilo de respuesta",
         "como responde el bot",
@@ -896,7 +895,7 @@ def generate_response(intent: str, location: str | None = None) -> tuple[str, Li
         ), ["¿Cuánto cuesta?"]
 
     if intent == "envio_por_ubicacion" and location:
-        return build_location_shipping_reply(location), ["Precios"]
+        return build_location_shipping_reply(location), ["¿Cuánto cuesta?"]
 
     if intent == "precio":
         return (
@@ -951,6 +950,10 @@ def generate_response(intent: str, location: str | None = None) -> tuple[str, Li
 
 
 def build_reply(message: str) -> tuple[str, List[str]]:
+    faq = find_best_faq(message)
+    if faq:
+        return faq.answer, single_follow_up(faq.follow_ups)
+
     intent, confidence, location = detect_intent(message)
     print("INTENT:", intent, "CONFIDENCE:", confidence, "LOCATION:", location)
 
@@ -986,6 +989,7 @@ def config():
             "primary_color": PRIMARY_COLOR,
             "secondary_color": SECONDARY_COLOR,
             "quick_replies": default_suggestions(),
+            "single_follow_up": SINGLE_FOLLOW_UP,
             "support_email": SUPPORT_EMAIL,
             "greeting": GREETING,
         }
@@ -1003,10 +1007,10 @@ def chat():
     print("USER:", message)
     
     if not message:
-        return jsonify({"reply": "Escribime tu consulta y te ayudo.", "suggestions": default_suggestions()}), 400
+        return jsonify({"reply": "Escribime tu consulta y te ayudo.", "suggestions": default_suggestions(), "single_follow_up": SINGLE_FOLLOW_UP}), 400
 
     reply, suggestions = build_reply(message)
-    return jsonify({"reply": reply, "suggestions": suggestions})
+    return jsonify({"reply": reply, "suggestions": suggestions, "single_follow_up": SINGLE_FOLLOW_UP})
 
 
 @app.get("/widget")
@@ -1230,12 +1234,7 @@ HOME_HTML = """
         <div class="demo-status">En línea · Responde al instante</div>
       </div>
 
-        <div id="messages" class="demo-messages">
-          <div class="msg bot">Hola 👋
-
-Soy el asistente de Nivora.
-Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.</div>
-        </div>
+        <div id="messages" class="demo-messages"></div>
 
       <div id="quickReplies" class="quick-replies">
         <button type="button" data-question="¿Cómo funciona en una tienda?">¿Cómo funciona en una tienda?</button>
@@ -1275,11 +1274,13 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
       });
     }
 
+    let config = null;
+
     async function loadConfig() {
       const res = await fetch("/config");
-      const config = await res.json();
+      config = await res.json();
       messagesEl.innerHTML = "";
-        addMessage(config.greeting || "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.", "bot");
+      addMessage(config.greeting || "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.", "bot");
       renderQuickReplies(config.quick_replies || []);
     }
 
@@ -1300,7 +1301,8 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
         const data = await res.json();
         window.setTimeout(() => {
           addMessage(data.reply || "No tengo una respuesta precisa para eso en este demo 😊", "bot");
-          renderQuickReplies((data.suggestions || []).slice(0, 1));
+          const singleFollowUp = data.single_follow_up || config?.single_follow_up || "¿Cómo funciona en una tienda?";
+          renderQuickReplies((data.suggestions || []).slice(0, 1).length ? (data.suggestions || []).slice(0, 1) : [singleFollowUp]);
         }, 260);
       } catch (error) {
         window.setTimeout(() => {
@@ -1601,9 +1603,11 @@ WIDGET_HTML = """
     });
   }
 
+  let config = null;
+
   async function loadConfig() {
     const res = await fetch('/config');
-    const config = await res.json();
+    config = await res.json();
     renderQuickReplies(config.quick_replies || []);
     addMessage(config.greeting || "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.", 'bot');
   }
@@ -1622,9 +1626,10 @@ WIDGET_HTML = """
       });
       const data = await res.json();
       addMessage(data.reply || 'Hubo un error al responder.', 'bot');
-      renderQuickReplies(data.suggestions || []);
+      renderQuickReplies((data.suggestions || []).length ? data.suggestions : [config?.single_follow_up || '¿Cómo funciona en una tienda?']);
     } catch (err) {
       addMessage('Hubo un problema al responder. Intentá de nuevo en unos segundos.', 'bot');
+      renderQuickReplies([config?.single_follow_up || '¿Cómo funciona en una tienda?']);
     }
   }
 
@@ -1633,8 +1638,11 @@ WIDGET_HTML = """
     if (e.key === 'Enter') sendMessage();
   });
 
-  loadConfig();
-document.getElementById('closeBtn').addEventListener('click', function () {
+loadConfig();
+document.getElementById('closeBtn').addEventListener('click', function (event) {
+  event.preventDefault();
+  event.stopPropagation();
+  window.parent.postMessage({ type: 'nivora-close-chat' }, '*');
   window.parent.postMessage('closeChat', '*');
 });
 </script>
@@ -1831,7 +1839,7 @@ WIDGET_JS = r"""
   }, 1500);
 
   window.addEventListener('message', function (event) {
-    if (event.data === 'closeChat') {
+    if (event.data === 'closeChat' || (event.data && event.data.type === 'nivora-close-chat')) {
       frame.style.display = 'none';
       launcher.style.display = 'flex';
     }

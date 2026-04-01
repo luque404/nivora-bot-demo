@@ -1632,10 +1632,10 @@ p {
 .pricing-tier {
   position: relative;
   display: grid;
-  grid-template-rows: auto auto auto 1fr auto;
-  gap: 1.1rem;
-  padding: 1.95rem;
-  padding-top: 1.95rem;
+  grid-template-rows: auto auto auto 1fr auto auto;
+  gap: 0.92rem;
+  padding: 1.7rem;
+  padding-top: 1.7rem;
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   background:
@@ -1725,7 +1725,7 @@ p {
 .pricing-tier > p {
   min-height: 3.6rem;
   color: #d4dbeb;
-  line-height: 1.62;
+  line-height: 1.56;
 }
 
 .price-block strong {
@@ -1750,7 +1750,7 @@ p {
 
 .pricing-features {
   display: grid;
-  gap: 0.68rem;
+  gap: 0.54rem;
   margin-top: 0;
   padding: 0;
   list-style: none;
@@ -1759,11 +1759,11 @@ p {
 
 .pricing-features li {
   position: relative;
-  min-height: 1.35rem;
+  min-height: 1.2rem;
   padding-left: 1.55rem;
   color: var(--muted-strong);
   font-size: 0.92rem;
-  line-height: 1.42;
+  line-height: 1.34;
   white-space: normal;
 }
 
@@ -1794,10 +1794,11 @@ p {
 .pricing-tier .button {
   width: 100%;
   align-self: end;
+  margin-top: 0.3rem;
 }
 
 .pricing-trust-note {
-  margin-top: 0.72rem;
+  margin-top: 0.25rem;
   color: var(--muted);
   font-size: 0.84rem;
   line-height: 1.5;
