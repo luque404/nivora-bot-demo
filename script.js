@@ -5,10 +5,10 @@ const currentPage = document.body.dataset.page;
 const shouldShowFloatingWidget = ["home", "precios", "sobre-nivora"].includes(currentPage);
 
 if (shouldShowFloatingWidget) {
-  const widgetScript = document.createElement("script");
-  widgetScript.src = "/widget.js";
-  widgetScript.defer = true;
-  document.body.appendChild(widgetScript);
+  const script = document.createElement("script");
+  script.src = "https://nivora-bot-demo-production.up.railway.app/widget.js";
+  script.async = true;
+  document.body.appendChild(script);
 }
 
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -78,7 +78,9 @@ if (demoChatRoot) {
   ];
   let initialQuickReplies = fallbackQuickReplies;
   let singleFollowUp = fallbackQuickReplies[0];
-  const apiBase = demoChatRoot.getAttribute("data-demo-api") || window.location.origin;
+  const apiBase =
+    demoChatRoot.getAttribute("data-demo-api") ||
+    "https://nivora-bot-demo-production.up.railway.app";
 
   const scrollMessagesToBottom = () => {
     messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: "smooth" });
