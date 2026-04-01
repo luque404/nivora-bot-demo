@@ -1228,11 +1228,12 @@ WIDGET_JS = r"""
 
   var launcher = document.createElement('div');
   launcher.style.position = 'fixed';
-  launcher.style.left = '20px';
+  launcher.style.right = '20px';
   launcher.style.bottom = '20px';
   launcher.style.display = 'flex';
   launcher.style.alignItems = 'flex-end';
   launcher.style.gap = '10px';
+  launcher.style.flexDirection = 'row-reverse';
   launcher.style.zIndex = '999999';
   launcher.style.opacity = '0';
   launcher.style.transform = 'translateY(14px)';
@@ -1256,6 +1257,7 @@ WIDGET_JS = r"""
   teaser.style.textAlign = 'left';
   teaser.style.backdropFilter = 'blur(14px)';
   teaser.style.transition = 'transform .22s ease, box-shadow .22s ease, border-color .22s ease';
+  teaser.style.borderRadius = '22px 22px 8px 22px';
 
   var typing = document.createElement('div');
   typing.style.display = 'flex';
@@ -1298,7 +1300,11 @@ WIDGET_JS = r"""
   avatar.style.cursor = 'pointer';
   avatar.style.boxShadow = '0 18px 40px rgba(15,23,42,.2)';
   avatar.style.transition = 'transform .22s ease, box-shadow .22s ease, filter .22s ease';
-  avatar.textContent = 'N';
+  avatar.innerHTML = [
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">',
+    '<path d="M7 8.75C7 7.50736 8.00736 6.5 9.25 6.5H14.75C15.9926 6.5 17 7.50736 17 8.75V12.25C17 13.4926 15.9926 14.5 14.75 14.5H11.9L9.2 17V14.5H9.25C8.00736 14.5 7 13.4926 7 12.25V8.75Z" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+    '</svg>'
+  ].join('');
 
   var badge = document.createElement('span');
   badge.textContent = '1';
@@ -1322,7 +1328,7 @@ WIDGET_JS = r"""
   var frame = document.createElement('iframe');
   frame.src = baseUrl + '/widget';
   frame.style.position = 'fixed';
-  frame.style.left = '20px';
+  frame.style.right = '20px';
   frame.style.bottom = '92px';
   frame.style.width = '392px';
   frame.style.maxWidth = 'calc(100vw - 24px)';
@@ -1337,16 +1343,17 @@ WIDGET_JS = r"""
   frame.style.display = 'none';
 
   if (window.innerWidth <= 600) {
-    launcher.style.left = '12px';
+    launcher.style.left = 'auto';
     launcher.style.right = '12px';
     launcher.style.bottom = '16px';
     launcher.style.gap = '8px';
+    launcher.style.flexDirection = 'row-reverse';
     teaser.style.maxWidth = 'min(68vw, 210px)';
     teaser.style.padding = '12px 14px';
     teaserText.style.fontSize = '13px';
     avatar.style.width = '58px';
     avatar.style.height = '58px';
-    frame.style.left = '12px';
+    frame.style.right = '12px';
     frame.style.bottom = '84px';
     frame.style.width = 'calc(100vw - 24px)';
     frame.style.height = 'min(680px, calc(100vh - 104px))';
