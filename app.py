@@ -390,8 +390,10 @@ INTERNATIONAL_COUNTRIES = [
 ]
 
 INTENT_PRIORITY = [
+    "saludo_con_pregunta",
     "saludo_simple",
     "pais_latam",
+    "sirve_para_rubro",
     "intencion_compra",
     "tipo_de_negocio",
     "charla_basica",
@@ -433,20 +435,28 @@ BUY_INTENT_KEYWORDS = {
 
 SIMPLE_GREETING_KEYWORDS = {
     "hola",
-    "hola como estas",
-    "hola como estas?",
-    "hola como estas ?",
-    "hola, como estas",
-    "hola, como estas?",
-    "como estas",
-    "como estas?",
-    "todo bien",
-    "todo bien?",
     "buenas",
     "buen dia",
-    "buen dia?",
     "buenos dias",
     "buenas tardes",
+}
+
+GREETING_WITH_QUESTION_KEYWORDS = {
+    "hola como estas",
+    "como estas",
+    "todo bien",
+    "que tal",
+    "como va",
+}
+
+BUSINESS_FIT_CUES = {
+    "sirve para",
+    "funciona para",
+    "aplica para",
+    "esto me sirve",
+    "sirve",
+    "funciona",
+    "aplica",
 }
 
 COUNTRY_INTENT_PREFIXES = {
@@ -840,9 +850,13 @@ def build_international_reply(country: str | None = None) -> str:
 
 
 def is_simple_greeting(text: str) -> bool:
-    if text in {normalize_text(keyword) for keyword in SIMPLE_GREETING_KEYWORDS}:
+    return text in {normalize_text(keyword) for keyword in SIMPLE_GREETING_KEYWORDS}
+
+
+def is_greeting_with_question(text: str) -> bool:
+    if text in {normalize_text(keyword) for keyword in GREETING_WITH_QUESTION_KEYWORDS}:
         return True
-    if text.startswith("hola ") and contains_any(text, {"como estas", "todo bien"}):
+    if text.startswith("hola ") and contains_any(text, GREETING_WITH_QUESTION_KEYWORDS):
         return True
     return False
 
@@ -907,11 +921,43 @@ def is_business_type_intent(text: str, business: dict | None) -> bool:
     )
 
 
+def is_business_fit_intent(text: str, business: dict | None) -> bool:
+    if contains_any(text, BUSINESS_FIT_CUES):
+        return True
+    if business and any(
+        phrase in text
+        for phrase in {
+            "sirve para mi negocio",
+            "sirve para mi",
+            "sirve para",
+            "funciona para",
+            "aplica para",
+            "esto me sirve",
+            "sirve para lo que vendo",
+        }
+    ):
+        return True
+    return False
+
+
 def build_business_type_reply(business: dict | None) -> str:
     if not business:
         return (
             "Sí, se puede adaptar sin problema a ese tipo de negocio.\n\n"
             "La idea es configurar Nivora según las preguntas frecuentes de tus clientes, productos, envíos, pagos, horarios, promociones o políticas de atención."
+        )
+
+    return (
+        f"Sí, se puede adaptar a {business['label']} sin problema.\n\n"
+        f"{business['details']}"
+    )
+
+
+def build_business_fit_reply(business: dict | None) -> str:
+    if not business:
+        return (
+            "Sí, se puede adaptar sin problema a tu tipo de negocio.\n\n"
+            "La idea es configurarlo para responder las preguntas frecuentes de tus clientes y ayudarte a que más personas avancen en la compra."
         )
 
     return (
@@ -926,11 +972,17 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
     country = find_international_country(text)
     business = find_business_type(text)
 
+    if is_greeting_with_question(text):
+        return "saludo_con_pregunta", "alta", None
+
     if is_simple_greeting(text):
         return "saludo_simple", "alta", None
 
     if is_country_intent(text, country):
         return "pais_latam", "alta", country
+
+    if is_business_fit_intent(text, business):
+        return "sirve_para_rubro", "alta", business["label"] if business else "__general__"
 
     if is_buy_intent(text):
         return "intencion_compra", "alta", None
@@ -1207,15 +1259,24 @@ def find_best_faq(message: str) -> FAQ | None:
 
 
 def generate_response(intent: str, location: str | None = None) -> tuple[str, List[str]]:
-    if intent == "saludo_simple":
+    if intent == "saludo_con_pregunta":
         return (
-            "¡Hola! Bien, gracias por preguntar 😊\n\n"
-            "Estoy para ayudarte con Nivora.\n"
-            "Si querés, te cuento cómo funciona, cuánto cuesta o cómo sería para tu tienda."
+            "¡Hola! Bien, gracias por preguntar 😊\n"
+            "Estoy para ayudarte en lo que necesites."
         ), default_suggestions()
+
+    if intent == "saludo_simple":
+        return "¡Hola! 👋\nEstoy para ayudarte en lo que necesites.", default_suggestions()
 
     if intent == "pais_latam":
         return build_international_reply(location), ["¿Cómo funciona en una tienda?"]
+
+    if intent == "sirve_para_rubro":
+        business = None if location == "__general__" else next(
+            (item for item in BUSINESS_TYPES if item["label"] == location),
+            None,
+        )
+        return build_business_fit_reply(business), ["¿Cómo funciona en una tienda?"]
 
     if intent == "intencion_compra":
         return (
@@ -1308,7 +1369,7 @@ def build_reply(message: str) -> tuple[str, List[str]]:
     intent, confidence, location = detect_intent(message)
     print("INTENT:", intent, "CONFIDENCE:", confidence, "LOCATION:", location)
 
-    if intent in {"saludo_simple", "pais_latam", "intencion_compra", "tipo_de_negocio"} and confidence != "baja":
+    if intent in {"saludo_con_pregunta", "saludo_simple", "pais_latam", "sirve_para_rubro", "intencion_compra", "tipo_de_negocio"} and confidence != "baja":
         return generate_response(intent, location)
 
     faq = find_best_faq(message)
