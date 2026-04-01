@@ -364,32 +364,35 @@ ARGENTINA_LOCATIONS = [
 ]
 
 INTERNATIONAL_COUNTRIES = [
+    ("argentina", "Argentina"),
     ("uruguay", "Uruguay"),
     ("brasil", "Brasil"),
     ("brazil", "Brasil"),
     ("chile", "Chile"),
-    ("ecuador", "Ecuador"),
-    ("espana", "España"),
-    ("españa", "España"),
-    ("mexico", "México"),
-    ("méxico", "México"),
-    ("colombia", "Colombia"),
-    ("estados unidos", "Estados Unidos"),
-    ("usa", "Estados Unidos"),
-    ("eeuu", "Estados Unidos"),
-    ("canada", "Canadá"),
-    ("canadá", "Canadá"),
-    ("alemania", "Alemania"),
-    ("italia", "Italia"),
-    ("francia", "Francia"),
-    ("portugal", "Portugal"),
-    ("paraguay", "Paraguay"),
     ("bolivia", "Bolivia"),
+    ("paraguay", "Paraguay"),
     ("peru", "Perú"),
     ("perú", "Perú"),
+    ("ecuador", "Ecuador"),
+    ("colombia", "Colombia"),
+    ("venezuela", "Venezuela"),
+    ("mexico", "México"),
+    ("méxico", "México"),
+    ("panama", "Panamá"),
+    ("panamá", "Panamá"),
+    ("costa rica", "Costa Rica"),
+    ("guatemala", "Guatemala"),
+    ("honduras", "Honduras"),
+    ("el salvador", "El Salvador"),
+    ("nicaragua", "Nicaragua"),
+    ("republica dominicana", "República Dominicana"),
+    ("república dominicana", "República Dominicana"),
 ]
 
 INTENT_PRIORITY = [
+    "saludo_simple",
+    "pais_latam",
+    "intencion_compra",
     "charla_basica",
     "saludo",
     "tipo_de_preguntas_que_responde",
@@ -408,13 +411,57 @@ INTENT_PRIORITY = [
 ]
 
 BUY_INTENT_KEYWORDS = {
+    "quiero comprar",
+    "como compro",
+    "cómo compro",
+    "donde compro",
+    "dónde compro",
     "me interesa",
     "quiero esto",
+    "quiero empezar",
+    "quiero tenerlo",
     "quiero sumarlo",
     "quiero para mi tienda",
+    "quiero implementarlo",
     "quiero instalarlo",
     "quiero avanzar",
     "quiero contratar",
+    "como lo contrato",
+    "cómo lo contrato",
+}
+
+SIMPLE_GREETING_KEYWORDS = {
+    "hola",
+    "hola como estas",
+    "hola como estas?",
+    "hola como estas ?",
+    "hola, como estas",
+    "hola, como estas?",
+    "como estas",
+    "como estas?",
+    "todo bien",
+    "todo bien?",
+    "buenas",
+    "buen dia",
+    "buen dia?",
+    "buenos dias",
+    "buenas tardes",
+}
+
+COUNTRY_INTENT_PREFIXES = {
+    "funciona en",
+    "sirve en",
+    "se puede usar en",
+    "trabajan con",
+    "se puede implementar en",
+    "funciona",
+    "sirve para",
+    "sirve",
+    "se puede usar desde",
+    "atienden tiendas en",
+    "desde",
+    "implementar en",
+    "usar en",
 }
 
 PRICING_INTENT_KEYWORDS = {
@@ -604,6 +651,12 @@ def build_location_shipping_reply(location: str) -> str:
 
 def build_international_reply(country: str | None = None) -> str:
     place = country or "tu país"
+    if place == "Argentina":
+        return (
+            "Sí, también podemos implementar Nivora en Argentina 👍\n\n"
+            "La idea es adaptarlo a tu tienda para que responda con criterio y acompañe mejor la compra desde el primer día.\n\n"
+            f"Si querés, escribinos a {SUPPORT_EMAIL} y te contamos cómo sería la implementación según tu caso."
+        )
     return (
         f"Sí, también podemos implementar Nivora en {place} 👍\n\n"
         f"Si estás fuera de Argentina, escribinos por mail a {SUPPORT_EMAIL} y te contamos cómo sería la implementación según tu caso y tu tienda.\n\n"
@@ -611,10 +664,60 @@ def build_international_reply(country: str | None = None) -> str:
     )
 
 
+def is_simple_greeting(text: str) -> bool:
+    if text in {normalize_text(keyword) for keyword in SIMPLE_GREETING_KEYWORDS}:
+        return True
+    if text.startswith("hola ") and contains_any(text, {"como estas", "todo bien"}):
+        return True
+    return False
+
+
+def is_buy_intent(text: str) -> bool:
+    return contains_any(text, BUY_INTENT_KEYWORDS)
+
+
+def is_country_intent(text: str, country: str | None) -> bool:
+    if not country:
+        return False
+
+    country_norm = normalize_text(country)
+    if text == country_norm:
+        return True
+
+    if any(f"{prefix} {country_norm}" in text for prefix in COUNTRY_INTENT_PREFIXES):
+        return True
+
+    if country_norm in text and any(
+        cue in text
+        for cue in {
+            "funciona",
+            "sirve",
+            "implementar",
+            "implementacion",
+            "usar",
+            "trabajan",
+            "atienden",
+            "desde",
+        }
+    ):
+        return True
+
+    return False
+
+
 def detect_intent(message: str) -> tuple[str, str, str | None]:
     text = normalize_text(message)
     location = find_argentina_location(text)
     country = find_international_country(text)
+
+    if is_simple_greeting(text):
+        return "saludo_simple", "alta", None
+
+    if is_country_intent(text, country):
+        return "pais_latam", "alta", country
+
+    if is_buy_intent(text):
+        return "intencion_compra", "alta", None
 
     charla_basica_keywords = {
         "como estas",
@@ -885,6 +988,23 @@ def find_best_faq(message: str) -> FAQ | None:
 
 
 def generate_response(intent: str, location: str | None = None) -> tuple[str, List[str]]:
+    if intent == "saludo_simple":
+        return (
+            "¡Hola! Bien, gracias por preguntar 😊\n\n"
+            "Estoy para ayudarte con Nivora.\n"
+            "Si querés, te cuento cómo funciona, cuánto cuesta o cómo sería para tu tienda."
+        ), default_suggestions()
+
+    if intent == "pais_latam":
+        return build_international_reply(location), ["¿Cómo funciona en una tienda?"]
+
+    if intent == "intencion_compra":
+        return (
+            "¡Genial! El siguiente paso es elegir el plan que mejor encaje con tu tienda.\n\n"
+            "Después vas a completar un breve formulario con información sobre tu negocio, tus productos y cómo querés que responda el asistente.\n\n"
+            "Con eso ya pasamos a la implementación para dejar Nivora adaptado a tu tienda."
+        ), ["¿Cuánto cuesta?"]
+
     if intent == "charla_basica":
         return "¡Muy bien! 😊\n\nGracias por preguntar. ¿En qué te puedo ayudar hoy?", default_suggestions()
 
@@ -959,12 +1079,15 @@ def generate_response(intent: str, location: str | None = None) -> tuple[str, Li
 
 
 def build_reply(message: str) -> tuple[str, List[str]]:
+    intent, confidence, location = detect_intent(message)
+    print("INTENT:", intent, "CONFIDENCE:", confidence, "LOCATION:", location)
+
+    if intent in {"saludo_simple", "pais_latam", "intencion_compra"} and confidence != "baja":
+        return generate_response(intent, location)
+
     faq = find_best_faq(message)
     if faq:
         return faq.answer, single_follow_up(faq.follow_ups)
-
-    intent, confidence, location = detect_intent(message)
-    print("INTENT:", intent, "CONFIDENCE:", confidence, "LOCATION:", location)
 
     if confidence == "baja":
         return generate_response("desconocido")
