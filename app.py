@@ -1606,10 +1606,18 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
     quickRepliesEl.innerHTML = '';
     (items || []).forEach((item) => {
       const btn = document.createElement('button');
+      btn.type = 'button';
       btn.textContent = item;
       btn.onclick = () => sendMessage(item);
       quickRepliesEl.appendChild(btn);
     });
+  }
+
+  function getSingleFollowUp() {
+    if (config && config.single_follow_up) {
+      return config.single_follow_up;
+    }
+    return '¿Cómo funciona en una tienda?';
   }
 
   let config = null;
@@ -1635,7 +1643,8 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
   }
 
   async function sendMessage(message) {
-    const text = (message ?? inputEl.value).trim();
+    const rawText = message !== undefined && message !== null ? message : inputEl.value;
+    const text = String(rawText).trim();
     if (!text) return;
     addMessage(text, 'user');
     inputEl.value = '';
@@ -1648,10 +1657,10 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
       });
       const data = await res.json();
       addMessage(data.reply || 'Hubo un error al responder.', 'bot');
-      renderQuickReplies((data.suggestions || []).length ? data.suggestions : [config?.single_follow_up || '¿Cómo funciona en una tienda?']);
+      renderQuickReplies((data.suggestions || []).length ? data.suggestions : [getSingleFollowUp()]);
     } catch (err) {
       addMessage('Hubo un problema al responder. Intentá de nuevo en unos segundos.', 'bot');
-      renderQuickReplies([config?.single_follow_up || '¿Cómo funciona en una tienda?']);
+      renderQuickReplies([getSingleFollowUp()]);
     }
   }
 
