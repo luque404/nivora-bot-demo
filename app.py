@@ -306,9 +306,50 @@ BASE_QUICK_REPLIES = ["¿Qué tipo de preguntas responde?"]
 GREETING = "Hola 👋 ¿En qué puedo ayudarte?"
 
 FALLBACK = (
-    "Puedo ayudarte con dudas como envíos, stock, uso, cambios o si el producto sirve para tu caso.\n\n"
-    f"Si preferís, también podés escribir a {SUPPORT_EMAIL}."
+    "No tengo una respuesta precisa para eso en este demo 😊\n\n"
+    "Pero puedo ayudarte con envíos, stock, uso, cambios o cómo funciona el bot."
 )
+
+ARGENTINA_LOCATIONS = [
+    ("tucuman", "Tucumán"),
+    ("cordoba", "Córdoba"),
+    ("mendoza", "Mendoza"),
+    ("santa fe", "Santa Fe"),
+    ("buenos aires", "Buenos Aires"),
+    ("salta", "Salta"),
+    ("neuquen", "Neuquén"),
+    ("misiones", "Misiones"),
+    ("chaco", "Chaco"),
+    ("corrientes", "Corrientes"),
+    ("entre rios", "Entre Ríos"),
+    ("jujuy", "Jujuy"),
+    ("san juan", "San Juan"),
+    ("san luis", "San Luis"),
+    ("la pampa", "La Pampa"),
+    ("rio negro", "Río Negro"),
+    ("santiago del estero", "Santiago del Estero"),
+    ("formosa", "Formosa"),
+    ("catamarca", "Catamarca"),
+    ("la rioja", "La Rioja"),
+    ("chubut", "Chubut"),
+    ("santa cruz", "Santa Cruz"),
+    ("tierra del fuego", "Tierra del Fuego"),
+]
+
+INTENT_PRIORITY = [
+    "charla_basica",
+    "saludo",
+    "implementacion_nivora",
+    "envio_por_ubicacion",
+    "envio_general",
+    "precio",
+    "stock",
+    "uso",
+    "cambios",
+    "personalizacion_bot",
+    "agradecimiento",
+    "desconocido",
+]
 
 BUY_INTENT_KEYWORDS = {
     "me interesa",
@@ -469,12 +510,197 @@ def contains_any(text: str, keywords: set[str]) -> bool:
     return any(normalize_text(keyword) in text for keyword in keywords)
 
 
-def has_pricing_intent(text: str) -> bool:
-    return contains_any(text, PRICING_INTENT_KEYWORDS)
+def exact_match(text: str, keywords: set[str]) -> bool:
+    return any(normalize_text(keyword) == text for keyword in keywords)
 
 
-def has_timing_intent(text: str) -> bool:
-    return contains_any(text, TIMING_INTENT_KEYWORDS)
+def count_matches(text: str, keywords: set[str] | list[str]) -> int:
+    return sum(1 for keyword in keywords if normalize_text(keyword) in text)
+
+
+def find_argentina_location(text: str) -> str | None:
+    for normalized_name, display_name in ARGENTINA_LOCATIONS:
+        if normalized_name in text:
+            return display_name
+    return None
+
+
+def confidence_label(score: int) -> str:
+    if score >= 2:
+        return "alta"
+    if score == 1:
+        return "media"
+    return "baja"
+
+
+def build_location_shipping_reply(location: str) -> str:
+    return (
+        f"A {location} el envío suele tardar entre 3 y 7 días hábiles 👍\n\n"
+        "Puede variar un poco según la zona exacta y el correo, pero normalmente se maneja dentro de ese plazo."
+    )
+
+
+def detect_intent(message: str) -> tuple[str, str, str | None]:
+    text = normalize_text(message)
+    location = find_argentina_location(text)
+
+    charla_basica_keywords = {
+        "como estas",
+        "que tal",
+        "todo bien",
+        "como va",
+    }
+    saludo_keywords = {
+        "hola",
+        "holaa",
+        "buenas",
+        "buen dia",
+        "buenos dias",
+        "buenas tardes",
+        "buenas noches",
+        "hello",
+        "hi",
+    }
+    implementacion_keywords = {
+        "instalarse",
+        "integrarse",
+        "configurarse",
+        "implementarse",
+        "dejarlo funcionando",
+        "implementacion",
+        "integracion",
+        "configuracion",
+    }
+    envio_general_keywords = {
+        "envio",
+        "llega",
+        "demora",
+        "tarda",
+        "despacho",
+        "entrega",
+        "correo",
+    }
+    precio_keywords = {
+        "precio",
+        "precios",
+        "cuanto sale",
+        "cuanto vale",
+        "cuanto cuesta",
+        "sale",
+        "vale",
+        "cuesta",
+        "plan",
+        "planes",
+    }
+    stock_keywords = {"stock", "disponible", "hay stock", "tenes stock"}
+    uso_keywords = {
+        "como se usa",
+        "uso",
+        "usar",
+        "aplicar",
+        "aplicacion",
+        "sirve para mi caso",
+        "sirve para mi",
+    }
+    cambios_keywords = {
+        "cambio",
+        "cambios",
+        "devolucion",
+        "devolver",
+        "cambiar",
+    }
+    personalizacion_keywords = {
+        "tono",
+        "personalidad",
+        "personalizar",
+        "adaptar",
+        "forma de responder",
+        "estilo de respuesta",
+        "como responde el bot",
+        "como funciona el bot",
+    }
+    agradecimiento_keywords = {
+        "gracias",
+        "genial",
+        "joya",
+        "dale",
+        "ok",
+        "okay",
+    }
+
+    for intent in INTENT_PRIORITY:
+        if intent == "charla_basica":
+            score = count_matches(text, charla_basica_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
+        if intent == "saludo":
+            score = 2 if exact_match(text, saludo_keywords) else 0
+            if score:
+                return intent, confidence_label(score), None
+
+        if intent == "implementacion_nivora":
+            score = count_matches(text, implementacion_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
+        if intent == "envio_por_ubicacion" and location:
+            score = count_matches(text, envio_general_keywords)
+            if text == normalize_text(location):
+                score += 1
+            if text == f"a {normalize_text(location)}":
+                score += 1
+            if any(
+                phrase in text
+                for phrase in {
+                    f"envio {normalize_text(location)}",
+                    f"envio a {normalize_text(location)}",
+                    f"llega a {normalize_text(location)}",
+                    f"demora a {normalize_text(location)}",
+                    f"tarda a {normalize_text(location)}",
+                    f"y a {normalize_text(location)}",
+                }
+            ):
+                score += 1
+            if score:
+                return intent, confidence_label(score), location
+
+        if intent == "envio_general":
+            score = count_matches(text, envio_general_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
+        if intent == "precio":
+            score = count_matches(text, precio_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
+        if intent == "stock":
+            score = count_matches(text, stock_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
+        if intent == "uso":
+            score = count_matches(text, uso_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
+        if intent == "cambios":
+            score = count_matches(text, cambios_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
+        if intent == "personalizacion_bot":
+            score = count_matches(text, personalizacion_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
+        if intent == "agradecimiento":
+            score = 2 if exact_match(text, agradecimiento_keywords) else 0
+            if score:
+                return intent, confidence_label(score), None
+
+    return "desconocido", "baja", None
 
 
 def get_faq(key: str) -> FAQ | None:
@@ -501,88 +727,67 @@ def find_best_faq(message: str) -> FAQ | None:
     return best_faq if best_score > 0 else None
 
 
-def build_reply(message: str) -> tuple[str, List[str]]:
-    msg = normalize_text(message)
+def generate_response(intent: str, location: str | None = None) -> tuple[str, List[str]]:
+    if intent == "charla_basica":
+        return "¡Muy bien! 😊\n\nGracias por preguntar. ¿En qué te puedo ayudar hoy?", default_suggestions()
 
-    if any(keyword in msg for keyword in {"precio", "cuesta", "vale", "sale", "plan", "planes", "costo"}):
+    if intent == "saludo":
+        return "¡Hola! 👋\n\nAcá estoy para ayudarte. ¿Qué querés consultar?", default_suggestions()
+
+    if intent == "implementacion_nivora":
         return (
-            "El valor depende del nivel de personalización que necesite tu tienda.\n\n"
-            "Trabajamos con planes simples que se adaptan a cada negocio.\n\n"
-            "Además, ofrecemos una garantía de 7 días: si dentro de ese período no te resulta útil, podés solicitar la devolución.\n\n"
-            "Si querés, podemos orientarte con la opción más adecuada según tu caso."
-        ), ["¿Tiene garantía?"]
+            "La implementación suele tardar entre 24 y 72 horas 👍\n\n"
+            "Depende del plan elegido y de la complejidad de tu tienda, pero la idea es dejarlo funcionando lo antes posible."
+        ), ["Precio"]
 
-    if msg in {"hola", "buenas", "buen dia", "buenos dias", "buenas tardes", "buenas noches"}:
-        return GREETING, default_suggestions()
+    if intent == "envio_por_ubicacion" and location:
+        return build_location_shipping_reply(location), ["¿Tenés stock?"]
 
-    for faq_key in ["envio_simple", "stock_simple", "uso_simple", "cambios_simple", "caso_simple"]:
-        faq = get_faq(faq_key)
-        if faq and any(normalize_text(keyword) in msg for keyword in faq.keywords):
+    if intent == "envio_general":
+        faq = get_faq("envio_simple")
+        if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
-    if contains_any(msg, BUY_INTENT_KEYWORDS):
+    if intent == "precio":
         return (
-            "Tiene sentido evaluarlo para tu tienda.\n\n"
-            "Lo más útil en este punto es revisar qué tipo de consultas querés automatizar y cómo encajaría Nivora en tu ecommerce.\n\n"
-            f"Si querés avanzar por contacto directo, podés escribirnos a {SUPPORT_EMAIL}."
-        ), ["Quiero una demo"]
+            "Podés ver todos los precios en la pestaña 'Precios' 👍\n\n"
+            "Ahí vas a encontrar los planes disponibles para elegir el que mejor se adapte a tu tienda y a lo que necesitás hoy."
+        ), ["Precios"]
 
-    if has_pricing_intent(msg):
-        faq = get_faq("precio")
+    if intent == "stock":
+        faq = get_faq("stock_simple")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
-    if has_timing_intent(msg):
-        faq = get_faq("tiempo_implementacion")
+    if intent == "uso":
+        faq = get_faq("uso_simple")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
-    if contains_any(msg, GUARANTEE_INTENT_KEYWORDS):
-        faq = get_faq("garantia")
+    if intent == "cambios":
+        faq = get_faq("cambios_simple")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
-    if contains_any(msg, INSTALL_INTENT_KEYWORDS):
-        faq = get_faq("instalacion")
+    if intent == "personalizacion_bot":
+        faq = get_faq("personalizacion_tono")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
-    if contains_any(msg, SHOPIFY_INTENT_KEYWORDS):
-        faq = get_faq("shopify")
-        if faq:
-            return faq.answer, single_follow_up(faq.follow_ups)
-
-    if contains_any(msg, CUSTOMIZATION_INTENT_KEYWORDS):
-        faq = get_faq("adaptacion")
-        if faq:
-            return faq.answer, single_follow_up(faq.follow_ups)
-
-    if contains_any(msg, AI_INTENT_KEYWORDS):
-        faq = get_faq("ia")
-        if faq:
-            return faq.answer, single_follow_up(faq.follow_ups)
-
-    if contains_any(msg, TECHNICAL_OBJECTION_KEYWORDS):
-        faq = get_faq("programar")
-        if faq:
-            return faq.answer, single_follow_up(faq.follow_ups)
-
-    if contains_any(msg, DEMO_INTENT_KEYWORDS):
-        faq = get_faq("demo")
-        if faq:
-            return faq.answer, single_follow_up(faq.follow_ups)
-
-    if contains_any(msg, CONTACT_INTENT_KEYWORDS):
-        return (
-            "Por supuesto.\n\n"
-            f"Podés escribirnos a {SUPPORT_EMAIL} y seguimos por ahí con tu caso. Si preferís, antes también puedo orientarte sobre instalación, beneficios, Shopify o adaptación a tu negocio."
-        ), ["¿Se instala en Shopify?"]
-
-    faq = find_best_faq(message)
-    if faq:
-        return faq.answer, single_follow_up(faq.follow_ups)
+    if intent == "agradecimiento":
+        return "¡De nada! 😊\n\nSi querés, podés preguntarme otra cosa.", default_suggestions()
 
     return FALLBACK, single_follow_up(default_suggestions())
+
+
+def build_reply(message: str) -> tuple[str, List[str]]:
+    intent, confidence, location = detect_intent(message)
+    print("INTENT:", intent, "CONFIDENCE:", confidence, "LOCATION:", location)
+
+    if confidence == "baja":
+        return generate_response("desconocido")
+
+    return generate_response(intent, location)
 
 
 @app.get("/")
@@ -593,6 +798,14 @@ def home():
 @app.get("/health")
 def health():
     return jsonify({"ok": True, "service": BRAND_NAME})
+
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    response.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
+    return response
 
 
 @app.get("/config")
@@ -609,8 +822,11 @@ def config():
     )
 
 
-@app.post("/chat")
+@app.route("/chat", methods=["POST", "OPTIONS"])
 def chat():
+    if request.method == "OPTIONS":
+        return Response(status=204)
+
     data = request.get_json(silent=True) or {}
     message = str(data.get("message", "")).strip()
 
