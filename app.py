@@ -1040,6 +1040,11 @@ def widget_js():
     return Response(script, mimetype="application/javascript")
 
 
+@app.get("/widget-frame.js")
+def widget_frame_js():
+    return Response(WIDGET_FRAME_JS, mimetype="application/javascript")
+
+
 HOME_HTML = """
 <!doctype html>
 <html lang="es">
@@ -1590,36 +1595,43 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
     </div>
   </div>
 
-<script>
+<script src="/widget-frame.js" defer></script>
+</body>
+</html>
+"""
+
+
+WIDGET_FRAME_JS = r"""
+(function () {
+  if (window.__NIVORA_WIDGET_FRAME_READY__) return;
+  window.__NIVORA_WIDGET_FRAME_READY__ = true;
+
   function initWidget() {
-    const messagesEl = document.getElementById('messages');
-    const quickRepliesEl = document.getElementById('quickReplies');
-    const inputEl = document.getElementById('messageInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const closeBtn = document.getElementById('closeBtn');
+    var messagesEl = document.getElementById('messages');
+    var quickRepliesEl = document.getElementById('quickReplies');
+    var inputEl = document.getElementById('messageInput');
+    var sendBtn = document.getElementById('sendBtn');
+    var closeBtn = document.getElementById('closeBtn');
 
     if (!messagesEl || !quickRepliesEl || !inputEl || !sendBtn || !closeBtn) {
       console.error('[nivora-widget] Missing required DOM nodes');
       return;
     }
 
-    let config = null;
-    let isSending = false;
-    const fallbackGreeting = "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.";
-    const fallbackQuickReplies = [
+    var config = null;
+    var isSending = false;
+    var fallbackGreeting = "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.";
+    var fallbackQuickReplies = [
       "¿Cómo funciona en una tienda?",
       "¿Cuánto cuesta?",
-      "¿Sirve para mi negocio?",
+      "¿Sirve para mi negocio?"
     ];
 
-    function addMessage(text, who) {
-      const el = document.createElement('div');
-      el.className = 'msg ' + who;
-      el.textContent = text;
-      messagesEl.appendChild(el);
-      requestAnimationFrame(function () {
+    function scrollToMessage(el, who) {
+      window.requestAnimationFrame(function () {
+        if (!messagesEl) return;
         if (who === 'bot') {
-          const targetTop = Math.max(0, el.offsetTop - 8);
+          var targetTop = Math.max(0, el.offsetTop - 8);
           messagesEl.scrollTo({ top: targetTop, behavior: 'smooth' });
         } else {
           messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
@@ -1627,10 +1639,18 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
       });
     }
 
+    function addMessage(text, who) {
+      var el = document.createElement('div');
+      el.className = 'msg ' + who;
+      el.textContent = text;
+      messagesEl.appendChild(el);
+      scrollToMessage(el, who);
+    }
+
     function renderQuickReplies(items) {
       quickRepliesEl.innerHTML = '';
       (items || []).forEach(function (item) {
-        const btn = document.createElement('button');
+        var btn = document.createElement('button');
         btn.type = 'button';
         btn.textContent = item;
         btn.addEventListener('click', function () {
@@ -1649,7 +1669,7 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
 
     async function loadConfig() {
       try {
-        const res = await fetch('/config');
+        var res = await fetch('/config');
         config = await res.json();
         messagesEl.innerHTML = '';
         renderQuickReplies(config.quick_replies || fallbackQuickReplies);
@@ -1663,8 +1683,8 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
     }
 
     async function sendMessage(message) {
-      const rawText = message !== undefined && message !== null ? message : inputEl.value;
-      const text = String(rawText).trim();
+      var rawText = message !== undefined && message !== null ? message : inputEl.value;
+      var text = String(rawText).trim();
       if (!text || isSending) return;
 
       isSending = true;
@@ -1672,12 +1692,12 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
       inputEl.value = '';
 
       try {
-        const res = await fetch('/chat', {
+        var res = await fetch('/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message: text })
         });
-        const data = await res.json();
+        var data = await res.json();
         addMessage(data.reply || 'Hubo un error al responder.', 'bot');
         renderQuickReplies((data.suggestions || []).length ? data.suggestions : [getSingleFollowUp()]);
       } catch (err) {
@@ -1716,9 +1736,7 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
   } else {
     initWidget();
   }
-</script>
-</body>
-</html>
+})();
 """
 
 
