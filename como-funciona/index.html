@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nivora | Cómo funciona</title>
+  <meta
+    name="description"
+    content="Probá en vivo cómo responde Nivora dentro de una tienda online."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="icon" type="image/png" href="../Public/nivora-icon.png">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="como-funciona">
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="ambient ambient-three"></div>
+
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="container nav">
+        <a href="../" class="brand">
+          <img class="brand-logo" src="../Public/nivora-logo.png" alt="Nivora">
+        </a>
+        <nav class="nav-links">
+          <a href="../index.html">Inicio</a>
+          <a href="./" aria-current="page">Cómo funciona</a>
+          <a href="../precios/index.html">Precios</a>
+          <a href="../sobre-nivora/index.html">Sobre Nivora</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section-page-pricing demo-page">
+        <div class="container demo-page-shell">
+          <div class="demo-embed-panel glass reveal">
+            <div class="demo-chat-app" data-demo-chat data-demo-api="https://nivora-bot-demo-production.up.railway.app">
+              <div class="demo-chat-header">
+                <div class="demo-chat-heading">
+                  <strong>Asistente</strong>
+                  <span>En línea</span>
+                </div>
+              </div>
+
+              <div class="demo-chat-messages" data-demo-messages>
+                <div class="demo-msg demo-msg-bot">Hola 👋 ¿En qué puedo ayudarte?</div>
+              </div>
+
+              <div class="demo-chat-quick" data-demo-quick>
+                <button type="button">¿Qué tipo de preguntas responde?</button>
+                <button type="button">¿Cuánto tarda el envío?</button>
+                <button type="button">¿Sirve para mi caso?</button>
+              </div>
+
+              <form class="demo-chat-input" data-demo-form>
+                <input type="text" data-demo-input placeholder="Escribí tu consulta..." />
+                <button type="submit">Enviar</button>
+              </form>
+              <div class="demo-chat-footer-note">
+                Atención personalizada: <a href="mailto:hola@nivora.ai">hola@nivora.ai</a>
+              </div>
+            </div>
+          </div>
+
+          <p class="demo-caption reveal">Esto es lo que ve tu cliente cuando tiene una duda.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+</html>
