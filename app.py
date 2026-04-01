@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import re
+from html import escape
 from dataclasses import dataclass, field
 from typing import List
 
@@ -1015,13 +1016,13 @@ def chat():
 
 @app.get("/widget")
 def widget():
-    return render_template_string(
-        WIDGET_HTML,
-        brand_name=BRAND_NAME,
-        primary_color=PRIMARY_COLOR,
-        secondary_color=SECONDARY_COLOR,
-        support_email=SUPPORT_EMAIL,
+    html = (
+        WIDGET_HTML.replace("__BRAND_NAME__", escape(BRAND_NAME, quote=True))
+        .replace("__PRIMARY_COLOR__", escape(PRIMARY_COLOR, quote=True))
+        .replace("__SECONDARY_COLOR__", escape(SECONDARY_COLOR, quote=True))
+        .replace("__SUPPORT_EMAIL__", escape(SUPPORT_EMAIL, quote=True))
     )
+    return Response(html, mimetype="text/html")
 
 
 @app.get("/widget.js")
@@ -1337,11 +1338,11 @@ WIDGET_HTML = """
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ brand_name }} Chat</title>
+  <title>__BRAND_NAME__ Chat</title>
   <style>
     :root {
-      --primary: {{ primary_color }};
-      --secondary: {{ secondary_color }};
+      --primary: __PRIMARY_COLOR__;
+      --secondary: __SECONDARY_COLOR__;
       --bg: #f5f7fb;
       --surface: rgba(255, 255, 255, 0.96);
       --surface-soft: rgba(248, 250, 252, 0.92);
@@ -1554,7 +1555,7 @@ WIDGET_HTML = """
   <div class="chat">
     <div class="header">
         <button id="closeBtn" class="close-btn" type="button">✕</button>
-        <div class="header-title">{{ brand_name }}</div>
+        <div class="header-title">__BRAND_NAME__</div>
         <div class="header-sub">Asistente de ventas y atención para ecommerce</div>
     </div>
 
@@ -1577,7 +1578,7 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
     </div>
 
     <div class="footer">
-      Atención personalizada: <a href="mailto:{{ support_email }}">{{ support_email }}</a>
+      Atención personalizada: <a href="mailto:__SUPPORT_EMAIL__">__SUPPORT_EMAIL__</a>
     </div>
   </div>
 
