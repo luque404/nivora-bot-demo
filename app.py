@@ -621,29 +621,272 @@ HOME_HTML = """
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ brand_name }} Bot</title>
+  <title>{{ brand_name }} Demo</title>
   <style>
-    body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:40px;background:#f8fafc;color:#0f172a}
-    .card{max-width:820px;margin:0 auto;background:white;border-radius:18px;padding:32px;box-shadow:0 10px 30px rgba(15,23,42,.08)}
-    h1{margin-top:0}
-    code{background:#e2e8f0;padding:2px 6px;border-radius:6px}
-    .demo{margin-top:18px;padding:14px 16px;background:#ecfeff;border:1px solid #a5f3fc;border-radius:12px}
+    :root{
+      --bg:#07090f;
+      --bg-2:#0d1320;
+      --panel:rgba(13,18,30,.88);
+      --line:rgba(255,255,255,.08);
+      --text:#f7f8fc;
+      --muted:#98a2b3;
+      --accent:#d6c29a;
+      --user:#131a29;
+      --bot:rgba(255,255,255,.05);
+      --shadow:0 30px 80px rgba(0,0,0,.42);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:32px 16px;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(214,194,154,.11), transparent 24%),
+        radial-gradient(circle at 82% 14%, rgba(99,102,241,.12), transparent 22%),
+        linear-gradient(180deg, #05070c 0%, #0a0d15 50%, #06080f 100%);
+      color:var(--text);
+    }
+    .demo-shell{
+      width:min(100%, 960px);
+      display:grid;
+      gap:18px;
+      justify-items:center;
+    }
+    .demo-kicker{
+      color:#e7d8b8;
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .demo-chat{
+      width:min(100%, 720px);
+      min-height:680px;
+      display:flex;
+      flex-direction:column;
+      border:1px solid var(--line);
+      border-radius:30px;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at top, rgba(214,194,154,.08), transparent 28%),
+        linear-gradient(180deg, rgba(16,21,34,.96), rgba(9,12,20,.98));
+      box-shadow:var(--shadow);
+    }
+    .demo-header{
+      padding:22px 24px 18px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    }
+    .demo-title{
+      margin:0;
+      font-size:15px;
+      font-weight:700;
+      letter-spacing:-.02em;
+    }
+    .demo-status{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top:7px;
+      color:var(--muted);
+      font-size:12.5px;
+    }
+    .demo-status::before{
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:#53d38b;
+      box-shadow:0 0 12px rgba(83,211,139,.4);
+    }
+    .demo-messages{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      padding:22px 18px 18px;
+      overflow:auto;
+    }
+    .msg{
+      max-width:82%;
+      padding:14px 16px;
+      border-radius:20px;
+      line-height:1.6;
+      font-size:14px;
+      animation:fadeUp .28s ease;
+    }
+    .msg.bot{
+      align-self:flex-start;
+      background:var(--bot);
+      border:1px solid rgba(255,255,255,.07);
+      color:var(--text);
+      border-top-left-radius:10px;
+    }
+    .msg.user{
+      align-self:flex-end;
+      background:linear-gradient(135deg, #151d2d, #1b2436);
+      border:1px solid rgba(255,255,255,.06);
+      color:#fff;
+      border-top-right-radius:10px;
+    }
+    .quick-replies{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      padding:0 18px 18px;
+    }
+    .quick-replies button{
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      color:#f4f6fb;
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:12.5px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .quick-replies button:hover{
+      transform:translateY(-1px);
+      border-color:rgba(214,194,154,.22);
+      background:rgba(255,255,255,.06);
+    }
+    .demo-input{
+      display:flex;
+      gap:10px;
+      padding:16px 18px 18px;
+      border-top:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.02);
+    }
+    .demo-input input{
+      flex:1;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:999px;
+      padding:13px 15px;
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      outline:none;
+    }
+    .demo-input input::placeholder{
+      color:var(--muted);
+    }
+    .demo-input button{
+      border:1px solid rgba(214,194,154,.24);
+      border-radius:999px;
+      padding:13px 16px;
+      background:linear-gradient(135deg, rgba(214,194,154,.95), rgba(241,232,205,.98));
+      color:#0b0d13;
+      font-weight:700;
+      cursor:pointer;
+    }
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(8px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    @media (max-width: 760px){
+      body{padding:16px 10px}
+      .demo-chat{
+        min-height:72vh;
+        border-radius:24px;
+      }
+      .msg{
+        max-width:90%;
+      }
+      .quick-replies{
+        flex-direction:column;
+      }
+      .quick-replies button,
+      .demo-input button{
+        width:100%;
+      }
+      .demo-input{
+        flex-direction:column;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>{{ brand_name }} Bot</h1>
-    <p>La app está funcionando correctamente.</p>
-    <div class="demo">
-      <strong>Endpoints:</strong><br>
-      <code>/health</code><br>
-      <code>/widget</code><br>
-      <code>/widget.js</code><br>
-      <code>/chat</code>
+  <div class="demo-shell">
+    <div class="demo-kicker">Así responde en tu tienda</div>
+
+    <div class="demo-chat">
+      <div class="demo-header">
+        <p class="demo-title">Asistente</p>
+        <div class="demo-status">En línea</div>
+      </div>
+
+      <div id="messages" class="demo-messages">
+        <div class="msg bot">Hola 👋 ¿En qué puedo ayudarte?</div>
+      </div>
+
+      <div id="quickReplies" class="quick-replies">
+        <button type="button" data-question="¿Qué tipo de preguntas responde?">¿Qué tipo de preguntas responde?</button>
+        <button type="button" data-question="¿Cuánto tarda el envío?">¿Cuánto tarda el envío?</button>
+        <button type="button" data-question="¿Sirve para mi caso?">¿Sirve para mi caso?</button>
+      </div>
+
+      <div class="demo-input">
+        <input type="text" placeholder="Escribí tu consulta..." />
+        <button type="button">Enviar</button>
+      </div>
     </div>
-    <p>Para embeberlo en Shopify, pegá este script antes de <code>&lt;/body&gt;</code>:</p>
-    <pre><code>&lt;script src="{{ request.host_url.rstrip('/') }}/widget.js" defer&gt;&lt;/script&gt;</code></pre>
   </div>
+
+  <script>
+    const messagesEl = document.getElementById("messages");
+    const quickRepliesEl = document.getElementById("quickReplies");
+
+    const replies = {
+      "¿Qué tipo de preguntas responde?":
+        "Puedo ayudarte con envíos, stock, formas de uso, cambios y dudas comunes antes de comprar.\\n\\nLa idea es que el cliente no tenga que esperar y pueda decidir en el momento 👍",
+      "¿Cuánto tarda el envío?":
+        "Una vez que hacés el pedido, el envío tarda entre 3 y 10 días hábiles dependiendo de la zona.\\n\\nSiempre te vamos informando el estado.",
+      "¿Sirve para mi caso?":
+        "Depende del tipo de producto, pero en la mayoría de los casos sí.\\n\\nSi querés, contame un poco más y te oriento mejor 👍"
+    };
+
+    const followUps = {
+      "¿Qué tipo de preguntas responde?": "¿Cuánto tarda el envío?",
+      "¿Cuánto tarda el envío?": "¿Sirve para mi caso?",
+      "¿Sirve para mi caso?": "¿Qué tipo de preguntas responde?"
+    };
+
+    function addMessage(text, who) {
+      const el = document.createElement("div");
+      el.className = "msg " + who;
+      el.textContent = text;
+      messagesEl.appendChild(el);
+      messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: "smooth" });
+    }
+
+    function renderSingleReply(question) {
+      quickRepliesEl.innerHTML = "";
+      const next = followUps[question];
+      if (!next) return;
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.dataset.question = next;
+      btn.textContent = next;
+      btn.addEventListener("click", () => handleQuestion(next));
+      quickRepliesEl.appendChild(btn);
+    }
+
+    function handleQuestion(question) {
+      addMessage(question, "user");
+      window.setTimeout(() => {
+        addMessage(replies[question], "bot");
+        renderSingleReply(question);
+      }, 260);
+    }
+
+    quickRepliesEl.querySelectorAll("button").forEach((button) => {
+      button.addEventListener("click", () => handleQuestion(button.dataset.question));
+    });
+  </script>
 </body>
 </html>
 """
@@ -970,47 +1213,116 @@ WIDGET_JS = r"""
 
   var baseUrl = "__BASE_URL__";
 
-  var button = document.createElement('button');
-  var label = document.createElement('div');
-  label.innerText = 'Ver cómo funciona';
-  label.style.position = 'fixed';
-  label.style.right = '20px';
-  label.style.bottom = '84px';
-  label.style.padding = '8px 12px';
-  label.style.borderRadius = '999px';
-  label.style.background = 'rgba(255,255,255,0.92)';
-  label.style.border = '1px solid rgba(15,23,42,0.08)';
-  label.style.backdropFilter = 'blur(12px)';
-  label.style.color = '#0f172a';
-  label.style.fontSize = '12.5px';
-  label.style.fontWeight = '600';
-  label.style.letterSpacing = '-0.01em';
-  label.style.boxShadow = '0 18px 40px rgba(15,23,42,0.14)';
-  label.style.zIndex = '999999';
-  label.style.whiteSpace = 'nowrap';
-  label.style.transform = 'translateX(4%)';
-  label.style.transition = 'transform .2s ease, box-shadow .2s ease, background .2s ease';
-  button.setAttribute('aria-label', 'Abrir chat');
-  button.innerHTML = '💬';
-  button.style.position = 'fixed';
-  button.style.right = '20px';
-  button.style.bottom = '20px';
-  button.style.width = '64px';
-  button.style.height = '64px';
-  button.style.border = '1px solid rgba(255,255,255,0.14)';
-  button.style.borderRadius = '999px';
-  button.style.background = 'linear-gradient(135deg, #111827, #1f2937 58%, #06b6d4 140%)';
-  button.style.color = '#fff';
-  button.style.fontSize = '26px';
-  button.style.cursor = 'pointer';
-  button.style.boxShadow = '0 18px 40px rgba(15,23,42,.18)';
-  button.style.zIndex = '999999';
-  button.style.transition = 'transform .2s ease, box-shadow .2s ease, filter .2s ease';
+  var style = document.createElement('style');
+  style.textContent = [
+    '@keyframes nivoraPulse {',
+    '  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.45); }',
+    '  50% { transform: scale(1.06); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }',
+    '}',
+    '@keyframes nivoraTyping {',
+    '  0%, 80%, 100% { opacity: 0.3; transform: translateY(0); }',
+    '  40% { opacity: 1; transform: translateY(-2px); }',
+    '}'
+  ].join('');
+  document.head.appendChild(style);
+
+  var launcher = document.createElement('div');
+  launcher.style.position = 'fixed';
+  launcher.style.left = '20px';
+  launcher.style.bottom = '20px';
+  launcher.style.display = 'flex';
+  launcher.style.alignItems = 'flex-end';
+  launcher.style.gap = '10px';
+  launcher.style.zIndex = '999999';
+  launcher.style.opacity = '0';
+  launcher.style.transform = 'translateY(14px)';
+  launcher.style.transition = 'opacity .45s ease, transform .45s ease';
+
+  var teaser = document.createElement('button');
+  teaser.type = 'button';
+  teaser.setAttribute('aria-label', 'Abrir chat');
+  teaser.style.display = 'flex';
+  teaser.style.flexDirection = 'column';
+  teaser.style.alignItems = 'flex-start';
+  teaser.style.gap = '8px';
+  teaser.style.maxWidth = '220px';
+  teaser.style.padding = '14px 16px';
+  teaser.style.border = '1px solid rgba(255,255,255,0.08)';
+  teaser.style.borderRadius = '22px 22px 22px 8px';
+  teaser.style.background = 'linear-gradient(180deg, rgba(18,24,38,0.96), rgba(12,16,27,0.96))';
+  teaser.style.color = '#f8fafc';
+  teaser.style.boxShadow = '0 18px 42px rgba(15,23,42,0.22)';
+  teaser.style.cursor = 'pointer';
+  teaser.style.textAlign = 'left';
+  teaser.style.backdropFilter = 'blur(14px)';
+  teaser.style.transition = 'transform .22s ease, box-shadow .22s ease, border-color .22s ease';
+
+  var typing = document.createElement('div');
+  typing.style.display = 'flex';
+  typing.style.gap = '4px';
+
+  ['0s', '.15s', '.3s'].forEach(function (delay) {
+    var dot = document.createElement('span');
+    dot.style.width = '6px';
+    dot.style.height = '6px';
+    dot.style.borderRadius = '999px';
+    dot.style.background = 'rgba(214,194,154,0.88)';
+    dot.style.animation = 'nivoraTyping 1.4s infinite';
+    dot.style.animationDelay = delay;
+    typing.appendChild(dot);
+  });
+
+  var teaserText = document.createElement('div');
+  teaserText.textContent = 'Estoy para ayudarte 👍';
+  teaserText.style.fontSize = '14px';
+  teaserText.style.fontWeight = '600';
+  teaserText.style.lineHeight = '1.45';
+  teaserText.style.letterSpacing = '-0.01em';
+
+  teaser.appendChild(typing);
+  teaser.appendChild(teaserText);
+
+  var avatar = document.createElement('button');
+  avatar.type = 'button';
+  avatar.setAttribute('aria-label', 'Abrir chat');
+  avatar.style.position = 'relative';
+  avatar.style.width = '62px';
+  avatar.style.height = '62px';
+  avatar.style.border = '1px solid rgba(255,255,255,0.14)';
+  avatar.style.borderRadius = '999px';
+  avatar.style.background = 'linear-gradient(135deg, #111827, #1f2937 58%, #5b63ff 140%)';
+  avatar.style.color = '#fff';
+  avatar.style.fontSize = '20px';
+  avatar.style.fontWeight = '700';
+  avatar.style.letterSpacing = '-0.03em';
+  avatar.style.cursor = 'pointer';
+  avatar.style.boxShadow = '0 18px 40px rgba(15,23,42,.2)';
+  avatar.style.transition = 'transform .22s ease, box-shadow .22s ease, filter .22s ease';
+  avatar.textContent = 'N';
+
+  var badge = document.createElement('span');
+  badge.textContent = '1';
+  badge.style.position = 'absolute';
+  badge.style.top = '-1px';
+  badge.style.right = '-1px';
+  badge.style.width = '22px';
+  badge.style.height = '22px';
+  badge.style.display = 'inline-flex';
+  badge.style.alignItems = 'center';
+  badge.style.justifyContent = 'center';
+  badge.style.borderRadius = '999px';
+  badge.style.background = '#ef4444';
+  badge.style.color = '#fff';
+  badge.style.fontSize = '11px';
+  badge.style.fontWeight = '700';
+  badge.style.border = '2px solid rgba(11, 13, 19, 0.92)';
+  badge.style.animation = 'nivoraPulse 2.8s ease-in-out infinite';
+  avatar.appendChild(badge);
 
   var frame = document.createElement('iframe');
   frame.src = baseUrl + '/widget';
   frame.style.position = 'fixed';
-  frame.style.right = '20px';
+  frame.style.left = '20px';
   frame.style.bottom = '92px';
   frame.style.width = '392px';
   frame.style.maxWidth = 'calc(100vw - 24px)';
@@ -1025,53 +1337,61 @@ WIDGET_JS = r"""
   frame.style.display = 'none';
 
   if (window.innerWidth <= 600) {
-    label.style.right = '16px';
-    label.style.bottom = '80px';
-    label.style.fontSize = '12px';
-    label.style.padding = '8px 11px';
-    button.style.right = '16px';
-    button.style.bottom = '16px';
-    button.style.width = '60px';
-    button.style.height = '60px';
-    frame.style.right = '12px';
+    launcher.style.left = '12px';
+    launcher.style.right = '12px';
+    launcher.style.bottom = '16px';
+    launcher.style.gap = '8px';
+    teaser.style.maxWidth = 'min(68vw, 210px)';
+    teaser.style.padding = '12px 14px';
+    teaserText.style.fontSize = '13px';
+    avatar.style.width = '58px';
+    avatar.style.height = '58px';
+    frame.style.left = '12px';
     frame.style.bottom = '84px';
     frame.style.width = 'calc(100vw - 24px)';
     frame.style.height = 'min(680px, calc(100vh - 104px))';
     frame.style.borderRadius = '22px';
   }
 
-  button.addEventListener('mouseenter', function () {
-    button.style.transform = 'translateY(-2px) scale(1.02)';
-    button.style.filter = 'brightness(1.03)';
-    button.style.boxShadow = '0 24px 52px rgba(15,23,42,.22)';
-    label.style.transform = 'translateX(4%) translateY(-1px)';
-    label.style.boxShadow = '0 22px 46px rgba(15,23,42,0.16)';
-  });
+  function setHoverState(active) {
+    teaser.style.transform = active ? 'translateY(-2px)' : 'translateY(0)';
+    teaser.style.boxShadow = active ? '0 24px 56px rgba(15,23,42,0.28)' : '0 18px 42px rgba(15,23,42,0.22)';
+    teaser.style.borderColor = active ? 'rgba(214,194,154,0.16)' : 'rgba(255,255,255,0.08)';
+    avatar.style.transform = active ? 'translateY(-2px)' : 'translateY(0)';
+    avatar.style.filter = active ? 'brightness(1.03)' : 'brightness(1)';
+    avatar.style.boxShadow = active ? '0 24px 52px rgba(15,23,42,.26)' : '0 18px 40px rgba(15,23,42,.2)';
+  }
 
-  button.addEventListener('mouseleave', function () {
-    button.style.transform = 'translateY(0)';
-    button.style.filter = 'brightness(1)';
-    button.style.boxShadow = '0 18px 40px rgba(15,23,42,.18)';
-    label.style.transform = 'translateX(4%)';
-    label.style.boxShadow = '0 18px 40px rgba(15,23,42,0.14)';
-  });
+  function toggleChat() {
+    var isOpen = frame.style.display === 'block';
+    frame.style.display = isOpen ? 'none' : 'block';
+    launcher.style.display = isOpen ? 'flex' : 'none';
+  }
 
-button.addEventListener('click', function () {
-  var isOpen = frame.style.display === 'block';
+  teaser.addEventListener('mouseenter', function () { setHoverState(true); });
+  avatar.addEventListener('mouseenter', function () { setHoverState(true); });
+  teaser.addEventListener('mouseleave', function () { setHoverState(false); });
+  avatar.addEventListener('mouseleave', function () { setHoverState(false); });
+  teaser.addEventListener('click', toggleChat);
+  avatar.addEventListener('click', toggleChat);
 
-  frame.style.display = isOpen ? 'none' : 'block';
-  label.style.display = isOpen ? 'block' : 'none';
-});
+  launcher.appendChild(teaser);
+  launcher.appendChild(avatar);
 
   document.body.appendChild(frame);
-  document.body.appendChild(button);
-  document.body.appendChild(label);
+  document.body.appendChild(launcher);
+
+  window.setTimeout(function () {
+    launcher.style.opacity = '1';
+    launcher.style.transform = 'translateY(0)';
+  }, 1500);
 
   window.addEventListener('message', function (event) {
     if (event.data === 'closeChat') {
       frame.style.display = 'none';
+      launcher.style.display = 'flex';
     }
-});
+  });
 })();
 """
 
