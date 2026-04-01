@@ -588,7 +588,7 @@ def build_international_reply(country: str | None = None) -> str:
     place = country or "tu país"
     return (
         f"Sí, también podemos implementar Nivora en {place} 👍\n\n"
-        "Si estás fuera de Argentina, escribinos por mail y te contamos cómo sería la implementación según tu caso y tu tienda.\n\n"
+        f"Si estás fuera de Argentina, escribinos por mail a {SUPPORT_EMAIL} y te contamos cómo sería la implementación según tu caso y tu tienda.\n\n"
         "La idea es encontrar la mejor forma de adaptarlo para que también te funcione bien desde allá."
     )
 
@@ -897,7 +897,7 @@ def generate_response(intent: str, location: str | None = None) -> tuple[str, Li
         ), ["Precios"]
 
     if intent == "consultas_internacionales":
-        return build_international_reply(location), ["Hablar por WhatsApp"]
+        return build_international_reply(location), []
 
     if intent == "funciona_realmente":
         return (
