@@ -33,35 +33,50 @@ FAQS: List[FAQ] = [
     FAQ(
         key="envio_simple",
         title="¿Cuánto tarda el envío?",
-        answer="El envío suele tardar entre 3 y 7 días hábiles.",
+        answer=(
+            "El envío suele tardar entre 3 y 7 días hábiles 👍\n\n"
+            "Si hacés el pedido hoy, ya entra en el próximo despacho, así que podés comprar tranquilo."
+        ),
         keywords=["cuanto tarda el envio", "cuánto tarda el envío", "cuando llega", "cuándo llega", "envio", "envío", "llega"],
         follow_ups=["¿Tenés stock?"],
     ),
     FAQ(
         key="stock_simple",
         title="¿Tenés stock?",
-        answer="Sí, en este momento hay stock disponible para comprar.",
+        answer=(
+            "Sí, en este momento hay stock disponible 👍\n\n"
+            "Si querés aprovechar, podés comprar tranquilo ahora."
+        ),
         keywords=["tenes stock", "tenés stock", "hay stock", "stock", "disponible"],
         follow_ups=["¿Cómo se usa?"],
     ),
     FAQ(
         key="uso_simple",
         title="¿Cómo se usa?",
-        answer="Es muy simple de usar, no necesitás experiencia previa.",
+        answer=(
+            "Es muy simple de usar 😊\n\n"
+            "No necesitás experiencia previa para aprovecharlo desde el primer momento."
+        ),
         keywords=["como se usa", "cómo se usa", "uso", "es facil de usar", "es fácil de usar"],
         follow_ups=["¿Hacen cambios?"],
     ),
     FAQ(
         key="cambios_simple",
         title="¿Hacen cambios?",
-        answer="Sí, podés hacer cambios si lo necesitás.",
+        answer=(
+            "Sí, podés hacer cambios si lo necesitás 👍\n\n"
+            "La idea es que compres con tranquilidad."
+        ),
         keywords=["hacen cambios", "puedo cambiar", "cambios", "cambio"],
         follow_ups=["¿Sirve para mi caso?"],
     ),
     FAQ(
         key="caso_simple",
         title="¿Sirve para mi caso?",
-        answer="Depende del caso, pero en la mayoría de situaciones funciona muy bien.",
+        answer=(
+            "Depende del caso, pero en la mayoría de situaciones funciona muy bien 😊\n\n"
+            "Si querés, contame un poco más y te oriento mejor."
+        ),
         keywords=["sirve para mi caso", "sirve para mi", "sirve para este caso", "me sirve", "sirve"],
         follow_ups=["¿Qué tipo de preguntas responde?"],
     ),
@@ -81,8 +96,8 @@ FAQS: List[FAQ] = [
         key="preguntas",
         title="¿Qué tipo de preguntas responde?",
         answer=(
-            "Puede responder preguntas como envíos, stock, uso, cambios o si el producto sirve para tu caso. "
-            "Está pensado para resolver dudas reales y ayudar a que la compra avance."
+            "Puedo ayudarte con envíos, stock, cómo se usa el producto, cambios o cualquier duda antes de comprar 😊\n\n"
+            "La idea es que puedas resolver todo en el momento y decidir con tranquilidad 😊"
         ),
         keywords=["que preguntas responde", "qué preguntas responde", "que puede responder", "preguntas frecuentes", "faq", "consultas responde", "responde preguntas"],
         follow_ups=["¿Cuánto tarda el envío?"],
@@ -150,24 +165,35 @@ FAQS: List[FAQ] = [
         key="adaptacion",
         title="¿Se puede adaptar a mi negocio?",
         answer=(
-            "Sí, se puede adaptar a todo tipo de tiendas.\n\n"
-            "El asistente se configura en función de tu tipo de producto, tu forma de vender y las consultas reales que recibís de tus clientes.\n\n"
-            "La idea es que funcione como una herramienta útil, clara y alineada con tu negocio, no como algo genérico."
+            "Sí, se puede adaptar a todo tipo de tiendas 👍\n\n"
+            "El asistente se configura según tu tipo de producto, tu forma de vender y las consultas reales que recibís.\n\n"
+            "La idea es que se sienta útil, claro y alineado con tu negocio desde el primer día."
         ),
         keywords=["se puede adaptar", "adaptar a mi negocio", "mi negocio", "personalizar", "personalizado", "custom", "customizar", "marca", "tono"],
         follow_ups=["¿Qué beneficios tiene?", "¿Qué pasa si quiero cambiar respuestas después?"],
+    ),
+    FAQ(
+        key="personalizacion_tono",
+        title="¿Se puede personalizar cómo responde el bot?",
+        answer=(
+            "Sí, totalmente 👍\n\n"
+            "El bot se adapta al estilo de tu tienda: más formal, más cercano o más vendedor, según lo que necesites.\n\n"
+            "La idea es que acompañe a tus clientes y los ayude a decidir, manteniendo tu forma de comunicar."
+        ),
+        keywords=["tono", "personalidad", "forma de responder", "mas amable", "más amable", "adaptar", "personalizado", "personalizar", "como responde", "cómo responde"],
+        follow_ups=["¿Se puede adaptar a mi negocio?", "¿Qué tipo de preguntas responde?"],
     ),
     FAQ(
         key="beneficios",
         title="¿Qué beneficios tiene?",
         answer=(
             "Los beneficios más claros suelen ser estos:\n\n"
-            "• responde preguntas automáticamente las 24 horas\n"
-            "• reduce fricción antes de la compra\n"
+            "• responde consultas al instante\n"
+            "• reduce fricción antes de comprar\n"
             "• baja la carga manual del equipo\n"
-            "• mejora la experiencia del cliente\n"
-            "• ayuda a recuperar ventas que se pierden por demora o falta de respuesta\n\n"
-            "En resumen: más claridad para quien compra y menos esfuerzo para tu negocio."
+            "• acompaña mejor al cliente\n"
+            "• ayuda a recuperar ventas que hoy se pierden por demora\n\n"
+            "En resumen: más claridad para quien compra y menos esfuerzo para tu negocio 👍"
         ),
         keywords=["beneficios", "ventajas", "para que sirve", "para qué sirve", "que gano", "qué gano", "vale la pena", "retorno"],
         follow_ups=["¿Vale la pena?", "¿Se puede adaptar a mi negocio?"],
@@ -198,9 +224,9 @@ FAQS: List[FAQ] = [
         key="sirve_para_mi_tienda",
         title="¿Sirve para mi tienda?",
         answer=(
-            "Sí, se puede adaptar a todo tipo de tiendas.\n\n"
-            "El asistente se configura en función de tu tipo de producto, tu forma de vender y las consultas reales que recibís de tus clientes.\n\n"
-            "La idea es que funcione como una herramienta útil, clara y alineada con tu negocio, no como algo genérico."
+            "Sí, se puede adaptar a todo tipo de tiendas 👍\n\n"
+            "Se configura según lo que vendés, cómo atendés y las dudas reales que suelen aparecer antes de comprar.\n\n"
+            "La idea es que se sienta natural para tu marca y útil para tus clientes."
         ),
         keywords=["sirve para mi tienda", "sirve para mi ecommerce", "me sirve", "aplica para mi tienda", "funciona con mi tienda"],
         follow_ups=["¿Qué beneficios tiene?", "¿Es difícil de instalar?"],
