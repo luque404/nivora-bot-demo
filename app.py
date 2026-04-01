@@ -32,43 +32,45 @@ class FAQ:
 FAQS: List[FAQ] = [
     FAQ(
         key="envio_simple",
-        title="¿Cuánto tarda el envío?",
+        title="¿Cuánto tarda la implementación?",
         answer=(
-            "El envío suele tardar entre 3 y 7 días hábiles 👍\n\n"
-            "Si hacés el pedido hoy, ya entra en el próximo despacho, así que podés comprar tranquilo."
+            "La implementación suele tardar entre 24 y 72 horas 👍\n\n"
+            "Depende del plan elegido y de la complejidad de tu tienda, pero la idea es dejarlo funcionando lo antes posible para que puedas empezar a usarlo sin demoras.\n\n"
+            "Si querés, también podés ver qué plan se adapta mejor a tu tienda en la pestaña Precios."
         ),
-        keywords=["cuanto tarda el envio", "cuánto tarda el envío", "cuando llega", "cuándo llega", "envio", "envío", "llega"],
-        follow_ups=["¿Tenés stock?"],
+        keywords=["cuanto tarda", "cuánto tarda", "cuanto demora", "cuánto demora", "en cuanto tiempo esta", "en cuánto tiempo está", "implementacion", "activacion", "integracion"],
+        follow_ups=["Precios"],
     ),
     FAQ(
         key="stock_simple",
-        title="¿Tenés stock?",
+        title="¿Está disponible para mi tienda?",
         answer=(
-            "Sí, en este momento hay stock disponible 👍\n\n"
-            "Si querés aprovechar, podés comprar tranquilo ahora."
+            "Sí, Nivora se puede implementar sin problema 👍\n\n"
+            "La idea es adaptarlo a tu tienda para que empiece a responder con criterio y te ayude a vender mejor.\n\n"
+            "Si querés, te contamos cuál encaja mejor según tu caso."
         ),
-        keywords=["tenes stock", "tenés stock", "hay stock", "stock", "disponible"],
-        follow_ups=["¿Cómo se usa?"],
+        keywords=["tenes stock", "tenés stock", "hay stock", "stock", "disponible", "esta disponible", "está disponible", "lo puedo implementar"],
+        follow_ups=["¿Cómo funciona en una tienda?"],
     ),
     FAQ(
         key="uso_simple",
-        title="¿Cómo se usa?",
+        title="¿Cómo funciona?",
         answer=(
-            "Es muy simple de usar 😊\n\n"
-            "No necesitás experiencia previa para aprovecharlo desde el primer momento."
+            "Funciona como un asistente que responde dudas reales de tus clientes dentro de tu tienda 😊\n\n"
+            "La idea es acompañar la compra, resolver objeciones en el momento y hacer que más personas avancen sin depender de atención manual."
         ),
-        keywords=["como se usa", "cómo se usa", "uso", "es facil de usar", "es fácil de usar"],
-        follow_ups=["¿Hacen cambios?"],
+        keywords=["como se usa", "cómo se usa", "uso", "como funciona", "cómo funciona", "funcionamiento"],
+        follow_ups=["¿Qué tipo de preguntas responde?"],
     ),
     FAQ(
         key="cambios_simple",
-        title="¿Hacen cambios?",
+        title="¿Qué tipo de dudas puede resolver?",
         answer=(
-            "Sí, podés hacer cambios si lo necesitás 👍\n\n"
-            "La idea es que compres con tranquilidad."
+            "Puede resolver dudas frecuentes como implementación, planes, integración, personalización y consultas comunes que hoy suelen frenar la decisión 👍\n\n"
+            "La idea es sacar fricción en el momento justo para que la conversación avance y no se pierdan oportunidades."
         ),
-        keywords=["hacen cambios", "puedo cambiar", "cambios", "cambio"],
-        follow_ups=["¿Sirve para mi caso?"],
+        keywords=["dudas frecuentes", "que dudas resuelve", "qué dudas resuelve", "que consultas resuelve", "qué consultas resuelve"],
+        follow_ups=["¿Qué tipo de preguntas responde?"],
     ),
     FAQ(
         key="caso_simple",
@@ -96,11 +98,12 @@ FAQS: List[FAQ] = [
         key="preguntas",
         title="¿Qué tipo de preguntas responde?",
         answer=(
-            "Puedo ayudarte con envíos, stock, cómo se usa el producto, cambios o cualquier duda antes de comprar 😊\n\n"
-            "La idea es que puedas resolver todo en el momento y decidir con tranquilidad 😊"
+            "Puedo responder dudas comunes de clientes como tiempos de implementación, precios, funcionamiento, integración, personalización del bot y preguntas frecuentes que ayudan a decidir mejor.\n\n"
+            "La idea es acompañar la compra, resolver objeciones en el momento y hacer que más personas avancen sin necesitar atención manual.\n\n"
+            "Si querés, también puedo mostrarte cómo se adapta a tu tipo de tienda."
         ),
-        keywords=["que preguntas responde", "qué preguntas responde", "que puede responder", "preguntas frecuentes", "faq", "consultas responde", "responde preguntas"],
-        follow_ups=["¿Cuánto tarda el envío?"],
+        keywords=["que tipo de preguntas responde", "qué tipo de preguntas responde", "que puede responder", "qué puede responder", "que tipo de dudas responde", "qué dudas responde", "que consultas responde", "qué consultas responde", "preguntas frecuentes", "faq", "responde preguntas"],
+        follow_ups=["¿Se puede adaptar a mi negocio?"],
     ),
     FAQ(
         key="shopify",
@@ -128,9 +131,9 @@ FAQS: List[FAQ] = [
         key="tiempo_implementacion",
         title="¿Cuánto tarda la implementación?",
         answer=(
-            "En general, la implementación puede estar lista entre 1 y 3 días.\n\n"
-            "Depende principalmente del nivel de personalización, la cantidad de respuestas que haya que preparar y qué tan específico quieras que sea el asistente.\n\n"
-            "La idea es que quede bien configurado desde el inicio, no simplemente instalado."
+            "La implementación suele tardar entre 24 y 72 horas 👍\n\n"
+            "Depende del plan elegido y de la complejidad de tu tienda, pero la idea es dejarlo funcionando lo antes posible para que puedas empezar a usarlo sin demoras.\n\n"
+            "Si querés, también podés ver qué plan se adapta mejor a tu tienda en la pestaña Precios."
         ),
         keywords=[
             "cuanto tarda",
@@ -189,11 +192,11 @@ FAQS: List[FAQ] = [
         answer=(
             "Los beneficios más claros suelen ser estos:\n\n"
             "• responde consultas al instante\n"
-            "• reduce fricción antes de comprar\n"
+            "• reduce fricción antes de decidir\n"
             "• baja la carga manual del equipo\n"
             "• acompaña mejor al cliente\n"
-            "• ayuda a recuperar ventas que hoy se pierden por demora\n\n"
-            "En resumen: más claridad para quien compra y menos esfuerzo para tu negocio 👍"
+            "• ayuda a recuperar ventas que hoy se pierden por no responder a tiempo\n\n"
+            "En resumen: más claridad para quien evalúa comprar y menos esfuerzo para tu negocio 👍"
         ),
         keywords=["beneficios", "ventajas", "para que sirve", "para qué sirve", "que gano", "qué gano", "vale la pena", "retorno"],
         follow_ups=["¿Vale la pena?", "¿Se puede adaptar a mi negocio?"],
@@ -307,7 +310,7 @@ GREETING = "Hola 👋 ¿En qué puedo ayudarte?"
 
 FALLBACK = (
     "No tengo una respuesta precisa para eso en este demo 😊\n\n"
-    "Pero puedo ayudarte con envíos, stock, uso, cambios o cómo funciona el bot."
+    "Pero sí puedo ayudarte con temas como implementación, precios, funcionamiento, integración o cómo se adapta Nivora a una tienda."
 )
 
 ARGENTINA_LOCATIONS = [
@@ -346,29 +349,40 @@ INTERNATIONAL_COUNTRIES = [
     ("brazil", "Brasil"),
     ("chile", "Chile"),
     ("ecuador", "Ecuador"),
+    ("espana", "España"),
+    ("españa", "España"),
+    ("mexico", "México"),
+    ("méxico", "México"),
+    ("colombia", "Colombia"),
+    ("estados unidos", "Estados Unidos"),
+    ("usa", "Estados Unidos"),
+    ("eeuu", "Estados Unidos"),
+    ("canada", "Canadá"),
+    ("canadá", "Canadá"),
+    ("alemania", "Alemania"),
+    ("italia", "Italia"),
+    ("francia", "Francia"),
+    ("portugal", "Portugal"),
     ("paraguay", "Paraguay"),
     ("bolivia", "Bolivia"),
     ("peru", "Perú"),
     ("perú", "Perú"),
-    ("mexico", "México"),
-    ("méxico", "México"),
-    ("colombia", "Colombia"),
 ]
 
 INTENT_PRIORITY = [
     "charla_basica",
     "saludo",
+    "tipo_de_preguntas_que_responde",
     "implementacion_nivora",
-    "envio_por_ubicacion",
-    "envio_general",
-    "precio",
     "consultas_internacionales",
+    "envio_por_ubicacion",
+    "precio",
     "funciona_realmente",
     "tipo_de_tienda",
-    "stock",
+    "personalizacion_bot",
     "uso",
     "cambios",
-    "personalizacion_bot",
+    "stock",
     "agradecimiento",
     "desconocido",
 ]
@@ -564,15 +578,18 @@ def confidence_label(score: int) -> str:
 
 def build_location_shipping_reply(location: str) -> str:
     return (
-        f"A {location} el envío suele tardar entre 3 y 7 días hábiles 👍\n\n"
-        "Puede variar un poco según la zona exacta y el correo, pero normalmente se maneja dentro de ese plazo."
+        f"En {location} también podemos implementar Nivora 👍\n\n"
+        "La activación suele quedar lista entre 24 y 72 horas, según la complejidad de tu tienda y la configuración inicial.\n\n"
+        "Si querés, te contamos cuál sería la forma más simple de dejarlo funcionando en tu caso."
     )
 
 
-def build_international_reply() -> str:
+def build_international_reply(country: str | None = None) -> str:
+    place = country or "tu país"
     return (
-        "Sí, también funciona para otros países 👍\n\n"
-        "Si estás fuera de Argentina, podés escribirnos por mail y te contamos cómo implementarlo según tu caso."
+        f"Sí, también podemos implementar Nivora en {place} 👍\n\n"
+        "Si estás fuera de Argentina, escribinos por mail y te contamos cómo sería la implementación según tu caso y tu tienda.\n\n"
+        "La idea es encontrar la mejor forma de adaptarlo para que también te funcione bien desde allá."
     )
 
 
@@ -599,6 +616,13 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
         "hi",
     }
     implementacion_keywords = {
+        "cuanto tarda",
+        "cuanto demora",
+        "en cuanto tiempo",
+        "tarda mucho",
+        "activacion",
+        "activarse",
+        "puesta en marcha",
         "instalarse",
         "integrarse",
         "configurarse",
@@ -611,14 +635,22 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
         "integrar",
         "configurar",
     }
+    preguntas_keywords = {
+        "que tipo de preguntas responde",
+        "que puede responder",
+        "que tipo de dudas responde",
+        "que dudas responde",
+        "que consultas responde",
+        "preguntas frecuentes",
+        "faq",
+        "responde preguntas",
+    }
     envio_general_keywords = {
-        "envio",
-        "llega",
-        "demora",
-        "tarda",
-        "despacho",
-        "entrega",
-        "correo",
+        "cobertura",
+        "zona",
+        "localidad",
+        "llega a",
+        "a ",
     }
     precio_keywords = {
         "precio",
@@ -642,6 +674,10 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
         "sirve en",
         "puedo usarlo desde",
         "trabajan con",
+        "se puede instalar si soy de",
+        "lo pueden implementar en",
+        "se puede usar en",
+        "puede funcionar en",
     }
     funciona_realmente_keywords = {
         "funciona realmente",
@@ -711,10 +747,39 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
             if score:
                 return intent, confidence_label(score), None
 
+        if intent == "tipo_de_preguntas_que_responde":
+            score = count_matches(text, preguntas_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
         if intent == "implementacion_nivora":
+            if country:
+                score = count_matches(text, implementacion_keywords | internacional_keywords)
+                if score:
+                    return "consultas_internacionales", confidence_label(score), country
             score = count_matches(text, implementacion_keywords)
             if score:
                 return intent, confidence_label(score), None
+
+        if intent == "consultas_internacionales":
+            score = count_matches(text, internacional_keywords)
+            if country:
+                score += 1
+                if text == normalize_text(country):
+                    score += 1
+                if any(
+                    phrase in text
+                    for phrase in {
+                        f"funciona en {normalize_text(country)}",
+                        f"sirve en {normalize_text(country)}",
+                        f"desde {normalize_text(country)}",
+                        f"instalar si soy de {normalize_text(country)}",
+                        f"implementar en {normalize_text(country)}",
+                    }
+                ):
+                    score += 1
+            if score:
+                return intent, confidence_label(score), country
 
         if intent == "envio_por_ubicacion" and location:
             score = count_matches(text, envio_general_keywords)
@@ -725,36 +790,20 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
             if any(
                 phrase in text
                 for phrase in {
-                    f"envio {normalize_text(location)}",
-                    f"envio a {normalize_text(location)}",
-                    f"llega a {normalize_text(location)}",
-                    f"demora a {normalize_text(location)}",
-                    f"tarda a {normalize_text(location)}",
                     f"y a {normalize_text(location)}",
+                    f"cobertura en {normalize_text(location)}",
+                    f"llega a {normalize_text(location)}",
+                    f"en {normalize_text(location)}",
                 }
             ):
                 score += 1
             if score:
                 return intent, confidence_label(score), location
 
-        if intent == "envio_general":
-            score = count_matches(text, envio_general_keywords)
-            if score:
-                return intent, confidence_label(score), None
-
         if intent == "precio":
             score = count_matches(text, precio_keywords)
             if score:
                 return intent, confidence_label(score), None
-
-        if intent == "consultas_internacionales":
-            score = count_matches(text, internacional_keywords)
-            if country:
-                score += 1
-                if text == normalize_text(country):
-                    score += 1
-            if score:
-                return intent, confidence_label(score), country
 
         if intent == "funciona_realmente":
             score = count_matches(text, funciona_realmente_keywords)
@@ -825,28 +874,30 @@ def generate_response(intent: str, location: str | None = None) -> tuple[str, Li
     if intent == "saludo":
         return "¡Hola! 👋\n\nAcá estoy para ayudarte. ¿Qué querés consultar?", default_suggestions()
 
+    if intent == "tipo_de_preguntas_que_responde":
+        faq = get_faq("preguntas")
+        if faq:
+            return faq.answer, single_follow_up(faq.follow_ups)
+
     if intent == "implementacion_nivora":
         return (
             "La implementación suele tardar entre 24 y 72 horas 👍\n\n"
-            "Depende del plan elegido y de la complejidad de tu tienda, pero la idea es dejarlo funcionando lo antes posible."
-        ), ["Precio"]
+            "Depende del plan elegido y de la complejidad de tu tienda, pero la idea es dejarlo funcionando lo antes posible para que puedas empezar a usarlo sin demoras.\n\n"
+            "Si querés, también podés ver qué plan se adapta mejor a tu tienda en la pestaña Precios."
+        ), ["Precios"]
 
     if intent == "envio_por_ubicacion" and location:
-        return build_location_shipping_reply(location), ["¿Tenés stock?"]
-
-    if intent == "envio_general":
-        faq = get_faq("envio_simple")
-        if faq:
-            return faq.answer, single_follow_up(faq.follow_ups)
+        return build_location_shipping_reply(location), ["Precios"]
 
     if intent == "precio":
         return (
             "Podés ver todos los precios en la pestaña 'Precios' 👍\n\n"
-            "Ahí vas a encontrar los planes disponibles para elegir el que mejor se adapte a tu tienda y a lo que necesitás hoy."
+            "Ahí vas a encontrar los planes disponibles para elegir el que mejor se adapte a tu tienda y a lo que necesitás hoy.\n\n"
+            "Si querés, te contamos cuál encaja mejor según tu caso."
         ), ["Precios"]
 
     if intent == "consultas_internacionales":
-        return build_international_reply(), ["Hablar por WhatsApp"]
+        return build_international_reply(location), ["Hablar por WhatsApp"]
 
     if intent == "funciona_realmente":
         return (
