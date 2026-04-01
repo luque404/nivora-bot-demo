@@ -21,6 +21,14 @@ INSTAGRAM_URL = os.getenv("INSTAGRAM_URL", "https://instagram.com/nivora.ai")
 WHATSAPP_NUMBER = os.getenv("WHATSAPP_NUMBER", "")
 
 
+def get_public_base_url() -> str:
+    forwarded_proto = request.headers.get("X-Forwarded-Proto", "").split(",")[0].strip()
+    forwarded_host = request.headers.get("X-Forwarded-Host", "").split(",")[0].strip()
+    proto = forwarded_proto or request.scheme or "https"
+    host = forwarded_host or request.host
+    return f"{proto}://{host}".rstrip("/")
+
+
 @dataclass
 class FAQ:
     key: str
@@ -1027,7 +1035,7 @@ def widget():
 
 @app.get("/widget.js")
 def widget_js():
-    base_url = request.host_url.rstrip("/")
+    base_url = get_public_base_url()
     script = WIDGET_JS.replace("__BASE_URL__", base_url)
     return Response(script, mimetype="application/javascript")
 
