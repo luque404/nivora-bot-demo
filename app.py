@@ -1582,100 +1582,125 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
   </div>
 
 <script>
-  const messagesEl = document.getElementById('messages');
-  const quickRepliesEl = document.getElementById('quickReplies');
-  const inputEl = document.getElementById('messageInput');
-  const sendBtn = document.getElementById('sendBtn');
+  (function initWidget() {
+    const messagesEl = document.getElementById('messages');
+    const quickRepliesEl = document.getElementById('quickReplies');
+    const inputEl = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const closeBtn = document.getElementById('closeBtn');
 
-  function addMessage(text, who) {
-    const el = document.createElement('div');
-    el.className = 'msg ' + who;
-    el.textContent = text;
-    messagesEl.appendChild(el);
-    requestAnimationFrame(() => {
-      if (who === 'bot') {
-        const targetTop = Math.max(0, el.offsetTop - 8);
-        messagesEl.scrollTo({ top: targetTop, behavior: 'smooth' });
-      } else {
-        messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+    if (!messagesEl || !quickRepliesEl || !inputEl || !sendBtn || !closeBtn) {
+      console.error('[nivora-widget] Missing required DOM nodes');
+      return;
+    }
+
+    let config = null;
+    let isSending = false;
+    const fallbackGreeting = "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.";
+    const fallbackQuickReplies = [
+      "¿Cómo funciona en una tienda?",
+      "¿Cuánto cuesta?",
+      "¿Sirve para mi negocio?",
+    ];
+
+    function addMessage(text, who) {
+      const el = document.createElement('div');
+      el.className = 'msg ' + who;
+      el.textContent = text;
+      messagesEl.appendChild(el);
+      requestAnimationFrame(function () {
+        if (who === 'bot') {
+          const targetTop = Math.max(0, el.offsetTop - 8);
+          messagesEl.scrollTo({ top: targetTop, behavior: 'smooth' });
+        } else {
+          messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+        }
+      });
+    }
+
+    function renderQuickReplies(items) {
+      quickRepliesEl.innerHTML = '';
+      (items || []).forEach(function (item) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = item;
+        btn.addEventListener('click', function () {
+          sendMessage(item);
+        });
+        quickRepliesEl.appendChild(btn);
+      });
+    }
+
+    function getSingleFollowUp() {
+      if (config && config.single_follow_up) {
+        return config.single_follow_up;
+      }
+      return '¿Cómo funciona en una tienda?';
+    }
+
+    async function loadConfig() {
+      try {
+        const res = await fetch('/config');
+        config = await res.json();
+        messagesEl.innerHTML = '';
+        renderQuickReplies(config.quick_replies || fallbackQuickReplies);
+        addMessage(config.greeting || fallbackGreeting, 'bot');
+      } catch (err) {
+        console.error('[nivora-widget-config]', err);
+        messagesEl.innerHTML = '';
+        renderQuickReplies(fallbackQuickReplies);
+        addMessage(fallbackGreeting, 'bot');
+      }
+    }
+
+    async function sendMessage(message) {
+      const rawText = message !== undefined && message !== null ? message : inputEl.value;
+      const text = String(rawText).trim();
+      if (!text || isSending) return;
+
+      isSending = true;
+      addMessage(text, 'user');
+      inputEl.value = '';
+
+      try {
+        const res = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        addMessage(data.reply || 'Hubo un error al responder.', 'bot');
+        renderQuickReplies((data.suggestions || []).length ? data.suggestions : [getSingleFollowUp()]);
+      } catch (err) {
+        console.error('[nivora-widget-send]', err);
+        addMessage('Hubo un problema al responder. Intentá de nuevo en unos segundos.', 'bot');
+        renderQuickReplies([getSingleFollowUp()]);
+      } finally {
+        isSending = false;
+      }
+    }
+
+    sendBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      sendMessage();
+    });
+
+    inputEl.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
       }
     });
-  }
 
-  function renderQuickReplies(items) {
-    quickRepliesEl.innerHTML = '';
-    (items || []).forEach((item) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.textContent = item;
-      btn.onclick = () => sendMessage(item);
-      quickRepliesEl.appendChild(btn);
+    closeBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      window.parent.postMessage({ type: 'nivora-close-chat' }, '*');
+      window.parent.postMessage('closeChat', '*');
     });
-  }
 
-  function getSingleFollowUp() {
-    if (config && config.single_follow_up) {
-      return config.single_follow_up;
-    }
-    return '¿Cómo funciona en una tienda?';
-  }
-
-  let config = null;
-  const fallbackGreeting = "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.";
-  const fallbackQuickReplies = [
-    "¿Cómo funciona en una tienda?",
-    "¿Cuánto cuesta?",
-    "¿Sirve para mi negocio?",
-  ];
-
-  async function loadConfig() {
-    try {
-      const res = await fetch('/config');
-      config = await res.json();
-      messagesEl.innerHTML = '';
-      renderQuickReplies(config.quick_replies || fallbackQuickReplies);
-      addMessage(config.greeting || fallbackGreeting, 'bot');
-    } catch (err) {
-      messagesEl.innerHTML = '';
-      renderQuickReplies(fallbackQuickReplies);
-      addMessage(fallbackGreeting, 'bot');
-    }
-  }
-
-  async function sendMessage(message) {
-    const rawText = message !== undefined && message !== null ? message : inputEl.value;
-    const text = String(rawText).trim();
-    if (!text) return;
-    addMessage(text, 'user');
-    inputEl.value = '';
-
-    try {
-      const res = await fetch('/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
-      });
-      const data = await res.json();
-      addMessage(data.reply || 'Hubo un error al responder.', 'bot');
-      renderQuickReplies((data.suggestions || []).length ? data.suggestions : [getSingleFollowUp()]);
-    } catch (err) {
-      addMessage('Hubo un problema al responder. Intentá de nuevo en unos segundos.', 'bot');
-      renderQuickReplies([getSingleFollowUp()]);
-    }
-  }
-
-  sendBtn.addEventListener('click', () => sendMessage());
-  inputEl.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') sendMessage();
-  });
-
-loadConfig();
-document.getElementById('closeBtn').addEventListener('click', function (event) {
-  event.preventDefault();
-  event.stopPropagation();
-  window.parent.postMessage({ type: 'nivora-close-chat' }, '*');
-  window.parent.postMessage('closeChat', '*');
-});
+    loadConfig();
+  })();
 </script>
 </body>
 </html>
