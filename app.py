@@ -1591,7 +1591,7 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
   </div>
 
 <script>
-  (function initWidget() {
+  function initWidget() {
     const messagesEl = document.getElementById('messages');
     const quickRepliesEl = document.getElementById('quickReplies');
     const inputEl = document.getElementById('messageInput');
@@ -1709,7 +1709,13 @@ Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ven
     });
 
     loadConfig();
-  })();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWidget, { once: true });
+  } else {
+    initWidget();
+  }
 </script>
 </body>
 </html>
