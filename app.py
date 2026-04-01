@@ -87,9 +87,9 @@ FAQS: List[FAQ] = [
         title="¿Cómo funciona en una tienda?",
         answer=(
             "Funciona de forma muy simple.\n\n"
-            "La persona entra a tu tienda, hace una pregunta desde el chat y el asistente responde al instante con información de tus productos, envíos, cambios, medios de pago o dudas frecuentes.\n\n"
-            "Eso ayuda a sacar fricción justo en el momento en que la venta todavía se está decidiendo.\n\n"
-            "Si querés, también puedo mostrarte qué tipo de preguntas responde en una tienda real."
+            "La persona entra a tu tienda, hace una pregunta desde el chat y Nivora responde al instante con información clara para ayudar a decidir.\n\n"
+            "Eso reduce fricción, acompaña la compra y evita perder ventas por falta de respuesta.\n\n"
+            "Si querés, también te muestro cómo se adaptaría a tu tienda."
         ),
         keywords=["como funciona", "como funciona en una tienda", "cómo funciona", "funciona en una tienda", "como trabaja", "como responde"],
         follow_ups=["¿Qué tipo de preguntas responde?", "¿Qué beneficios tiene?"],
@@ -122,7 +122,8 @@ FAQS: List[FAQ] = [
         answer=(
             "No, la idea es justamente lo contrario: que sea simple.\n\n"
             "Nivora se integra rápido sobre tu tienda actual, sin que tengas que desarrollar un sistema aparte ni ocuparte de lo técnico.\n\n"
-            "Además, la configuración inicial se adapta a tu negocio para que el asistente ya salga respondiendo con criterio desde el comienzo."
+            "Además, la configuración inicial se adapta a tu negocio para que el asistente ya salga respondiendo con criterio desde el comienzo.\n\n"
+            "Si querés, vemos cuál sería la forma más simple de implementarlo en tu caso."
         ),
         keywords=["instalacion", "instalación", "es dificil de instalar", "es dificil", "cuanto tarda instalar", "implementacion", "implementación"],
         follow_ups=["¿Tengo que saber programar?", "¿Funciona con mi tienda?"],
@@ -132,8 +133,8 @@ FAQS: List[FAQ] = [
         title="¿Cuánto tarda la implementación?",
         answer=(
             "La implementación suele tardar entre 24 y 72 horas 👍\n\n"
-            "Depende del plan elegido y de la complejidad de tu tienda, pero la idea es dejarlo funcionando lo antes posible para que puedas empezar a usarlo sin demoras.\n\n"
-            "Si querés, también podés ver qué plan se adapta mejor a tu tienda en la pestaña Precios."
+            "Depende del plan elegido y de la complejidad de tu tienda, pero la idea es dejarlo funcionando rápido y bien configurado desde el inicio.\n\n"
+            "Si querés, también te oriento según tu tienda y el nivel de personalización que necesitás."
         ),
         keywords=[
             "cuanto tarda",
@@ -170,9 +171,10 @@ FAQS: List[FAQ] = [
         answer=(
             "Sí, se puede adaptar a todo tipo de tiendas 👍\n\n"
             "El asistente se configura según tu tipo de producto, tu forma de vender y las consultas reales que recibís.\n\n"
-            "La idea es que se sienta útil, claro y alineado con tu negocio desde el primer día."
+            "La idea es que se sienta útil, claro y alineado con tu negocio desde el primer día.\n\n"
+            "Si querés, te muestro cómo encajaría en tu caso."
         ),
-        keywords=["se puede adaptar", "adaptar a mi negocio", "mi negocio", "personalizar", "personalizado", "custom", "customizar", "marca", "tono"],
+        keywords=["se puede adaptar", "adaptar a mi negocio", "sirve para mi negocio", "mi negocio", "personalizar", "personalizado", "custom", "customizar", "marca", "tono"],
         follow_ups=["¿Qué beneficios tiene?", "¿Qué pasa si quiero cambiar respuestas después?"],
     ),
     FAQ(
@@ -196,7 +198,8 @@ FAQS: List[FAQ] = [
             "• baja la carga manual del equipo\n"
             "• acompaña mejor al cliente\n"
             "• ayuda a recuperar ventas que hoy se pierden por no responder a tiempo\n\n"
-            "En resumen: más claridad para quien evalúa comprar y menos esfuerzo para tu negocio 👍"
+            "En resumen: más claridad para quien evalúa comprar y menos carga manual para tu negocio.\n\n"
+            "Si querés, te explico cuál de estos puntos suele pesar más según tu tipo de tienda."
         ),
         keywords=["beneficios", "ventajas", "para que sirve", "para qué sirve", "que gano", "qué gano", "vale la pena", "retorno"],
         follow_ups=["¿Vale la pena?", "¿Se puede adaptar a mi negocio?"],
@@ -229,7 +232,8 @@ FAQS: List[FAQ] = [
         answer=(
             "Sí, se puede adaptar a todo tipo de tiendas 👍\n\n"
             "Se configura según lo que vendés, cómo atendés y las dudas reales que suelen aparecer antes de comprar.\n\n"
-            "La idea es que se sienta natural para tu marca y útil para tus clientes."
+            "La idea es que se sienta natural para tu marca y útil para tus clientes.\n\n"
+            "Si querés, te oriento rápido para ver si aplica bien a tu negocio."
         ),
         keywords=["sirve para mi tienda", "sirve para mi ecommerce", "me sirve", "aplica para mi tienda", "funciona con mi tienda"],
         follow_ups=["¿Qué beneficios tiene?", "¿Es difícil de instalar?"],
@@ -239,7 +243,7 @@ FAQS: List[FAQ] = [
         title="¿Cuánto cuesta?",
         answer=(
             "El valor depende del nivel de personalización que necesite tu tienda.\n\n"
-            "Trabajamos con planes simples que se adaptan a cada negocio.\n\n"
+            "Trabajamos con planes simples que se adaptan a cada negocio, según cuánto quieras automatizar y optimizar la atención.\n\n"
             "Además, ofrecemos una garantía de 7 días: si dentro de ese período no te resulta útil, podés solicitar la devolución.\n\n"
             "Si querés, podemos orientarte con la opción más adecuada según tu caso."
         ),
@@ -276,7 +280,8 @@ FAQS: List[FAQ] = [
             "Sí, totalmente.\n\n"
             "Este tipo de asistente ayuda a responder consultas en el momento, acompaña al cliente durante la compra y evita que se pierdan ventas por falta de respuesta.\n\n"
             "Además, reduce la necesidad de estar pendiente del chat todo el tiempo o de contratar atención manual para preguntas repetidas.\n\n"
-            "La idea es mejorar la experiencia del cliente y hacer más eficiente la atención sin agregar complejidad."
+            "La idea es mejorar la experiencia del cliente y hacer más eficiente la atención sin agregar complejidad.\n\n"
+            "Si querés, te ayudo a evaluar si hoy ya tendría sentido para tu tienda."
         ),
         keywords=["vale la pena", "conviene", "retorno", "roi", "sirve de verdad", "funciona de verdad"],
         follow_ups=["¿Qué beneficios tiene?", "Hablar por WhatsApp"],
@@ -285,8 +290,8 @@ FAQS: List[FAQ] = [
         key="demo",
         title="Quiero una demo",
         answer=(
-            "Una demo ayuda mucho a visualizar cómo respondería el asistente en tu caso y qué tipo de consultas podría automatizar.\n\n"
-            "Así podés imaginarlo dentro de tu tienda antes de tomar una decisión.\n\n"
+            "Una demo sirve para ver cómo respondería Nivora dentro de tu tienda y qué consultas podría automatizar desde el primer día.\n\n"
+            "Así podés entender rápido si te ayudaría a vender mejor y a bajar carga manual.\n\n"
             "Si querés, compartime tu duda principal y te muestro por dónde empezaría."
         ),
         keywords=["demo", "quiero una demo", "agendar demo", "ver demo", "mostrar demo", "probar demo"],
@@ -304,13 +309,17 @@ FAQS: List[FAQ] = [
     ),
 ]
 
-BASE_QUICK_REPLIES = ["¿Qué tipo de preguntas responde?"]
+BASE_QUICK_REPLIES = [
+    "¿Cómo funciona en una tienda?",
+    "¿Cuánto cuesta?",
+    "¿Sirve para mi negocio?",
+]
 
-GREETING = "Hola 👋 ¿En qué puedo ayudarte?"
+GREETING = "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas."
 
 FALLBACK = (
     "No tengo una respuesta precisa para eso en este demo 😊\n\n"
-    "Pero sí puedo ayudarte con temas como implementación, precios, funcionamiento, integración o cómo se adapta Nivora a una tienda."
+    "Pero sí puedo ayudarte con temas como implementación, precios, funcionamiento o cómo se adapta Nivora a tu tienda."
 )
 
 ARGENTINA_LOCATIONS = [
@@ -882,9 +891,9 @@ def generate_response(intent: str, location: str | None = None) -> tuple[str, Li
     if intent == "implementacion_nivora":
         return (
             "La implementación suele tardar entre 24 y 72 horas 👍\n\n"
-            "Depende del plan elegido y de la complejidad de tu tienda, pero la idea es dejarlo funcionando lo antes posible para que puedas empezar a usarlo sin demoras.\n\n"
-            "Si querés, también podés ver qué plan se adapta mejor a tu tienda en la pestaña Precios."
-        ), ["Precios"]
+            "Depende del plan elegido y de la complejidad de tu tienda, pero la idea es dejarlo funcionando rápido y bien configurado desde el inicio.\n\n"
+            "Si querés, vemos cuál sería la forma más simple de implementarlo en tu negocio."
+        ), ["¿Cuánto cuesta?"]
 
     if intent == "envio_por_ubicacion" and location:
         return build_location_shipping_reply(location), ["Precios"]
@@ -892,9 +901,9 @@ def generate_response(intent: str, location: str | None = None) -> tuple[str, Li
     if intent == "precio":
         return (
             "Podés ver todos los precios en la pestaña 'Precios' 👍\n\n"
-            "Ahí vas a encontrar los planes disponibles para elegir el que mejor se adapte a tu tienda y a lo que necesitás hoy.\n\n"
-            "Si querés, te contamos cuál encaja mejor según tu caso."
-        ), ["Precios"]
+            "Ahí vas a encontrar los planes disponibles para elegir el que mejor se adapte a tu tienda y al nivel de atención que querés automatizar.\n\n"
+            "Si querés, te oriento para ver cuál tendría más sentido en tu caso."
+        ), ["¿Sirve para mi negocio?"]
 
     if intent == "consultas_internacionales":
         return build_international_reply(location), []
@@ -903,14 +912,16 @@ def generate_response(intent: str, location: str | None = None) -> tuple[str, Li
         return (
             "Sí, funciona 👍\n\n"
             "La idea es responder en el momento justo, cuando el cliente está por decidir, y eso ayuda mucho a aumentar conversiones.\n\n"
-            "Muchos negocios pierden ventas solo por no responder a tiempo, y esto viene justamente a resolver eso."
-        ), ["¿Qué beneficios tiene?"]
+            "Muchos negocios pierden ventas solo por no responder a tiempo, y esto viene justamente a resolver eso.\n\n"
+            "Si querés, te muestro cómo se aplica dentro de una tienda."
+        ), ["¿Cómo funciona en una tienda?"]
 
     if intent == "tipo_de_tienda":
         return (
             "Sí, se puede adaptar a todo tipo de tiendas 👍\n\n"
             "Se integra según tu negocio y se ajusta a lo que vendés, para responder dudas reales de tus clientes.\n\n"
-            "La idea es que encaje con tu tienda y acompañe la compra de forma natural."
+            "La idea es que encaje con tu tienda y acompañe la compra de forma natural.\n\n"
+            "Si querés, te oriento rápido para ver si aplica bien a tu caso."
         ), ["¿Cómo funciona en una tienda?"]
 
     if intent == "stock":
@@ -1216,22 +1227,25 @@ HOME_HTML = """
     <div class="demo-chat">
       <div class="demo-header">
         <p class="demo-title">Asistente</p>
-        <div class="demo-status">En línea</div>
+        <div class="demo-status">En línea · Responde al instante</div>
       </div>
 
-      <div id="messages" class="demo-messages">
-        <div class="msg bot">Hola 👋 ¿En qué puedo ayudarte?</div>
-      </div>
+        <div id="messages" class="demo-messages">
+          <div class="msg bot">Hola 👋
+
+Soy el asistente de Nivora.
+Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.</div>
+        </div>
 
       <div id="quickReplies" class="quick-replies">
-        <button type="button" data-question="¿Qué tipo de preguntas responde?">¿Qué tipo de preguntas responde?</button>
-        <button type="button" data-question="¿Cuánto tarda el envío?">¿Cuánto tarda el envío?</button>
-        <button type="button" data-question="¿Sirve para mi caso?">¿Sirve para mi caso?</button>
+        <button type="button" data-question="¿Cómo funciona en una tienda?">¿Cómo funciona en una tienda?</button>
+        <button type="button" data-question="¿Cuánto cuesta?">¿Cuánto cuesta?</button>
+        <button type="button" data-question="¿Sirve para mi negocio?">¿Sirve para mi negocio?</button>
       </div>
 
       <div class="demo-input">
         <input id="demoInput" type="text" placeholder="Escribí tu consulta..." />
-        <button id="demoSend" type="button">Enviar</button>
+          <button id="demoSend" type="button">Preguntar</button>
       </div>
     </div>
   </div>
@@ -1265,7 +1279,7 @@ HOME_HTML = """
       const res = await fetch("/config");
       const config = await res.json();
       messagesEl.innerHTML = "";
-      addMessage(config.greeting || "Hola 👋 ¿En qué puedo ayudarte?", "bot");
+        addMessage(config.greeting || "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.", "bot");
       renderQuickReplies(config.quick_replies || []);
     }
 
@@ -1291,7 +1305,11 @@ HOME_HTML = """
       } catch (error) {
         window.setTimeout(() => {
           addMessage("No pude responder en este momento. Intentá de nuevo en unos segundos.", "bot");
-          renderQuickReplies(["¿Qué tipo de preguntas responde?"]);
+          renderQuickReplies([
+            "¿Cómo funciona en una tienda?",
+            "¿Cuánto cuesta?",
+            "¿Sirve para mi negocio?",
+          ]);
         }, 260);
       }
     }
@@ -1544,7 +1562,7 @@ WIDGET_HTML = """
 
     <div class="composer">
       <input id="messageInput" type="text" placeholder="Escribí tu consulta..." />
-      <button id="sendBtn">Enviar</button>
+      <button id="sendBtn">Preguntar</button>
     </div>
 
     <div class="footer">
@@ -1587,7 +1605,7 @@ WIDGET_HTML = """
     const res = await fetch('/config');
     const config = await res.json();
     renderQuickReplies(config.quick_replies || []);
-    addMessage(config.greeting || `Hola, soy el asistente de ${config.brand_name}. ¿En qué puedo ayudarte?`, 'bot');
+    addMessage(config.greeting || "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.", 'bot');
   }
 
   async function sendMessage(message) {
