@@ -334,6 +334,25 @@ ARGENTINA_LOCATIONS = [
     ("chubut", "Chubut"),
     ("santa cruz", "Santa Cruz"),
     ("tierra del fuego", "Tierra del Fuego"),
+    ("rosario", "Rosario"),
+    ("mar del plata", "Mar del Plata"),
+    ("la plata", "La Plata"),
+    ("bahia blanca", "Bahía Blanca"),
+]
+
+INTERNATIONAL_COUNTRIES = [
+    ("uruguay", "Uruguay"),
+    ("brasil", "Brasil"),
+    ("brazil", "Brasil"),
+    ("chile", "Chile"),
+    ("ecuador", "Ecuador"),
+    ("paraguay", "Paraguay"),
+    ("bolivia", "Bolivia"),
+    ("peru", "Perú"),
+    ("perú", "Perú"),
+    ("mexico", "México"),
+    ("méxico", "México"),
+    ("colombia", "Colombia"),
 ]
 
 INTENT_PRIORITY = [
@@ -343,6 +362,9 @@ INTENT_PRIORITY = [
     "envio_por_ubicacion",
     "envio_general",
     "precio",
+    "consultas_internacionales",
+    "funciona_realmente",
+    "tipo_de_tienda",
     "stock",
     "uso",
     "cambios",
@@ -525,6 +547,13 @@ def find_argentina_location(text: str) -> str | None:
     return None
 
 
+def find_international_country(text: str) -> str | None:
+    for normalized_name, display_name in INTERNATIONAL_COUNTRIES:
+        if normalized_name in text:
+            return display_name
+    return None
+
+
 def confidence_label(score: int) -> str:
     if score >= 2:
         return "alta"
@@ -540,9 +569,17 @@ def build_location_shipping_reply(location: str) -> str:
     )
 
 
+def build_international_reply() -> str:
+    return (
+        "Sí, también funciona para otros países 👍\n\n"
+        "Si estás fuera de Argentina, podés escribirnos por mail y te contamos cómo implementarlo según tu caso."
+    )
+
+
 def detect_intent(message: str) -> tuple[str, str, str | None]:
     text = normalize_text(message)
     location = find_argentina_location(text)
+    country = find_international_country(text)
 
     charla_basica_keywords = {
         "como estas",
@@ -570,6 +607,9 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
         "implementacion",
         "integracion",
         "configuracion",
+        "instalar",
+        "integrar",
+        "configurar",
     }
     envio_general_keywords = {
         "envio",
@@ -586,11 +626,43 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
         "cuanto sale",
         "cuanto vale",
         "cuanto cuesta",
-        "sale",
-        "vale",
         "cuesta",
         "plan",
         "planes",
+    }
+    internacional_keywords = {
+        "otros paises",
+        "otros países",
+        "fuera de argentina",
+        "desde chile",
+        "desde uruguay",
+        "desde brasil",
+        "desde ecuador",
+        "funciona en",
+        "sirve en",
+        "puedo usarlo desde",
+        "trabajan con",
+    }
+    funciona_realmente_keywords = {
+        "funciona realmente",
+        "esto funciona",
+        "sirve de verdad",
+        "vale la pena",
+        "funciona bien",
+        "funciona",
+        "vale",
+    }
+    tipo_de_tienda_keywords = {
+        "funciona para todo tipo de tiendas",
+        "sirve para mi tienda",
+        "se puede usar en cualquier negocio",
+        "aplica a mi caso",
+        "funciona para ecommerce",
+        "funciona para tienda",
+        "funciona para marca",
+        "todo tipo de tiendas",
+        "mi tienda",
+        "cualquier negocio",
     }
     stock_keywords = {"stock", "disponible", "hay stock", "tenes stock"}
     uso_keywords = {
@@ -675,6 +747,25 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
             if score:
                 return intent, confidence_label(score), None
 
+        if intent == "consultas_internacionales":
+            score = count_matches(text, internacional_keywords)
+            if country:
+                score += 1
+                if text == normalize_text(country):
+                    score += 1
+            if score:
+                return intent, confidence_label(score), country
+
+        if intent == "funciona_realmente":
+            score = count_matches(text, funciona_realmente_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
+        if intent == "tipo_de_tienda":
+            score = count_matches(text, tipo_de_tienda_keywords)
+            if score:
+                return intent, confidence_label(score), None
+
         if intent == "stock":
             score = count_matches(text, stock_keywords)
             if score:
@@ -753,6 +844,23 @@ def generate_response(intent: str, location: str | None = None) -> tuple[str, Li
             "Podés ver todos los precios en la pestaña 'Precios' 👍\n\n"
             "Ahí vas a encontrar los planes disponibles para elegir el que mejor se adapte a tu tienda y a lo que necesitás hoy."
         ), ["Precios"]
+
+    if intent == "consultas_internacionales":
+        return build_international_reply(), ["Hablar por WhatsApp"]
+
+    if intent == "funciona_realmente":
+        return (
+            "Sí, funciona 👍\n\n"
+            "La idea es responder en el momento justo, cuando el cliente está por decidir, y eso ayuda mucho a aumentar conversiones.\n\n"
+            "Muchos negocios pierden ventas solo por no responder a tiempo, y esto viene justamente a resolver eso."
+        ), ["¿Qué beneficios tiene?"]
+
+    if intent == "tipo_de_tienda":
+        return (
+            "Sí, se puede adaptar a todo tipo de tiendas 👍\n\n"
+            "Se integra según tu negocio y se ajusta a lo que vendés, para responder dudas reales de tus clientes.\n\n"
+            "La idea es que encaje con tu tienda y acompañe la compra de forma natural."
+        ), ["¿Cómo funciona en una tienda?"]
 
     if intent == "stock":
         faq = get_faq("stock_simple")
@@ -1071,8 +1179,8 @@ HOME_HTML = """
       </div>
 
       <div class="demo-input">
-        <input type="text" placeholder="Escribí tu consulta..." />
-        <button type="button">Enviar</button>
+        <input id="demoInput" type="text" placeholder="Escribí tu consulta..." />
+        <button id="demoSend" type="button">Enviar</button>
       </div>
     </div>
   </div>
@@ -1080,21 +1188,8 @@ HOME_HTML = """
   <script>
     const messagesEl = document.getElementById("messages");
     const quickRepliesEl = document.getElementById("quickReplies");
-
-    const replies = {
-      "¿Qué tipo de preguntas responde?":
-        "Puedo ayudarte con envíos, stock, formas de uso, cambios y dudas comunes antes de comprar.\\n\\nLa idea es que el cliente no tenga que esperar y pueda decidir en el momento 👍",
-      "¿Cuánto tarda el envío?":
-        "Una vez que hacés el pedido, el envío tarda entre 3 y 10 días hábiles dependiendo de la zona.\\n\\nSiempre te vamos informando el estado.",
-      "¿Sirve para mi caso?":
-        "Depende del tipo de producto, pero en la mayoría de los casos sí.\\n\\nSi querés, contame un poco más y te oriento mejor 👍"
-    };
-
-    const followUps = {
-      "¿Qué tipo de preguntas responde?": "¿Cuánto tarda el envío?",
-      "¿Cuánto tarda el envío?": "¿Sirve para mi caso?",
-      "¿Sirve para mi caso?": "¿Qué tipo de preguntas responde?"
-    };
+    const inputEl = document.getElementById("demoInput");
+    const sendBtn = document.getElementById("demoSend");
 
     function addMessage(text, who) {
       const el = document.createElement("div");
@@ -1104,30 +1199,61 @@ HOME_HTML = """
       messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: "smooth" });
     }
 
-    function renderSingleReply(question) {
+    function renderQuickReplies(items) {
       quickRepliesEl.innerHTML = "";
-      const next = followUps[question];
-      if (!next) return;
-
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.dataset.question = next;
-      btn.textContent = next;
-      btn.addEventListener("click", () => handleQuestion(next));
-      quickRepliesEl.appendChild(btn);
+      (items || []).forEach((item) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = item;
+        btn.addEventListener("click", () => sendMessage(item));
+        quickRepliesEl.appendChild(btn);
+      });
     }
 
-    function handleQuestion(question) {
-      addMessage(question, "user");
-      window.setTimeout(() => {
-        addMessage(replies[question], "bot");
-        renderSingleReply(question);
-      }, 260);
+    async function loadConfig() {
+      const res = await fetch("/config");
+      const config = await res.json();
+      messagesEl.innerHTML = "";
+      addMessage(config.greeting || "Hola 👋 ¿En qué puedo ayudarte?", "bot");
+      renderQuickReplies(config.quick_replies || []);
     }
 
-    quickRepliesEl.querySelectorAll("button").forEach((button) => {
-      button.addEventListener("click", () => handleQuestion(button.dataset.question));
+    async function sendMessage(message) {
+      const text = (message ?? inputEl.value).trim();
+      if (!text) return;
+
+      addMessage(text, "user");
+      inputEl.value = "";
+      renderQuickReplies([]);
+
+      try {
+        const res = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        window.setTimeout(() => {
+          addMessage(data.reply || "No tengo una respuesta precisa para eso en este demo 😊", "bot");
+          renderQuickReplies((data.suggestions || []).slice(0, 1));
+        }, 260);
+      } catch (error) {
+        window.setTimeout(() => {
+          addMessage("No pude responder en este momento. Intentá de nuevo en unos segundos.", "bot");
+          renderQuickReplies(["¿Qué tipo de preguntas responde?"]);
+        }, 260);
+      }
+    }
+
+    sendBtn.addEventListener("click", () => sendMessage());
+    inputEl.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
     });
+
+    loadConfig();
   </script>
 </body>
 </html>
