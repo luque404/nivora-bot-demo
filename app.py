@@ -393,6 +393,7 @@ INTENT_PRIORITY = [
     "saludo_simple",
     "pais_latam",
     "intencion_compra",
+    "tipo_de_negocio",
     "charla_basica",
     "saludo",
     "tipo_de_preguntas_que_responde",
@@ -463,6 +464,180 @@ COUNTRY_INTENT_PREFIXES = {
     "implementar en",
     "usar en",
 }
+
+BUSINESS_CONTEXT_CUES = {
+    "tengo un",
+    "tengo una",
+    "tengo mi",
+    "soy",
+    "vendo",
+    "trabajo con",
+    "mi negocio es de",
+    "tengo",
+}
+
+BUSINESS_TYPES = [
+    {
+        "label": "un gimnasio",
+        "keywords": {"gimnasio", "gym", "fitness"},
+        "details": "La idea es configurar Nivora según las preguntas frecuentes de tus clientes, por ejemplo horarios, planes, ubicación, promociones o cómo empezar.",
+    },
+    {
+        "label": "una tienda de ropa",
+        "keywords": {"ropa", "indumentaria", "tienda de ropa", "marca de ropa", "vestimenta"},
+        "details": "La idea es configurarlo para responder consultas frecuentes como talles, stock, colores, envíos, cambios y promociones.",
+    },
+    {
+        "label": "un ecommerce",
+        "keywords": {"ecommerce", "tienda online", "tienda en linea", "tienda digital", "tienda web", "online shop"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, stock, envíos, medios de pago, cambios y seguimiento de pedidos.",
+    },
+    {
+        "label": "un consultorio odontológico",
+        "keywords": {"dentista", "odontologia", "odontólogo", "odontologo", "clinica dental", "clínica dental", "consultorio dental"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre tratamientos, turnos, ubicación, horarios, medios de pago y primeras consultas.",
+    },
+    {
+        "label": "una clínica o centro médico",
+        "keywords": {"clinica", "clínica", "centro medico", "centro médico", "consultorio medico", "consultorio médico", "medico", "médico"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre especialidades, turnos, horarios, ubicación, cobertura y medios de pago.",
+    },
+    {
+        "label": "un negocio de estética o belleza",
+        "keywords": {"estetica", "estética", "belleza", "peluqueria", "peluquería", "salon", "salón", "spa"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre servicios, turnos, horarios, promociones, ubicación y medios de pago.",
+    },
+    {
+        "label": "una marca de cosmética",
+        "keywords": {"cosmetica", "cosmética", "skincare", "maquillaje", "belleza facial"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, tipos de piel, stock, envíos, promociones y medios de pago.",
+    },
+    {
+        "label": "una tienda de suplementos",
+        "keywords": {"suplementos", "proteina", "proteína", "creatina", "whey"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, objetivos, formas de uso, stock, envíos y promociones.",
+    },
+    {
+        "label": "un negocio de nutrición",
+        "keywords": {"nutricion", "nutrición", "nutricionista", "alimentacion", "alimentación"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre servicios, planes, turnos, ubicación, horarios y formas de atención.",
+    },
+    {
+        "label": "una inmobiliaria",
+        "keywords": {"inmobiliaria", "propiedades", "real estate", "inmueble", "inmuebles"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre propiedades, zonas, visitas, requisitos, horarios y formas de contacto.",
+    },
+    {
+        "label": "un restaurante o negocio gastronómico",
+        "keywords": {"restaurante", "comida", "bar", "cafeteria", "cafetería", "gastronomia", "gastronomía", "local de comida"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre menú, horarios, ubicación, reservas, promociones y medios de pago.",
+    },
+    {
+        "label": "una tienda de electrónica",
+        "keywords": {"electronica", "electrónica", "electro", "gadgets"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, stock, especificaciones, envíos, garantía y medios de pago.",
+    },
+    {
+        "label": "un negocio de accesorios para autos",
+        "keywords": {"accesorios para autos", "accesorios para auto", "autopartes", "auto", "autos"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre compatibilidad, stock, envíos, medios de pago y promociones.",
+    },
+    {
+        "label": "un negocio de repuestos",
+        "keywords": {"repuestos", "repuesto", "partes", "autoparte", "autopartes"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre compatibilidad, stock, marcas, envíos y medios de pago.",
+    },
+    {
+        "label": "una tienda de muebles",
+        "keywords": {"muebles", "mueble"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre medidas, materiales, stock, envíos, tiempos de entrega y promociones.",
+    },
+    {
+        "label": "un negocio de decoración",
+        "keywords": {"decoracion", "decoración", "hogar decoracion", "objetos decorativos"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, medidas, stock, envíos, combinaciones y promociones.",
+    },
+    {
+        "label": "un negocio de productos para mascotas",
+        "keywords": {"mascotas", "pet shop", "petshop", "productos para mascotas"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, stock, envíos, medios de pago y recomendaciones por tipo de mascota.",
+    },
+    {
+        "label": "una veterinaria",
+        "keywords": {"veterinaria", "veterinario", "clinica veterinaria", "clínica veterinaria"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre servicios, turnos, horarios, ubicación, guardias y medios de pago.",
+    },
+    {
+        "label": "una ferretería",
+        "keywords": {"ferreteria", "ferretería", "herramientas", "materiales"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, stock, medidas, envíos, medios de pago y promociones.",
+    },
+    {
+        "label": "una farmacia",
+        "keywords": {"farmacia", "farmaceutica", "farmacéutica"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, horarios, ubicación, stock, medios de pago y modalidades de entrega.",
+    },
+    {
+        "label": "un negocio de cursos o educación",
+        "keywords": {"cursos", "curso", "educacion", "educación", "academia", "capacitacion", "capacitación"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre programas, fechas, precios, modalidad, inscripción y medios de pago.",
+    },
+    {
+        "label": "un estudio jurídico",
+        "keywords": {"abogado", "abogados", "estudio juridico", "estudio jurídico", "juridico", "jurídico"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre servicios, áreas de trabajo, turnos, ubicación, honorarios iniciales y contacto.",
+    },
+    {
+        "label": "un negocio de turismo o viajes",
+        "keywords": {"turismo", "viajes", "hotel", "hoteleria", "hotelería", "agencia de viajes"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre destinos, disponibilidad, fechas, tarifas, ubicación y formas de reserva.",
+    },
+    {
+        "label": "una joyería",
+        "keywords": {"joyeria", "joyería", "joyas"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, materiales, stock, envíos, medios de pago y promociones.",
+    },
+    {
+        "label": "una tienda de zapatillas",
+        "keywords": {"zapatillas", "zapateria", "zapatería", "calzado"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre talles, stock, modelos, envíos, cambios y promociones.",
+    },
+    {
+        "label": "una librería",
+        "keywords": {"libreria", "librería", "libros"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre títulos, stock, envíos, medios de pago y promociones.",
+    },
+    {
+        "label": "un negocio de tecnología",
+        "keywords": {"tecnologia", "tecnología", "software", "hardware"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos o servicios, stock, especificaciones, planes, soporte y medios de pago.",
+    },
+    {
+        "label": "una tienda de celulares",
+        "keywords": {"celulares", "celular", "telefonos", "teléfonos", "smartphones"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre modelos, stock, memoria, envíos, garantía y medios de pago.",
+    },
+    {
+        "label": "un negocio para el hogar",
+        "keywords": {"hogar", "casa", "blanqueria", "blanquería"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, medidas, stock, envíos, promociones y medios de pago.",
+    },
+    {
+        "label": "un supermercado",
+        "keywords": {"supermercado", "super", "almacen", "almacén"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre productos, stock, horarios, ubicación, promociones y formas de entrega.",
+    },
+    {
+        "label": "un negocio mayorista",
+        "keywords": {"mayorista", "por mayor", "distribuidor"},
+        "details": "La idea es configurarlo para responder consultas frecuentes sobre catálogo, stock, condiciones comerciales, envíos, medios de pago y pedidos grandes.",
+    },
+    {
+        "label": "un emprendimiento de productos físicos",
+        "keywords": {"emprendimiento", "productos fisicos", "productos físicos", "marca propia", "vendo productos"},
+        "details": "La idea es configurarlo según tus productos, consultas frecuentes, envíos, medios de pago, promociones y políticas de atención.",
+    },
+]
 
 PRICING_INTENT_KEYWORDS = {
     "precio",
@@ -676,6 +851,19 @@ def is_buy_intent(text: str) -> bool:
     return contains_any(text, BUY_INTENT_KEYWORDS)
 
 
+def find_business_type(text: str) -> dict | None:
+    best_match = None
+    best_score = 0
+
+    for business in BUSINESS_TYPES:
+        score = count_matches(text, business["keywords"])
+        if score > best_score:
+            best_score = score
+            best_match = business
+
+    return best_match if best_score > 0 else None
+
+
 def is_country_intent(text: str, country: str | None) -> bool:
     if not country:
         return False
@@ -705,10 +893,38 @@ def is_country_intent(text: str, country: str | None) -> bool:
     return False
 
 
+def is_business_type_intent(text: str, business: dict | None) -> bool:
+    if not business:
+        return False
+
+    if any(cue in text for cue in BUSINESS_CONTEXT_CUES):
+        return True
+
+    matched_keywords = {normalize_text(keyword) for keyword in business["keywords"]}
+    return any(keyword in text for keyword in matched_keywords) and any(
+        verb in text
+        for verb in {"tengo", "vendo", "soy", "trabajo", "negocio", "marca", "local", "ecommerce", "tienda"}
+    )
+
+
+def build_business_type_reply(business: dict | None) -> str:
+    if not business:
+        return (
+            "Sí, se puede adaptar sin problema a ese tipo de negocio.\n\n"
+            "La idea es configurar Nivora según las preguntas frecuentes de tus clientes, productos, envíos, pagos, horarios, promociones o políticas de atención."
+        )
+
+    return (
+        f"Sí, se puede adaptar a {business['label']} sin problema.\n\n"
+        f"{business['details']}"
+    )
+
+
 def detect_intent(message: str) -> tuple[str, str, str | None]:
     text = normalize_text(message)
     location = find_argentina_location(text)
     country = find_international_country(text)
+    business = find_business_type(text)
 
     if is_simple_greeting(text):
         return "saludo_simple", "alta", None
@@ -718,6 +934,9 @@ def detect_intent(message: str) -> tuple[str, str, str | None]:
 
     if is_buy_intent(text):
         return "intencion_compra", "alta", None
+
+    if is_business_type_intent(text, business):
+        return "tipo_de_negocio", "alta", business["label"] if business else "__general__"
 
     charla_basica_keywords = {
         "como estas",
@@ -1005,6 +1224,13 @@ def generate_response(intent: str, location: str | None = None) -> tuple[str, Li
             "Con eso ya pasamos a la implementación para dejar Nivora adaptado a tu tienda."
         ), ["¿Cuánto cuesta?"]
 
+    if intent == "tipo_de_negocio":
+        business = None if location == "__general__" else next(
+            (item for item in BUSINESS_TYPES if item["label"] == location),
+            None,
+        )
+        return build_business_type_reply(business), ["¿Cómo funciona en una tienda?"]
+
     if intent == "charla_basica":
         return "¡Muy bien! 😊\n\nGracias por preguntar. ¿En qué te puedo ayudar hoy?", default_suggestions()
 
@@ -1082,7 +1308,7 @@ def build_reply(message: str) -> tuple[str, List[str]]:
     intent, confidence, location = detect_intent(message)
     print("INTENT:", intent, "CONFIDENCE:", confidence, "LOCATION:", location)
 
-    if intent in {"saludo_simple", "pais_latam", "intencion_compra"} and confidence != "baja":
+    if intent in {"saludo_simple", "pais_latam", "intencion_compra", "tipo_de_negocio"} and confidence != "baja":
         return generate_response(intent, location)
 
     faq = find_best_faq(message)
