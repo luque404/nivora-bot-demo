@@ -1553,14 +1553,23 @@ WIDGET_HTML = """
 <body>
   <div class="chat">
     <div class="header">
-        <button id="closeBtn" class="close-btn">✕</button>
+        <button id="closeBtn" class="close-btn" type="button">✕</button>
         <div class="header-title">{{ brand_name }}</div>
         <div class="header-sub">Asistente de ventas y atención para ecommerce</div>
     </div>
 
-    <div id="messages" class="messages"></div>
+    <div id="messages" class="messages">
+      <div class="msg bot">Hola 👋
 
-    <div class="quick" id="quickReplies"></div>
+Soy el asistente de Nivora.
+Puedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.</div>
+    </div>
+
+    <div class="quick" id="quickReplies">
+      <button type="button">¿Cómo funciona en una tienda?</button>
+      <button type="button">¿Cuánto cuesta?</button>
+      <button type="button">¿Sirve para mi negocio?</button>
+    </div>
 
     <div class="composer">
       <input id="messageInput" type="text" placeholder="Escribí tu consulta..." />
@@ -1604,12 +1613,25 @@ WIDGET_HTML = """
   }
 
   let config = null;
+  const fallbackGreeting = "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.";
+  const fallbackQuickReplies = [
+    "¿Cómo funciona en una tienda?",
+    "¿Cuánto cuesta?",
+    "¿Sirve para mi negocio?",
+  ];
 
   async function loadConfig() {
-    const res = await fetch('/config');
-    config = await res.json();
-    renderQuickReplies(config.quick_replies || []);
-    addMessage(config.greeting || "Hola 👋\n\nSoy el asistente de Nivora.\nPuedo ayudarte a ver cómo automatizar la atención en tu tienda y recuperar ventas.", 'bot');
+    try {
+      const res = await fetch('/config');
+      config = await res.json();
+      messagesEl.innerHTML = '';
+      renderQuickReplies(config.quick_replies || fallbackQuickReplies);
+      addMessage(config.greeting || fallbackGreeting, 'bot');
+    } catch (err) {
+      messagesEl.innerHTML = '';
+      renderQuickReplies(fallbackQuickReplies);
+      addMessage(fallbackGreeting, 'bot');
+    }
   }
 
   async function sendMessage(message) {
