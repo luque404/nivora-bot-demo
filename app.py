@@ -31,6 +31,41 @@ class FAQ:
 
 FAQS: List[FAQ] = [
     FAQ(
+        key="envio_simple",
+        title="¿Cuánto tarda el envío?",
+        answer="El envío suele tardar entre 3 y 7 días hábiles.",
+        keywords=["cuanto tarda el envio", "cuánto tarda el envío", "cuando llega", "cuándo llega", "envio", "envío", "llega"],
+        follow_ups=["¿Tenés stock?"],
+    ),
+    FAQ(
+        key="stock_simple",
+        title="¿Tenés stock?",
+        answer="Sí, en este momento hay stock disponible para comprar.",
+        keywords=["tenes stock", "tenés stock", "hay stock", "stock", "disponible"],
+        follow_ups=["¿Cómo se usa?"],
+    ),
+    FAQ(
+        key="uso_simple",
+        title="¿Cómo se usa?",
+        answer="Es muy simple de usar, no necesitás experiencia previa.",
+        keywords=["como se usa", "cómo se usa", "uso", "es facil de usar", "es fácil de usar"],
+        follow_ups=["¿Hacen cambios?"],
+    ),
+    FAQ(
+        key="cambios_simple",
+        title="¿Hacen cambios?",
+        answer="Sí, podés hacer cambios si lo necesitás.",
+        keywords=["hacen cambios", "puedo cambiar", "cambios", "cambio"],
+        follow_ups=["¿Sirve para mi caso?"],
+    ),
+    FAQ(
+        key="caso_simple",
+        title="¿Sirve para mi caso?",
+        answer="Depende del caso, pero en la mayoría de situaciones funciona muy bien.",
+        keywords=["sirve para mi caso", "sirve para mi", "sirve para este caso", "me sirve", "sirve"],
+        follow_ups=["¿Qué tipo de preguntas responde?"],
+    ),
+    FAQ(
         key="funcionamiento",
         title="¿Cómo funciona en una tienda?",
         answer=(
@@ -46,17 +81,11 @@ FAQS: List[FAQ] = [
         key="preguntas",
         title="¿Qué tipo de preguntas responde?",
         answer=(
-            "Puede responder muchas de las consultas que hoy suelen frenar una compra.\n\n"
-            "Por ejemplo:\n"
-            "• “¿Cuánto tarda el envío?”\n"
-            "• “¿Tenés stock?”\n"
-            "• “¿Cómo se usa?”\n"
-            "• “¿Hacen cambios?”\n"
-            "• “¿Sirve para mi caso?”\n\n"
-            "La idea es que no funcione como una lista fría de respuestas, sino como un asistente que orienta, resuelve dudas y ayuda a avanzar hacia la compra."
+            "Puede responder preguntas como envíos, stock, uso, cambios o si el producto sirve para tu caso. "
+            "Está pensado para resolver dudas reales y ayudar a que la compra avance."
         ),
         keywords=["que preguntas responde", "qué preguntas responde", "que puede responder", "preguntas frecuentes", "faq", "consultas responde", "responde preguntas"],
-        follow_ups=["¿Se instala en Shopify?", "¿Se puede adaptar a mi negocio?"],
+        follow_ups=["¿Cuánto tarda el envío?"],
     ),
     FAQ(
         key="shopify",
@@ -246,22 +275,13 @@ FAQS: List[FAQ] = [
     ),
 ]
 
-BASE_QUICK_REPLIES = [
-    "¿Qué tipo de preguntas responde?",
-    "¿Cómo funciona en una tienda?",
-    "¿Qué beneficios tiene?",
-]
+BASE_QUICK_REPLIES = ["¿Qué tipo de preguntas responde?"]
 
-GREETING = (
-    f"Hola, soy el asistente de {BRAND_NAME}.\n\n"
-    "Te puedo mostrar cómo funciona un chat de ventas y atención para ecommerce que responde preguntas automáticamente, reduce fricción y ayuda a convertir más visitas en compras.\n\n"
-    "Si querés, podés probar con preguntas reales como “¿Se instala en Shopify?”, “¿Tengo que saber programar?” o “¿Qué beneficios tiene?”."
-)
+GREETING = "Hola 👋 ¿En qué puedo ayudarte?"
 
 FALLBACK = (
-    "No quiero responderte algo genérico y que no te sirva.\n\n"
-    "Puedo ayudarte mejor si vamos por alguno de estos caminos: cómo funciona en una tienda, qué preguntas responde, si se instala en Shopify, si requiere conocimientos técnicos o qué beneficios tiene.\n\n"
-    f"Y si preferís atención directa, también podés escribir a {SUPPORT_EMAIL}."
+    "Puedo ayudarte con dudas como envíos, stock, uso, cambios o si el producto sirve para tu caso.\n\n"
+    f"Si preferís, también podés escribir a {SUPPORT_EMAIL}."
 )
 
 BUY_INTENT_KEYWORDS = {
@@ -388,6 +408,8 @@ CONTACT_INTENT_KEYWORDS = {
     "email",
 }
 
+FAQ_INDEX = {faq.key: faq for faq in FAQS}
+
 
 def normalize_text(text: str) -> str:
     text = text.lower().strip()
@@ -429,6 +451,10 @@ def has_timing_intent(text: str) -> bool:
     return contains_any(text, TIMING_INTENT_KEYWORDS)
 
 
+def get_faq(key: str) -> FAQ | None:
+    return FAQ_INDEX.get(key)
+
+
 def find_best_faq(message: str) -> FAQ | None:
     text = normalize_text(message)
     best_faq = None
@@ -463,6 +489,11 @@ def build_reply(message: str) -> tuple[str, List[str]]:
     if msg in {"hola", "buenas", "buen dia", "buenos dias", "buenas tardes", "buenas noches"}:
         return GREETING, default_suggestions()
 
+    for faq_key in ["envio_simple", "stock_simple", "uso_simple", "cambios_simple", "caso_simple"]:
+        faq = get_faq(faq_key)
+        if faq and any(normalize_text(keyword) in msg for keyword in faq.keywords):
+            return faq.answer, single_follow_up(faq.follow_ups)
+
     if contains_any(msg, BUY_INTENT_KEYWORDS):
         return (
             "Tiene sentido evaluarlo para tu tienda.\n\n"
@@ -471,47 +502,47 @@ def build_reply(message: str) -> tuple[str, List[str]]:
         ), ["Quiero una demo"]
 
     if has_pricing_intent(msg):
-        faq = next((f for f in FAQS if f.key == "precio"), None)
+        faq = get_faq("precio")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
     if has_timing_intent(msg):
-        faq = next((f for f in FAQS if f.key == "tiempo_implementacion"), None)
+        faq = get_faq("tiempo_implementacion")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, GUARANTEE_INTENT_KEYWORDS):
-        faq = next((f for f in FAQS if f.key == "garantia"), None)
+        faq = get_faq("garantia")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, INSTALL_INTENT_KEYWORDS):
-        faq = next((f for f in FAQS if f.key == "instalacion"), None)
+        faq = get_faq("instalacion")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, SHOPIFY_INTENT_KEYWORDS):
-        faq = next((f for f in FAQS if f.key == "shopify"), None)
+        faq = get_faq("shopify")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, CUSTOMIZATION_INTENT_KEYWORDS):
-        faq = next((f for f in FAQS if f.key == "adaptacion"), None)
+        faq = get_faq("adaptacion")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, AI_INTENT_KEYWORDS):
-        faq = next((f for f in FAQS if f.key == "ia"), None)
+        faq = get_faq("ia")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, TECHNICAL_OBJECTION_KEYWORDS):
-        faq = next((f for f in FAQS if f.key == "programar"), None)
+        faq = get_faq("programar")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
     if contains_any(msg, DEMO_INTENT_KEYWORDS):
-        faq = next((f for f in FAQS if f.key == "demo"), None)
+        faq = get_faq("demo")
         if faq:
             return faq.answer, single_follow_up(faq.follow_ups)
 
